@@ -1,14 +1,14 @@
 package com.inventario.spring.service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import com.inventario.jpa.data.Empleado;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 @Component
-public class EmpleadoServicio {
+public class EmpleadoServicio_original {
 	@PersistenceContext
 	private EntityManager em;
 
@@ -21,7 +21,7 @@ public class EmpleadoServicio {
 	}
 
 	@Transactional
-	public void regitrar(Empleado emp) {
+	public void registrar(Empleado emp) {
 		// Guardar empleado
 		this.em.persist(emp);
 	}

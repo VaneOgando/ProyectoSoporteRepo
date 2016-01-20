@@ -1,28 +1,28 @@
 package com.inventario.primefaces.beans;
 
+import com.inventario.jpa.data.Empleado;
+import com.inventario.spring.service.EmpleadoServicio_original;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
-import com.inventario.jpa.data.Empleado;
-import com.inventario.spring.service.EmpleadoServicio;
-
 @ManagedBean
 @SessionScoped
-public class EmpleadoBean {
+public class EmpleadoBean_original {
 
-	@ManagedProperty("#{empleadoServicio}")
-	private EmpleadoServicio empleadoServicio;
+	@ManagedProperty("#{empleadoServicio_original}")
+	private EmpleadoServicio_original empleadoServicio;
 
 	private Empleado empleado = new Empleado();
 
-	public EmpleadoServicio getEmpleadoServicio() {
+	public EmpleadoServicio_original getEmpleadoServicio() {
 		return empleadoServicio;
 	}
 
-	public void setEmpleadoServicio(EmpleadoServicio empleadoServicio) {
+	public void setEmpleadoServicio(EmpleadoServicio_original empleadoServicio) {
 		this.empleadoServicio = empleadoServicio;
 	}
 
@@ -36,7 +36,7 @@ public class EmpleadoBean {
 
 	public String registrar() {
 		// Llamada al servicio (Controllador)
-		empleadoServicio.regitrar(empleado);
+		empleadoServicio.registrar(empleado);
 		// Agregar mensaje
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage("El empleado "+this.empleado.getNombre()+" fue registrado satisfactoriamente"));
