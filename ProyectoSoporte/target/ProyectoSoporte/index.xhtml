@@ -1,24 +1,27 @@
-	<html xmlns="http://www.w3.org/1999/xhtml"
-		xmlns:ui="http://java.sun.com/jsf/facelets"
-		xmlns:h="http://java.sun.com/jsf/html"
-		xmlns:f="http://java.sun.com/jsf/core"
-		xmlns:p="http://primefaces.org/ui">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:p="http://primefaces.org/ui">
+
 	<h:head>
-		<title>Inventario Soporte</title>
 		<link rel="stylesheet" type="text/css" href="resources/css/estilosTCS.css" media="screen" />
+
+		<title>Inventario Soporte</title>
 	</h:head>
 
 	<h:body>
-			<h:form>
-				<p:messages id="messages" />
-				<p:panelGrid columns="2">
-					<p:outputLabel value="Usuario:"></p:outputLabel>
-					<p:inputText value="#{inicioSesionBean.usuario}" required="true"></p:inputText>
-					<p:outputLabel value="Contraseña:"></p:outputLabel>
-					<p:inputText value="#{inicioSesionBean.contrasenia}" required="true"></p:inputText>
-				</p:panelGrid>
-				<p:commandButton value="Ingresar" action="#{inicioSesionBean.bt_ingresar_action}" update="@form"></p:commandButton>
-			</h:form>
 
-	</h:body>
-	</html>
+		<h:form>
+			<p:messages id="messages" />
+			<p:panelGrid columns="2">
+				<p:outputLabel value="Usuario:"></p:outputLabel>
+				<p:inputText id="usuario" value="#{inicioSesionBean.usuario}" required="true"></p:inputText>
+				<p:outputLabel value="Contraseña:"></p:outputLabel>
+				<p:password id="contrasenia" value="#{inicioSesionBean.contrasenia}" required="true" />
+			</p:panelGrid>
+			<p:commandButton value="Ingresar" action="#{inicioSesionBean.bt_ingresar_action}" update="@form"></p:commandButton>
+		</h:form>
+
+	</h:body >
+</html>

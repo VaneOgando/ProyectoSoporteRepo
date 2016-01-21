@@ -24,6 +24,9 @@ public class InicioSesionBean {
 
 	private String usuario;
 	private String contrasenia;
+	private String nombre;
+	private String apellido;
+
 	private boolean respuesta;
 
 	public InicioSesionServicio getInicioSesionServicio() {
@@ -50,6 +53,22 @@ public class InicioSesionBean {
 		this.contrasenia = contrasenia;
 	}
 
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getApellido() {
+		return apellido;
+	}
+
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
+
 	public boolean getRespuesta() {
 		return respuesta;
 	}
@@ -64,6 +83,8 @@ public class InicioSesionBean {
 		respuesta = inicioSesionServicio.ValidarUsuarioContrasenia(usuario, contrasenia);
 
 		if (respuesta == true) {
+			this.nombre = "Admin";
+			this.apellido = "Admin";
 			return "consultarInventario";
 
 		}else {
