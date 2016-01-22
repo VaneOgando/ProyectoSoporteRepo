@@ -8,10 +8,15 @@
 
 	<ui:define name="cuerpo">
 
-		<h1>CONSULTA DE INVENTARIO</h1>
-
 		<div id="datatable">
 
+			<p:dataTable var="equ" value="#{consultarInventarioBean.listEquipos}">
+
+				<p:column headerText="Equipo">
+					<h:outputText value="#{equ.nombre}" />
+				</p:column>
+
+			</p:dataTable>
 
 		</div>
 

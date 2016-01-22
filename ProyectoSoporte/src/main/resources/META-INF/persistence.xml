@@ -4,7 +4,12 @@
 	version="2.0">
 	<!-- Will be referenced in Spring Context File -->
 	<persistence-unit name="jpa-persistence" transaction-type="RESOURCE_LOCAL">
-		<class>com.inventario.jpa.data.Empleado</class>
+
+		<class>com.inventario.jpa.data.Equipo</class>
+		<class>com.inventario.jpa.data.Estado</class>
+		<class>com.inventario.jpa.data.Marca</class>
+		<class>com.inventario.jpa.data.Modelo</class>
+
 	<!--
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/ejemploproductos" />
