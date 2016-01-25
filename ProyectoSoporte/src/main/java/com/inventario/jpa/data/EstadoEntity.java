@@ -1,23 +1,24 @@
 package com.inventario.jpa.data;
 
 import javax.persistence.*;
-import java.util.Date;
+
 
 @Entity
-@Table(name="ESTADO")
-public class Estado {
+@Table(name="estado")
+public class EstadoEntity {
 	@Id
 	@GeneratedValue
 	@Column(name = "IDESTADO")
-	private int id;
+	private long id;
 	@Column(name = "ESTADO")
 	private String nombre;
 
-	public int getId() {
+
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -28,4 +29,5 @@ public class Estado {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+
 }

@@ -1,28 +1,26 @@
 package com.inventario.primefaces.beans;
 
-import com.inventario.jpa.data.Equipo;
+import com.inventario.jpa.data.EstadoEntity;
 import com.inventario.spring.service.ConsultarInventarioServicio;
 import com.inventario.spring.service.InicioSesionServicio;
 import com.inventario.util.constante.Constantes;
 
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.*;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import java.util.ArrayList;
 import java.util.List;
 
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class ConsultarInventarioBean {
 
 	@ManagedProperty("#{consultarInventarioServicio}")
 	private ConsultarInventarioServicio consultarInventarioServicio;
-	private ExternalContext context;
 
-	private List<Equipo> listEquipos;
-	private boolean respuesta;
+	private List<EstadoEntity> items;
 
 	public ConsultarInventarioServicio getConsultarInventarioServicio() {
 		return consultarInventarioServicio;
@@ -32,37 +30,20 @@ public class ConsultarInventarioBean {
 		this.consultarInventarioServicio = consultarInventarioServicio;
 	}
 
-	public ExternalContext getContext() {
-		return context;
+	public List<EstadoEntity> getItems() {
+		return items;
 	}
 
-	public void setContext(ExternalContext context) {
-		this.context = context;
+	public void setItems(List<EstadoEntity> items) {
+		this.items = items;
 	}
 
-	public List<Equipo> getListEquipos() {
-		return listEquipos;
-	}
+	public void bt_action_consultar() {
+		// Llamada al servicio (Controllador)
 
-	public void setListEquipos(List<Equipo> listEquipos) {
-		this.listEquipos = listEquipos;
-	}
+		items = consultarInventarioServicio.getAllMarcas();
 
-	public boolean isRespuesta() {
-		return respuesta;
-	}
 
-	public boolean getRespuesta() {
-		return respuesta;
-	}
-
-	public void setRespuesta(boolean respuesta) {
-		this.respuesta = respuesta;
-	}
-
-	@PostConstruct
-	public void init() {
-		listEquipos = consultarInventarioServicio.ConsultarEquipos();
 	}
 
 }

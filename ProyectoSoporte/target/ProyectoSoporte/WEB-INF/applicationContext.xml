@@ -19,39 +19,36 @@
 	<context:component-scan base-package="com.inventario.spring.service"></context:component-scan>
 	
 	<!-- Necessary to get the entity manager injected into the factory bean -->
-	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />	
-	
-	<!-- Define EclipseLink JPA Vendor Adapter -->
-	<bean id="jpaVendorAdapter"
-		class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter">
-		<property name="databasePlatform"
-			value="org.eclipse.persistence.platform.database.MySQLPlatform" />
-		<property name="generateDdl" value="false" />
-		<property name="showSql" value="true" />
+	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@//localhost:1521/XE" />
+		<property name="username" value="inventariosoporte" />
+		<property name="password" value="root" />
 	</bean>
 
-
-	<!-- Define Hibernate JPA Vendor Adapter -->
-	<!--	 <bean id="jpaVendorAdapter"
-            class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-            <property name="databasePlatform"
-                value="org.hibernate.dialect.MySQLDialect" />
-        </bean>
-    -->
-
-	<!-- Entity Manager Factory -->
-	<bean id="entityManagerFactory"
-		class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
-		<property name="persistenceUnitName" value="jpa-persistence"></property>
-		<property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan" value="com.inventario.jpa.data" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+		</property>
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.hbm2ddl.auto">auto</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
+				<prop key="hibernate.default_schema">inventariosoporte</prop>
+			</props>
+		</property>
 	</bean>
-	
-	<!-- Transaction Manager -->
+
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
+	<tx:annotation-driven />
 
-	<!-- Detect @Transactional -->
-	<tx:annotation-driven transaction-manager="transactionManager" />
+	<bean id="persistenceExceptionTranslationPostProcessor"
+		  class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 
 </beans>

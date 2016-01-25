@@ -1,70 +1,40 @@
 package com.inventario.spring.service;
 
-import com.inventario.jpa.data.Equipo;
+import com.inventario.jpa.data.EstadoEntity;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import javax.transaction.Transactional;
+import java.util.Iterator;
 import java.util.List;
-
 
 @Component
 public class ConsultarInventarioServicio {
+
+	protected EntityManager entityManager;
+
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
 	@PersistenceContext
-	private EntityManager em;
-
-	List<Equipo> equipos = new ArrayList<Equipo>();
-	String query = null;
-
-
-	public EntityManager getEm() {
-		return em;
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
 	}
 
-	public void setEm(EntityManager em) {
-		this.em = em;
-	}
+	@Transactional
+	public List<EstadoEntity> getAllMarcas() throws DataAccessException {
 
-	public List<Equipo> getEquipos() {
-		return equipos;
-	}
+		Query query = getEntityManager().createQuery("select c from EstadoEntity c");
 
-	public void setEquipos(List<Equipo> equipos) {
-		this.equipos = equipos;
-	}
+		List<EstadoEntity> resultList = query.getResultList();
 
-	public String getQuery() {
-		return query;
-	}
+		return resultList;
 
-	public void setQuery(String query) {
-		this.query = query;
 	}
 
 
-
-	public List<Equipo> ConsultarEquipos(){
-
-		Equipo equ1 = new Equipo();
-		Equipo equ2 = new Equipo();
-
-
-		equ1.setNombre("awewe");
-		equipos.add(equ1);
-
-		equ2.setNombre("sdfsdf");
-		equipos.add(equ2);
-
-		return equipos;
-
-	}
 
 }

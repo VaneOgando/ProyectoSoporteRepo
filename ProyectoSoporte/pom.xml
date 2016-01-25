@@ -96,10 +96,9 @@
 		<!-- ORACLE database driver -->
 		<dependency>
 			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc6</artifactId>
-			<version>12</version>
+			<artifactId>oracle</artifactId>
+			<version>10.2.0.2.0</version>
 		</dependency>
-
 
 		<!-- Spring ORM -->
 		<dependency>

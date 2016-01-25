@@ -8,16 +8,24 @@
 
 	<ui:define name="cuerpo">
 
+		<h1>CONSULTA DE INVENTARIO</h1>
+
 		<div id="datatable">
+			<h:form id="form">
+			<p:commandButton value="Consultar" action="#{consultarInventarioBean.bt_action_consultar}" update="@form"></p:commandButton>
 
-			<p:dataTable var="equ" value="#{consultarInventarioBean.listEquipos}">
+			<p:dataTable var="item" value="#{consultarInventarioBean.items}">
+				<p:column headerText="ID">
+					<h:outputText value="#{item.id}" />
+				</p:column>
 
-				<p:column headerText="Equipo">
-					<h:outputText value="#{equ.nombre}" />
+				<p:column headerText="Nombre">
+					<h:outputText value="#{item.nombre}" />
 				</p:column>
 
 			</p:dataTable>
 
+			</h:form>
 		</div>
 
 	</ui:define>
