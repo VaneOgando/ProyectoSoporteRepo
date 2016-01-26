@@ -1,26 +1,21 @@
 package com.inventario.jpa.data;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 
 @Entity
-@Table(name="ESTADO")
-public class EstadoEntity {
+@Table(name="marca")
+public class MarcaEntity {
 	@Id
 	@GeneratedValue
-	@Column(name = "IDESTADO")
+	@Column(name = "IDMARCA")
 	private long id;
-	@Column(name = "ESTADO")
+	@Column(name = "MARCA")
 	private String nombre;
 
-	@OneToMany(mappedBy = "estado")
-	private List<EquipoEntity> equipos;
-
-
-
+	@OneToMany(mappedBy = "marca")
+	private List<ModeloEntity> modelos;
 
 	public long getId() {
 		return id;

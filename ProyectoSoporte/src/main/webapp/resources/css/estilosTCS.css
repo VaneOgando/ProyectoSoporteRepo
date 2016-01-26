@@ -23,6 +23,8 @@ body {
 }
 
 #cuerpo {
+    margin-left: 3%;
+    margin-right: 3%;
     padding-bottom: 25px; /* Tamaño del footer para evitar el sobreposicionamiento */
 }
 
@@ -37,6 +39,7 @@ body {
     text-align: center;
     color: #666;
 }
+
 
 /*CLASES*/
 .floatleft{

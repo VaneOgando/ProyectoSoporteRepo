@@ -29,4 +29,11 @@
 		<listener-class>com.sun.faces.config.ConfigureListener</listener-class>
 	</listener>
 
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			/WEB-INF/applicationContext.xml
+		</param-value>
+	</context-param>
+
 </web-app>

@@ -1,25 +1,25 @@
 package com.inventario.jpa.data;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 
 @Entity
-@Table(name="ESTADO")
-public class EstadoEntity {
+@Table(name="modelo")
+public class ModeloEntity {
 	@Id
 	@GeneratedValue
-	@Column(name = "IDESTADO")
+	@Column(name = "IDMODELO")
 	private long id;
-	@Column(name = "ESTADO")
+	@Column(name = "MODELO")
 	private String nombre;
 
-	@OneToMany(mappedBy = "estado")
+	@ManyToOne
+	@JoinColumn(name = "FKMARCA")
+	private MarcaEntity marca;
+
+	@OneToMany(mappedBy = "modelo")
 	private List<EquipoEntity> equipos;
-
-
 
 
 	public long getId() {
@@ -38,5 +38,11 @@ public class EstadoEntity {
 		this.nombre = nombre;
 	}
 
+	public MarcaEntity getMarca() {
+		return marca;
+	}
 
+	public void setMarca(MarcaEntity marca) {
+		this.marca = marca;
+	}
 }

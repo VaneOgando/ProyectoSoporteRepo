@@ -1,20 +1,21 @@
 package com.inventario.spring.service;
 
-import com.inventario.jpa.data.EstadoEntity;
+import com.inventario.jpa.data.EquipoEntity;
+import com.inventario.util.constante.Constantes;
+
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.transaction.Transactional;
-import java.util.Iterator;
 import java.util.List;
 
 @Component
 public class ConsultarInventarioServicio {
 
 	protected EntityManager entityManager;
+
 
 	public EntityManager getEntityManager() {
 		return entityManager;
@@ -24,17 +25,14 @@ public class ConsultarInventarioServicio {
 		this.entityManager = entityManager;
 	}
 
+
+
 	@Transactional
-	public List<EstadoEntity> getAllMarcas() throws DataAccessException {
+	public List<EquipoEntity> ObtenerEquipos() throws DataAccessException {
 
-		Query query = getEntityManager().createQuery("select c from EstadoEntity c");
-
-		List<EstadoEntity> resultList = query.getResultList();
+		List<EquipoEntity> resultList = getEntityManager().createQuery(Constantes.HQL_OBTENER_EQUIPOS).getResultList();
 
 		return resultList;
-
 	}
-
-
 
 }
