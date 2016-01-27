@@ -17,6 +17,8 @@ public class ConsultarInventarioBean {
 	@ManagedProperty("#{consultarInventarioServicio}")
 	private ConsultarInventarioServicio consultarInventarioServicio;
 
+	private String opcion;
+
 	private List<EquipoEntity> items;
 	private List<EquipoEntity> itemsBuscados;
 
@@ -28,6 +30,14 @@ public class ConsultarInventarioBean {
 
 	public void setConsultarInventarioServicio(ConsultarInventarioServicio consultarInventarioServicio) {
 		this.consultarInventarioServicio = consultarInventarioServicio;
+	}
+
+	public String getOpcion() {
+		return opcion;
+	}
+
+	public void setOpcion(String opcion) {
+		this.opcion = opcion;
 	}
 
 	public List<EquipoEntity> getItems() {
@@ -49,6 +59,7 @@ public class ConsultarInventarioBean {
 	@PostConstruct
 	private void init() {
 
+		setOpcion("1");
 		items = consultarInventarioServicio.ObtenerEquipos();
 
 	}

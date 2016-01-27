@@ -16,17 +16,27 @@
 							 rows="10" paginator="true" rowsPerPageTemplate="10,25,50,100"
 							 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 							 widgetVar="itemTabla" emptyMessage="No se encontraron registros"
-							 filteredValue="#{consultarInventarioBean.itemsBuscados}"
-						>
+							 filteredValue="#{consultarInventarioBean.itemsBuscados}">
+
 
 					<f:facet name="header">
-						<p:outputPanel style="text-align: right">
-							<h:outputText value="Buscar: " />
-							<p:inputText id="globalFilter" onkeyup="PF('itemTabla').filter()" style="width:150px"/>
+						<p:outputPanel style="height: 30px; position: relative">
+							<!--
+							<p:commandButton id="toggler" type="button" value="Columnas" style="float: left; height: 30px; font-size: small;" />
+							<p:columnToggler datasource="InventarioRecursos" trigger="toggler" />
+							-->
+							<p:selectOneButton value="#{consultarInventarioBean.opcion}" style="height: 30px; font-size: small;">
+								<f:selectItem itemLabel="Equipos" itemValue="1" />
+								<f:selectItem itemLabel="Accesorios" itemValue="2" />
+							</p:selectOneButton>
+
+							<p:inputText id="globalFilter" onkeyup="PF('itemTabla').filter()" style="width:150px; height: 30px; float: right;"/>
+							<h:outputText value="Buscar: " style="float: right; font-size: small; display: inline; padding-top: 8px;"/>
+
 						</p:outputPanel>
 					</f:facet>
 
-					<p:column headerText="Num de Serie" filterBy="#{item.numSerie}" filterStyle="display:none">
+					<p:column headerText="Num de Serie" filterBy="#{item.numSerie}" filterStyle="display:none" >
 						<h:outputText value="#{item.numSerie}" />
 					</p:column>
 
