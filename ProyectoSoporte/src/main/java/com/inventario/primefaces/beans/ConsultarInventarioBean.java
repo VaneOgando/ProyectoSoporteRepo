@@ -1,5 +1,9 @@
 package com.inventario.primefaces.beans;
 
+import com.inventario.jpa.data.CategoriaEntity;
+import com.inventario.jpa.data.EstadoEntity;
+import com.inventario.jpa.data.MarcaEntity;
+import com.inventario.jpa.data.ModeloEntity;
 import com.inventario.spring.service.ConsultarInventarioServicio;
 import org.primefaces.component.outputlabel.OutputLabel;
 import org.primefaces.context.RequestContext;
@@ -29,6 +33,18 @@ public class ConsultarInventarioBean {
 
 	private List<Object> items;
 	private List<Object> itemsBuscados;
+
+	private List<EstadoEntity> estados;
+	private EstadoEntity estado = new EstadoEntity();
+
+	private List<MarcaEntity> marcas;
+	private MarcaEntity marca = new MarcaEntity();
+
+	private List<ModeloEntity> modelos;
+	private ModeloEntity modelo = new ModeloEntity();
+
+	private List<CategoriaEntity> categorias;
+	private CategoriaEntity categoria = new CategoriaEntity();
 
 
 	public ConsultarInventarioServicio getConsultarInventarioServicio() {
@@ -63,7 +79,69 @@ public class ConsultarInventarioBean {
 		this.itemsBuscados = itemsBuscados;
 	}
 
+	public List<EstadoEntity> getEstados() {
+		return estados;
+	}
 
+	public void setEstados(List<EstadoEntity> estados) {
+		this.estados = estados;
+	}
+
+	public EstadoEntity getEstado() {
+		return estado;
+	}
+
+	public void setEstado(EstadoEntity estado) {
+		this.estado = estado;
+	}
+
+	public List<MarcaEntity> getMarcas() {
+		return marcas;
+	}
+
+	public void setMarcas(List<MarcaEntity> marcas) {
+		this.marcas = marcas;
+	}
+
+	public MarcaEntity getMarca() {
+		return marca;
+	}
+
+	public void setMarca(MarcaEntity marca) {
+		this.marca = marca;
+	}
+
+	public List<ModeloEntity> getModelos() {
+		return modelos;
+	}
+
+	public void setModelos(List<ModeloEntity> modelos) {
+		this.modelos = modelos;
+	}
+
+	public ModeloEntity getModelo() {
+		return modelo;
+	}
+
+	public void setModelo(ModeloEntity modelo) {
+		this.modelo = modelo;
+	}
+
+	public List<CategoriaEntity> getCategorias() {
+		return categorias;
+	}
+
+	public void setCategorias(List<CategoriaEntity> categorias) {
+		this.categorias = categorias;
+	}
+
+	public CategoriaEntity getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(CategoriaEntity categoria) {
+		this.categoria = categoria;
+	}
 
 	@PostConstruct
 	private void init() {
@@ -76,13 +154,22 @@ public class ConsultarInventarioBean {
 		requestContext.execute("PF('itemTabla').clearFilters()");
 		itemsBuscados = null;
 
+		estados = consultarInventarioServicio.cargarEstados();
+		marcas = consultarInventarioServicio.cargarMarcas();
+
 		if(opcion.equals("0")) {
 			requestContext.execute("ocultarCategoria();");
 			items = consultarInventarioServicio.ObtenerEquipos();
 		} else {
 			requestContext.execute("mostrarCategoria();");
+			//categorias = consultarInventarioServicio.cargarCategorias("accesorio");
 			items = consultarInventarioServicio.ObtenerAccesorios();
 		}
+	}
+
+	public void cargarModelos(){
+
+		modelos = consultarInventarioServicio.cargarModelos(getMarca());
 	}
 
 
@@ -91,6 +178,9 @@ public class ConsultarInventarioBean {
 		System.out.println("Visibilidad " + event.getVisibility());
 		//Si se abre, cargar los combos
 		//Si se cierra, no hacer nada?
+
+		//ACT - no hacerlo en el evento para no perder los datos,
+		//valores se cargan desde el inicio
 
 	}
 

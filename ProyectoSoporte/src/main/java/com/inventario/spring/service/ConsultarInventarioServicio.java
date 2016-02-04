@@ -1,6 +1,6 @@
 package com.inventario.spring.service;
 
-import com.inventario.jpa.data.EquipoEntity;
+import com.inventario.jpa.data.*;
 import com.inventario.util.constante.Constantes;
 
 import org.springframework.dao.DataAccessException;
@@ -39,6 +39,42 @@ public class ConsultarInventarioServicio {
 	public List<Object> ObtenerAccesorios() throws DataAccessException {
 
 		List<Object> resultList = getEntityManager().createQuery(Constantes.HQL_OBTENER_ACCESORIOS).getResultList();
+
+		return resultList;
+	}
+
+	@Transactional
+	public List<EstadoEntity> cargarEstados() throws DataAccessException {
+
+		List<EstadoEntity> resultList = getEntityManager().createQuery(Constantes.HQL_OBTENER_ESTADOS).getResultList();
+
+		return resultList;
+	}
+
+	@Transactional
+	public List<MarcaEntity> cargarMarcas() throws DataAccessException {
+
+		List<MarcaEntity> resultList = getEntityManager().createQuery(Constantes.HQL_OBTENER_MARCAS).getResultList();
+
+		return resultList;
+	}
+
+	@Transactional
+	public List<ModeloEntity> cargarModelos(MarcaEntity marca) throws DataAccessException {
+
+		List<ModeloEntity> resultList = getEntityManager().createQuery(Constantes.HQL_OBTENER_MODELOS)
+										.setParameter("marcaId", marca.getId())
+										.getResultList();
+
+		return resultList;
+	}
+
+	@Transactional
+	public List<CategoriaEntity> cargarCategorias(String tipoCategoria) throws DataAccessException {
+
+		List<CategoriaEntity> resultList = getEntityManager().createQuery(Constantes.HQL_OBTENER_CATEGORIAS)
+				 							.setParameter("tipoCategoria", tipoCategoria)
+											.getResultList();
 
 		return resultList;
 	}
