@@ -28,9 +28,17 @@ public class ConsultarInventarioServicio {
 
 
 	@Transactional
-	public List<EquipoEntity> ObtenerEquipos() throws DataAccessException {
+	 public List<Object> ObtenerEquipos() throws DataAccessException {
 
-		List<EquipoEntity> resultList = getEntityManager().createQuery(Constantes.HQL_OBTENER_EQUIPOS).getResultList();
+		List<Object> resultList = getEntityManager().createQuery(Constantes.HQL_OBTENER_EQUIPOS).getResultList();
+
+		return resultList;
+	}
+
+	@Transactional
+	public List<Object> ObtenerAccesorios() throws DataAccessException {
+
+		List<Object> resultList = getEntityManager().createQuery(Constantes.HQL_OBTENER_ACCESORIOS).getResultList();
 
 		return resultList;
 	}

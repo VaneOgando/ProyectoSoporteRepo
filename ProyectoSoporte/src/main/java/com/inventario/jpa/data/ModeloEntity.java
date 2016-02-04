@@ -21,6 +21,10 @@ public class ModeloEntity {
 	@OneToMany(mappedBy = "modelo")
 	private List<EquipoEntity> equipos;
 
+	@OneToMany(mappedBy = "modelo")
+	private List<AccesorioEntity> accesorios;
+
+	/*GET AND SET*/
 
 	public long getId() {
 		return id;
@@ -44,5 +48,21 @@ public class ModeloEntity {
 
 	public void setMarca(MarcaEntity marca) {
 		this.marca = marca;
+	}
+
+	public List<EquipoEntity> getEquipos() {
+		return equipos;
+	}
+
+	public void setEquipos(List<EquipoEntity> equipos) {
+		this.equipos = equipos;
+	}
+
+	public List<AccesorioEntity> getAccesorios() {
+		return accesorios;
+	}
+
+	public void setAccesorios(List<AccesorioEntity> accesorios) {
+		this.accesorios = accesorios;
 	}
 }

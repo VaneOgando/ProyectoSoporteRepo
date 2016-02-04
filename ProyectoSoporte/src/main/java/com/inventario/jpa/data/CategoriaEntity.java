@@ -1,27 +1,24 @@
 package com.inventario.jpa.data;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 
 @Entity
-@Table(name="ESTADO")
-public class EstadoEntity {
+@Table(name="CATEGORIA")
+public class CategoriaEntity {
 	@Id
 	@GeneratedValue
-	@Column(name = "IDESTADO")
+	@Column(name = "IDCATEGORIA")
 	private long id;
-	@Column(name = "ESTADO")
+	@Column(name = "CATEGORIA")
 	private String nombre;
+	@Column(name = "TIPOCATEGORIA")
+	private String tipoCategoria;
 
-	@OneToMany(mappedBy = "estado")
-	private List<EquipoEntity> equipos;
 
-	@OneToMany(mappedBy = "estado")
+	@OneToMany(mappedBy = "categoria")
 	private List<AccesorioEntity> accesorios;
-
 
 	/*GET AND SET*/
 
@@ -41,12 +38,12 @@ public class EstadoEntity {
 		this.nombre = nombre;
 	}
 
-	public List<EquipoEntity> getEquipos() {
-		return equipos;
+	public String getTipoCategoria() {
+		return tipoCategoria;
 	}
 
-	public void setEquipos(List<EquipoEntity> equipos) {
-		this.equipos = equipos;
+	public void setTipoCategoria(String tipoCategoria) {
+		this.tipoCategoria = tipoCategoria;
 	}
 
 	public List<AccesorioEntity> getAccesorios() {

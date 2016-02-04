@@ -4,14 +4,62 @@
 				xmlns:h="http://java.sun.com/jsf/html"
 				xmlns:f="http://java.sun.com/jsf/core"
 				xmlns:p="http://primefaces.org/ui"
+				xmlns:c="http://java.sun.com/jsp/jstl/core"
 				template="plantilla/plantilla.xhtml">
 
 	<ui:define name="cuerpo">
 
-		<h1>CONSULTA DE INVENTARIO</h1>
+		<br/>
 
-		<div id="datatable">
-			<h:form>
+		<div>
+			<h:form id="Filtro">
+				<p:fieldset legend="Filtros" toggleable="true" collapsed="true" toggleSpeed="500" style="font-size: small;">
+					<p:ajax event="toggle" listener="#{consultarInventarioBean.cargarFiltros}"/>
+					<h:panelGrid columns="8" width="100%">
+
+							<p:outputLabel value="Estado:" style="float: right;" />
+							<p:selectOneMenu id="estadoEquipo"  style="width:150px">
+								<f:selectItem itemLabel="Seleccione" itemValue="" />
+								<f:selectItem itemLabel="Disponible" itemValue="" />
+								<f:selectItem itemLabel="Asignado" itemValue="" />
+								<f:selectItem itemLabel="Dañado" itemValue="" />
+							</p:selectOneMenu>
+
+							<p:outputLabel value="Marca:" style="float: right;" />
+							<p:selectOneMenu id="marcaEquipo"  style="width:150px">
+								<f:selectItem itemLabel="Seleccione" itemValue="" />
+								<f:selectItem itemLabel="APPLE" itemValue="" />
+								<f:selectItem itemLabel="LENOVO" itemValue="" />
+								<f:selectItem itemLabel="DELL" itemValue="" />
+							</p:selectOneMenu>
+
+							<p:outputLabel value="Modelo:" style="float: right;" />
+							<p:selectOneMenu id="modeloEquipo"  style="width:150px">
+								<f:selectItem itemLabel="Seleccione" itemValue="" />
+								<f:selectItem itemLabel="Modelo 1" itemValue="" />
+								<f:selectItem itemLabel="Modelo 2" itemValue="" />
+								<f:selectItem itemLabel="Modelo 3" itemValue="" />
+							</p:selectOneMenu>
+
+						<p:outputLabel id="categoria" value="Categoría:" style="float: right; visibility: hidden " />
+						<p:selectOneMenu id="categoriaAccesorio"  style="width:150px; visibility: hidden">
+							<f:selectItem itemLabel="Seleccione" itemValue="" />
+							<f:selectItem itemLabel="Categoria 1" itemValue="" />
+							<f:selectItem itemLabel="Categoria 2" itemValue="" />
+							<f:selectItem itemLabel="Categoria 3" itemValue="" />
+						</p:selectOneMenu>
+
+					</h:panelGrid>
+
+					<p:commandButton type="button" value="Fitrar" action="#{consultarInventarioBean.filtrar}" style="height: 30px; font-size: small; margin-top: 20px; margin-left: 50%"/>
+				</p:fieldset>
+			</h:form>
+		</div>
+
+		<br/>
+
+		<div>
+			<h:form id="datatable">
 				<p:dataTable id="InventarioRecursos" var="item" value="#{consultarInventarioBean.items}"
 							 rows="10" paginator="true" rowsPerPageTemplate="10,25,50,100"
 							 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -25,9 +73,10 @@
 							<p:commandButton id="toggler" type="button" value="Columnas" style="float: left; height: 30px; font-size: small;" />
 							<p:columnToggler datasource="InventarioRecursos" trigger="toggler" />
 							-->
-							<p:selectOneButton value="#{consultarInventarioBean.opcion}" style="height: 30px; font-size: small;">
-								<f:selectItem itemLabel="Equipos" itemValue="1" />
-								<f:selectItem itemLabel="Accesorios" itemValue="2" />
+							<p:selectOneButton id="SeleccionRecurso" value="#{consultarInventarioBean.opcion}" style="height: 30px; font-size: small;">
+								<f:selectItem itemLabel="Equipos" itemValue="0" />
+								<f:selectItem itemLabel="Accesorios" itemValue="1" />
+								<p:ajax listener="#{consultarInventarioBean.cargarRecursosOpcion}" update=":datatable,:Filtro"  />
 							</p:selectOneButton>
 
 							<p:inputText id="globalFilter" onkeyup="PF('itemTabla').filter()" style="width:150px; height: 30px; float: right;"/>
@@ -36,41 +85,79 @@
 						</p:outputPanel>
 					</f:facet>
 
-					<p:column headerText="Num de Serie" filterBy="#{item.numSerie}" filterStyle="display:none" >
-						<h:outputText value="#{item.numSerie}" />
-					</p:column>
+					<c:if test="#{consultarInventarioBean.opcion=='0'}">
 
-					<p:column headerText="Nombre" filterBy="#{item.nombre}" filterStyle="display:none">
-						<h:outputText value="#{item.nombre}" />
-					</p:column>
+						<p:column headerText="Num. de Serie" filterBy="#{item.numSerie}" filterStyle="display:none"  >
+							<h:outputText value="#{item.numSerie}"  />
+						</p:column>
 
-					<p:column headerText="Procesador" filterBy="#{item.procesador}" filterStyle="display:none">
-						<h:outputText value="#{item.procesador}" />
-					</p:column>
+						<p:column headerText="Nombre" filterBy="#{item.nombre}" filterStyle="display:none">
+							<h:outputText value="#{item.nombre}" />
+						</p:column>
 
-					<p:column headerText="Memoria Ram" filterBy="#{item.memoriaRam}" filterStyle="display:none">
-						<h:outputText value="#{item.memoriaRam}" />
-					</p:column>
+						<p:column headerText="Procesador" filterBy="#{item.procesador}" filterStyle="display:none">
+							<h:outputText value="#{item.procesador}" />
+						</p:column>
 
-					<p:column headerText="Disco Duro" filterBy="#{item.discoDuro}" filterStyle="display:none">
-						<h:outputText value="#{item.discoDuro}" />
-					</p:column>
+						<p:column headerText="Memoria Ram" filterBy="#{item.memoriaRam}" filterStyle="display:none">
+							<h:outputText value="#{item.memoriaRam}" />
+						</p:column>
 
-					<p:column headerText="Sistema Opetativor" filterBy="#{item.sistOperativo}" filterStyle="display:none">
-						<h:outputText value="#{item.sistOperativo}" />
-					</p:column>
+						<p:column headerText="Disco Duro" filterBy="#{item.discoDuro}" filterStyle="display:none">
+							<h:outputText value="#{item.discoDuro}" />
+						</p:column>
 
-					<p:column headerText="Modelo" filterBy="#{item.modelo.nombre}" filterStyle="display:none">
-						<h:outputText value="#{item.modelo.nombre}" />
-					</p:column>
+						<p:column headerText="Sistema Opetativor" filterBy="#{item.sistOperativo}" filterStyle="display:none">
+							<h:outputText value="#{item.sistOperativo}" />
+						</p:column>
 
-					<p:column headerText="Marca" filterBy="#{item.modelo.marca.nombre}" filterStyle="display:none">
-						<h:outputText value="#{item.modelo.marca.nombre}" />
-					</p:column>
+						<p:column headerText="Modelo" filterBy="#{item.modelo.nombre}" filterStyle="display:none">
+							<h:outputText value="#{item.modelo.nombre}" />
+						</p:column>
 
-					<p:column headerText="Estado" filterBy="#{item.estado.nombre}" filterStyle="display:none">
-						<h:outputText value="#{item.estado.nombre}" />
-					</p:column>
+						<p:column headerText="Marca" filterBy="#{item.modelo.marca.nombre}" filterStyle="display:none">
+							<h:outputText value="#{item.modelo.marca.nombre}" />
+						</p:column>
+
+						<p:column headerText="Estado" filterBy="#{item.estado.nombre}" filterStyle="display:none">
+							<h:outputText value="#{item.estado.nombre}" />
+						</p:column>
+					</c:if>
+
+					<c:if test="#{consultarInventarioBean.opcion=='1'}">
+
+						<p:column headerText="ID" filterBy="#{item.id}" filterStyle="display:none" >
+							<h:outputText value="#{item.id}" />
+						</p:column>
+
+						<p:column headerText="Num. de Serie" filterBy="#{item.numSerie}" filterStyle="display:none">
+
+							<h:outputText value="#{item.numSerie}" rendered="#{item.numSerie != null}" />
+
+							<h:outputText value="N/A" rendered="#{item.numSerie == null}" />
+						</p:column>
+
+						<p:column headerText="Nombre" filterBy="#{item.nombre}" filterStyle="display:none">
+							<h:outputText value="#{item.nombre}" />
+						</p:column>
+
+						<p:column headerText="Categoria" filterBy="#{item.categoria.nombre}" filterStyle="display:none">
+							<h:outputText value="#{item.categoria.nombre}" />
+						</p:column>
+
+						<p:column headerText="Modelo" filterBy="#{item.modelo.nombre}" filterStyle="display:none">
+							<h:outputText value="#{item.modelo.nombre}" />
+						</p:column>
+
+						<p:column headerText="Marca" filterBy="#{item.modelo.marca.nombre}" filterStyle="display:none">
+							<h:outputText value="#{item.modelo.marca.nombre}" />
+						</p:column>
+
+						<p:column headerText="Estado" filterBy="#{item.estado.nombre}" filterStyle="display:none">
+							<h:outputText value="#{item.estado.nombre}" />
+						</p:column>
+
+					</c:if>
 
 				</p:dataTable>
 			</h:form>

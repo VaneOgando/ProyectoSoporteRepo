@@ -5,21 +5,16 @@ import java.util.Date;
 
 
 @Entity
-@Table(name="EQUIPO")
-public class EquipoEntity{
+@Table(name="ACCESORIO")
+public class AccesorioEntity {
 	@Id
+	@GeneratedValue
+	@Column(name = "IDACCESORIO")
+	private String id;
 	@Column(name = "NUMSERIE")
 	private String numSerie;
-	@Column(name = "EQUIPO")
+	@Column(name = "ACCESORIO")
 	private String nombre;
-	@Column(name = "PROCESADOR")
-	private String procesador;
-	@Column(name = "MEMORIARAM")
-	private String memoriaRam;
-	@Column(name = "DISCODURO")
-	private String discoDuro;
-	@Column(name = "SISTOPERATIVO")
-	private String sistOperativo;
 	@Column(name = "CARACTERISTICAS")
 	private String caracteristicas;
 	@Column(name = "FECHACOMPRA")
@@ -34,8 +29,19 @@ public class EquipoEntity{
 	@JoinColumn(name = "FKMODELO")
 	private ModeloEntity modelo;
 
+	@ManyToOne
+	@JoinColumn(name = "FKCATEGORIA")
+	private CategoriaEntity categoria;
 
 	/*GET AND SET*/
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public String getNumSerie() {
 		return numSerie;
@@ -51,38 +57,6 @@ public class EquipoEntity{
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-
-	public String getProcesador() {
-		return procesador;
-	}
-
-	public void setProcesador(String procesador) {
-		this.procesador = procesador;
-	}
-
-	public String getMemoriaRam() {
-		return memoriaRam;
-	}
-
-	public void setMemoriaRam(String memoriaRam) {
-		this.memoriaRam = memoriaRam;
-	}
-
-	public String getDiscoDuro() {
-		return discoDuro;
-	}
-
-	public void setDiscoDuro(String discoDuro) {
-		this.discoDuro = discoDuro;
-	}
-
-	public String getSistOperativo() {
-		return sistOperativo;
-	}
-
-	public void setSistOperativo(String sistOperativo) {
-		this.sistOperativo = sistOperativo;
 	}
 
 	public String getCaracteristicas() {
@@ -115,5 +89,13 @@ public class EquipoEntity{
 
 	public void setModelo(ModeloEntity modelo) {
 		this.modelo = modelo;
+	}
+
+	public CategoriaEntity getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(CategoriaEntity categoria) {
+		this.categoria = categoria;
 	}
 }
