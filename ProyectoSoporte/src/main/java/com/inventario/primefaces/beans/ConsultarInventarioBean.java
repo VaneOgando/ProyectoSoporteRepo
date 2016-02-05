@@ -30,21 +30,21 @@ public class ConsultarInventarioBean {
 	RequestContext requestContext;
 
 	private String opcion = "0";
-
+	
 	private List<Object> items;
 	private List<Object> itemsBuscados;
 
 	private List<EstadoEntity> estados;
-	private EstadoEntity estado = new EstadoEntity();
+	private EstadoEntity estado;
 
 	private List<MarcaEntity> marcas;
-	private MarcaEntity marca = new MarcaEntity();
+	private MarcaEntity marca;
 
 	private List<ModeloEntity> modelos;
-	private ModeloEntity modelo = new ModeloEntity();
+	private ModeloEntity modelo;
 
 	private List<CategoriaEntity> categorias;
-	private CategoriaEntity categoria = new CategoriaEntity();
+	private CategoriaEntity categoria;
 
 
 	public ConsultarInventarioServicio getConsultarInventarioServicio() {
@@ -145,47 +145,52 @@ public class ConsultarInventarioBean {
 
 	@PostConstruct
 	private void init() {
+
 		cargarRecursosOpcion();
+
 	}
 
 	public void cargarRecursosOpcion() {
 
 		requestContext = RequestContext.getCurrentInstance();
+		//Limpiar input busqueda
 		requestContext.execute("PF('itemTabla').clearFilters()");
 		itemsBuscados = null;
+
+		inicializarFiltros();
 
 		estados = consultarInventarioServicio.cargarEstados();
 		marcas = consultarInventarioServicio.cargarMarcas();
 
-		if(opcion.equals("0")) {
+		if(opcion.equals("0")) {		//Cargar equipos
 			requestContext.execute("ocultarCategoria();");
 			items = consultarInventarioServicio.ObtenerEquipos();
-		} else {
+		} else {						//Cargar accesorios
 			requestContext.execute("mostrarCategoria();");
-			//categorias = consultarInventarioServicio.cargarCategorias("accesorio");
+			categorias = consultarInventarioServicio.cargarCategorias("accesorio");
 			items = consultarInventarioServicio.ObtenerAccesorios();
 		}
 	}
 
-	public void cargarModelos(){
+	public void cargarModelos(){		//evento al seleccionar marca
 
 		modelos = consultarInventarioServicio.cargarModelos(getMarca());
 	}
 
+	public void inicializarFiltros(){
 
-	public void cargarFiltros(ToggleEvent event){
-
-		System.out.println("Visibilidad " + event.getVisibility());
-		//Si se abre, cargar los combos
-		//Si se cierra, no hacer nada?
-
-		//ACT - no hacerlo en el evento para no perder los datos,
-		//valores se cargan desde el inicio
-
+		estado = new EstadoEntity();
+		marca = new MarcaEntity();
+		modelo = new ModeloEntity();
+		categoria = new CategoriaEntity();
 	}
 
-	public void filtrar(){
+	public void bt_action_filtrar(){
 
-		//Busqueda de recurso depediendo de opcion y filtros
+		if (opcion.equals("0")){		//Filtrar equipos
+			items = consultarInventarioServicio.filtrarEquipos(getEstado(), getMarca(), getModelo());
+		} else {                            //Filtrar accesorios
+			items = consultarInventarioServicio.filtrarAccesorio(getEstado(), getMarca(), getModelo(), getCategoria());
+		}
 	}
 }

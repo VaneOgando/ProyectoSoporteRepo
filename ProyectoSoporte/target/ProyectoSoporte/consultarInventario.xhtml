@@ -13,8 +13,7 @@
 
 		<div>
 			<h:form id="Filtro">
-				<p:fieldset legend="Filtros" toggleable="true" collapsed="true" toggleSpeed="500" style="font-size: small;">
-					<p:ajax event="toggle" listener="#{consultarInventarioBean.cargarFiltros}"/>
+				<p:fieldset widgetVar="filtro" legend="Filtros" toggleable="true" collapsed="true" toggleSpeed="500" style="font-size: small;">
 					<h:panelGrid columns="8" width="100%">
 
 							<p:outputLabel value="Estado:" style="float: right;" />
@@ -29,23 +28,23 @@
 							<p:outputLabel value="Marca:" style="float: right;" />
 							<p:selectOneMenu id="marca"  style="width:150px"
 											value="#{consultarInventarioBean.marca.id}">
-								<f:selectItem itemLabel="Seleccione" itemValue="" />
+								<f:selectItem itemLabel="Seleccione" itemValue="" noSelectionOption="true"/>
 								<f:selectItems var ="marca" value="#{consultarInventarioBean.marcas}"
 											   itemLabel="#{marca.nombre}"
 											   itemValue="#{marca.id}" />
-								<p:ajax listener="#{consultarInventarioBean.cargarModelos}" update=":Filtro:modelo" />
+								<p:ajax event="valueChange" listener="#{consultarInventarioBean.cargarModelos}" update=":Filtro:modelo" />
 							</p:selectOneMenu>
 
 							<p:outputLabel value="Modelo:" style="float: right;" />
 							<p:selectOneMenu id="modelo"  style="width:150px"
 											value="#{consultarInventarioBean.modelo.id}">
-								<f:selectItem itemLabel="Seleccione" itemValue="" />
+								<f:selectItem itemLabel="Seleccione" itemValue="" noSelectionOption="true"/>
 								<f:selectItems var ="modelo" value="#{consultarInventarioBean.modelos}"
 											   itemLabel="#{modelo.nombre}"
 											   itemValue="#{modelo.id}" />
 							</p:selectOneMenu>
 
-						<p:outputLabel value="Categoría:" style="float: right; visibility: hidden " />
+						<p:outputLabel id="categoria" value="Categoría:" style="float: right; visibility: hidden " />
 						<p:selectOneMenu id="categoriaAccesorio"  style="width:150px; visibility: hidden">
 							<f:selectItem itemLabel="Seleccione" itemValue="" />
 							<f:selectItems var ="categoria" value="#{consultarInventarioBean.categorias}"
@@ -55,7 +54,8 @@
 
 					</h:panelGrid>
 
-					<p:commandButton type="button" value="Fitrar" action="#{consultarInventarioBean.filtrar}" style="height: 30px; font-size: small; margin-top: 20px; margin-left: 50%"/>
+					<p:commandButton value="Filtrar" actionListener="#{consultarInventarioBean.bt_action_filtrar()}" update=":datatable:InventarioRecursos"
+									 style="height: 30px; font-size: small; margin-top: 20px; margin-left: 50%"/>
 				</p:fieldset>
 			</h:form>
 		</div>
@@ -80,7 +80,7 @@
 							<p:selectOneButton id="SeleccionRecurso" value="#{consultarInventarioBean.opcion}" style="height: 30px; font-size: small;">
 								<f:selectItem itemLabel="Equipos" itemValue="0" />
 								<f:selectItem itemLabel="Accesorios" itemValue="1" />
-								<p:ajax listener="#{consultarInventarioBean.cargarRecursosOpcion}" update=":datatable,:Filtro"  />
+								<p:ajax listener="#{consultarInventarioBean.cargarRecursosOpcion}" update=":datatable,:Filtro" />
 							</p:selectOneButton>
 
 							<p:inputText id="globalFilter" onkeyup="PF('itemTabla').filter()" style="width:150px; height: 30px; float: right;"/>
@@ -89,7 +89,7 @@
 						</p:outputPanel>
 					</f:facet>
 
-					<c:if test="#{consultarInventarioBean.opcion=='0'}">
+					<c:if test="#{consultarInventarioBean.opcion =='0'}">
 
 						<p:column headerText="Num. de Serie" filterBy="#{item.numSerie}" filterStyle="display:none"  >
 							<h:outputText value="#{item.numSerie}"  />

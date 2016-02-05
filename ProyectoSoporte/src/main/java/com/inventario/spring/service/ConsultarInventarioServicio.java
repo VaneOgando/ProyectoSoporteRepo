@@ -79,4 +79,30 @@ public class ConsultarInventarioServicio {
 		return resultList;
 	}
 
+	@Transactional
+	public List<Object> filtrarEquipos(EstadoEntity estado, MarcaEntity marca, ModeloEntity modelo) throws DataAccessException {
+
+		List<Object> resultList = getEntityManager().createQuery(Constantes.HQL_FILTRO_EQUIPOS)
+										.setParameter("estadoId", estado.getId())
+										.setParameter("marcaId", marca.getId())
+										.setParameter("modeloId", modelo.getId())
+										.getResultList();
+
+		return resultList;
+	}
+
+	@Transactional
+	public List<Object> filtrarAccesorio(EstadoEntity estado, MarcaEntity marca, ModeloEntity modelo, CategoriaEntity categoria) throws DataAccessException {
+
+		List<Object> resultList = getEntityManager().createQuery(Constantes.HQL_FILTRO_ACCESORIOS)
+								.setParameter("estadoId", estado.getId())
+								.setParameter("marcaId", marca.getId())
+								.setParameter("modeloId", modelo.getId())
+								.setParameter("categoriaId", categoria.getId())
+								.getResultList();
+
+		return resultList;
+	}
+
+
 }

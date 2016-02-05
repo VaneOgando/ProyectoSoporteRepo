@@ -10,3 +10,5 @@ function mostrarCategoria(){
 	document.getElementById("Filtro:categoriaAccesorio").style.visibility = "visible";
 	
 }
+
+
