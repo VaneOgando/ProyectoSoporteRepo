@@ -10,6 +10,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.ExternalContext;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class ConsultarInventarioBean {
 
 	@ManagedProperty("#{consultarInventarioServicio}")
@@ -182,7 +183,8 @@ public class ConsultarInventarioBean {
 		requestContext = RequestContext.getCurrentInstance();
 		//Limpiar input busqueda
 		requestContext.execute("PF('itemTabla').clearFilters()");
-		itemsBuscados = null;
+		itemsBuscados	 = null;
+		itemSeleccionado = null;
 
 		inicializarFiltros();
 

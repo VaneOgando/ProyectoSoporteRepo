@@ -50,5 +50,23 @@ body {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 }
 
-.ui-panelgrid tr, .ui-panelgrid td { background: none; border-style: none !important; }
+.panelHeaderConsultar tr, .panelHeaderConsultar td, .panelDetalle tr, .panelDetalle td {
+    background: none; border-style: none !important;
+}
 
+.panelColumnaIzq{
+    width: 250px;
+    text-align: right;
+    font-weight: bold;
+}
+
+.panelColumnaDer{
+    width: 250px;
+}
+
+.detalleDiv{
+
+    position: relative;
+    width: 50%;
+    float: left;
+}

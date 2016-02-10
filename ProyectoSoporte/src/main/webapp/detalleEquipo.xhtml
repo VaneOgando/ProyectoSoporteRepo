@@ -14,85 +14,163 @@
 			<f:event type="preRenderView" listener="#{detalleEquipoBean.cargarDetalleEquipo}"/>
 		</f:metadata>
 
-		<h1 style="text-align: center"> Detalle de equipo</h1>
+		<h1 style="text-align: center"> Detalle del equipo #{detalleEquipoBean.equipo.nombre}</h1>
 
-		<div>
+		<div style="height: 280px;">
+		<div class="detalleDiv">
 
-			<p:panelGrid columns="2" style="font-family: Trebuchet MS, Arial, Helvetica, sans-serif; margin: 0 auto">
+			<p:panelGrid styleClass="font panelDetalle">
 
-				<h:outputLabel value="Num de Serie:" style="font-weight: bold; text-align: right"/>
-				<h:outputLabel value="#{detalleEquipoBean.equipo.numSerie}"/>
+				<p:row>
+					<p:column styleClass="panelColumnaIzq">
+						<h:outputLabel value="Num de Serie:"/>
+					</p:column>
+					<p:column styleClass="panelColumnaDer">
+						<h:outputLabel value="#{detalleEquipoBean.equipo.numSerie}"/>
+					</p:column>
+				</p:row>
 
-				<h:outputLabel value="Nombre:" style="font-weight: bold; text-align: right"/>
-				<h:outputLabel value="#{detalleEquipoBean.equipo.nombre}"/>
+				<p:row>
+					<p:column styleClass="panelColumnaIzq">
+						<h:outputLabel value="Procesador:"/>
+					</p:column>
+					<p:column styleClass="panelColumnaDer">
+						<h:outputLabel value="#{detalleEquipoBean.equipo.procesador}"/>
+					</p:column>
+				</p:row>
 
-				<h:outputLabel value="Estado:" style="font-weight: bold; text-align: right"/>
-				<h:outputLabel value="#{detalleEquipoBean.equipo.estado.nombre}"/>
+				<p:row>
+					<p:column styleClass="panelColumnaIzq">
+						<h:outputLabel value="Memoria Ram:"/>
+					</p:column>
+					<p:column styleClass="panelColumnaDer">
+						<h:outputLabel value="#{detalleEquipoBean.equipo.memoriaRam}"/>
+					</p:column>
+				</p:row>
 
-				<h:outputLabel value="Marca:" style="font-weight: bold; text-align: right"/>
-				<h:outputLabel value="#{detalleEquipoBean.equipo.modelo.marca.nombre}"/>
+				<p:row>
+					<p:column styleClass="panelColumnaIzq">
+						<h:outputLabel value="Disco Duro:"/>
+					</p:column>
+					<p:column styleClass="panelColumnaDer">
+						<h:outputLabel value="#{detalleEquipoBean.equipo.discoDuro}"/>
+					</p:column>
+				</p:row>
 
-				<h:outputLabel value="Modelo:" style="font-weight: bold; text-align: right"/>
-				<h:outputLabel value="#{detalleEquipoBean.equipo.modelo.nombre}"/>
+				<p:row>
+					<p:column styleClass="panelColumnaIzq">
+						<h:outputLabel value="Sistema Operativo:"/>
+					</p:column>
+					<p:column styleClass="panelColumnaDer">
+						<h:outputLabel value="#{detalleEquipoBean.equipo.sistOperativo}"/>
+					</p:column>
+				</p:row>
 
-				<h:outputLabel value="Procesador:" style="font-weight: bold; text-align: right"/>
-				<h:outputLabel value="#{detalleEquipoBean.equipo.procesador}"/>
+				<p:row>
+					<p:column styleClass="panelColumnaIzq">
+						<h:outputLabel value="Caracteristicas:"/>
+					</p:column>
+					<p:column styleClass="panelColumnaDer">
+						<h:outputLabel value="#{detalleEquipoBean.equipo.caracteristicas}"/>
+					</p:column>
+				</p:row>
 
-				<h:outputLabel value="Memoria Ram:" style="font-weight: bold; text-align: right"/>
-				<h:outputLabel value="#{detalleEquipoBean.equipo.memoriaRam}"/>
-
-				<h:outputLabel value="Disco Duro:" style="font-weight: bold; text-align: right"/>
-				<h:outputLabel value="#{detalleEquipoBean.equipo.discoDuro}"/>
-
-				<h:outputLabel value="Sistema Operativo:" style="font-weight: bold; text-align: right"/>
-				<h:outputLabel value="#{detalleEquipoBean.equipo.sistOperativo}"/>
-
-				<h:outputLabel value="Caracteristicas:" style="font-weight: bold; text-align: right"/>
-				<h:outputLabel value="#{detalleEquipoBean.equipo.caracteristicas}"/>
-
-				<h:outputLabel value="Fecha de adquisición:" style="font-weight: bold; text-align: right"/>
-				<h:outputLabel value="#{detalleEquipoBean.equipo.fechaCompra}"/>
+				<p:row>
+					<p:column styleClass="panelColumnaIzq">
+						<h:outputLabel value="Fecha de adquisición:"/>
+					</p:column>
+					<p:column styleClass="panelColumnaDer">
+						<h:outputLabel value="#{detalleEquipoBean.equipo.fechaCompra}">
+						<f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+						</h:outputLabel>
+					</p:column>
+				</p:row>
 
 			</p:panelGrid>
 
 		</div>
 
-		<br/>
+		<div class="detalleDiv">
+			<p:panelGrid styleClass="font panelDetalle">
+
+				<p:row>
+					<p:column styleClass="panelColumnaIzq">
+						<h:outputLabel value="Marca:"/>
+					</p:column>
+					<p:column styleClass="panelColumnaDer">
+						<h:outputLabel value="#{detalleEquipoBean.equipo.modelo.marca.nombre}"/>
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column styleClass="panelColumnaIzq">
+						<h:outputLabel value="Modelo:"/>
+					</p:column>
+					<p:column styleClass="panelColumnaDer">
+						<h:outputLabel value="#{detalleEquipoBean.equipo.modelo.nombre}"/>
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column styleClass="panelColumnaIzq">
+						<h:outputLabel value="Estado:" />
+					</p:column>
+					<p:column styleClass="panelColumnaDer">
+						<h:outputLabel value="#{detalleEquipoBean.equipo.estado.nombre}"/>
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column styleClass="panelColumnaIzq">
+						<h:outputLabel value="Usuario:" rendered="#{detalleEquipoBean.equipo.estado.nombre == 'Asignado'}"/>
+					</p:column>
+					<p:column styleClass="panelColumnaDer">
+						<h:outputLabel value=""/>
+					</p:column>
+				</p:row>
+
+			</p:panelGrid>
+
+		</div>
+		</div>
 
 		<div>
 			<h:form id="datatable">
-				<p:dataTable id="Historial" var="item" value=""
-							 rows="15" paginator="true" rowsPerPageTemplate="15,25,50,100"
+				<p:dataTable id="Historial" var="item" value="#{detalleEquipoBean.historial}"
+							 rows="10" paginator="true" rowsPerPageTemplate="10,25,50,100"
 							 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 							 widgetVar="itemTabla" emptyMessage="No se encontraron registros">
 
-						<f:facet name="header">
-							<p:outputLabel value="Historial" style="text-align: center; font-size: medium"/>
-						</f:facet>
+					<f:facet name="header">
+						<p:outputLabel value="Historial" style="text-align: center; font-size: medium"/>
+					</f:facet>
 
-						<p:column headerText="Fecha">
-							<h:outputText value=""  />
-						</p:column>
+					<p:column headerText="Fecha">
+						<h:outputText value="#{item.fechaGestion}">
+							<f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+						</h:outputText>
+					</p:column>
 
-						<p:column headerText="Tipo">
-							<h:outputText value="" />
-						</p:column>
+					<p:column headerText="Tipo">
+						<h:outputText value="#{item.categoria.nombre}" />
+					</p:column>
 
-						<p:column headerText="Descripción">
-							<h:outputText value="" />
-						</p:column>
+					<p:column headerText="Descripción">
+						<h:outputText value="#{item.descripcion}" />
+					</p:column>
 
-						<p:column headerText="Id incidencia">
-							<h:outputText value="" />
-						</p:column>
+					<p:column headerText="Id incidencia">
+						<h:outputText value="#{item.idIncidencia}" />
+					</p:column>
 
-						<p:column headerText="Usuario">
-							<h:outputText value="" />
-						</p:column>
+					<p:column headerText="Usuario">
+						<h:outputText value="#{item.usuarioAsignado}" rendered="#{item.usuarioAsignado != null}" />
+						<h:outputText value="N/A" rendered="#{item.usuarioAsignado == null}" />
+					</p:column>
 
-						<p:column headerText="Responsable">
-							<h:outputText value="" />
-						</p:column>
+					<p:column headerText="Responsable">
+						<h:outputText value="#{item.responsableSoporte}" />
+					</p:column>
 
 				</p:dataTable>
 			</h:form>

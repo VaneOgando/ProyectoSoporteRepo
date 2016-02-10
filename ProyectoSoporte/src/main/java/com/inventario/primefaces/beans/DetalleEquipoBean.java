@@ -21,6 +21,7 @@ public class DetalleEquipoBean {
 	private DetalleEquipoServicio detalleEquipoServicio;
 
 	private EquipoEntity equipo = new EquipoEntity();
+	private List<HistorialInventarioEntity> historial = new ArrayList<HistorialInventarioEntity>();
 
 
 	public DetalleEquipoServicio getDetalleEquipoServicio() {
@@ -39,10 +40,19 @@ public class DetalleEquipoBean {
 		this.equipo = equipo;
 	}
 
+	public List<HistorialInventarioEntity> getHistorial() {
+		return historial;
+	}
+
+	public void setHistorial(List<HistorialInventarioEntity> historial) {
+		this.historial = historial;
+	}
+
 
 	public void cargarDetalleEquipo() {
 
-		equipo = detalleEquipoServicio.obtenerEquipo(equipo.getNumSerie());
+		equipo 	  = detalleEquipoServicio.obtenerEquipo(equipo.getNumSerie());
+		historial = detalleEquipoServicio.obtenerHistorialEquipo(equipo.getNumSerie());
 
 	}
 

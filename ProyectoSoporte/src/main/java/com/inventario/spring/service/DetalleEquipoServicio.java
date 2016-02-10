@@ -35,5 +35,13 @@ public class DetalleEquipoServicio {
 		return resultList;
 	}
 
+	@Transactional
+	public List<HistorialInventarioEntity> obtenerHistorialEquipo(String numSerie) throws DataAccessException {
+
+		List<HistorialInventarioEntity> resultList = getEntityManager().createQuery(Constantes.HQL_OBTENER_HISTORIAL_EQUIPO)
+											.setParameter("numSerie",numSerie)
+											.getResultList();
+		return resultList;
+	}
 
 }
