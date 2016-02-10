@@ -11,10 +11,6 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Faces Servlet</servlet-name>
-		<url-pattern>/faces/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
 	<context-param>
@@ -34,6 +30,11 @@
 		<param-value>
 			/WEB-INF/applicationContext.xml
 		</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>javax.faces.CONFIG_FILES</param-name>
+		<param-value>/WEB-INF/faces-config.xml</param-value>
 	</context-param>
 
 </web-app>

@@ -18,4 +18,15 @@
 		</navigation-case>
 	</navigation-rule>
 
+	<navigation-rule>
+		<from-view-id>/consultarInventario.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{consultarInventarioBean.detalleRecurso}</from-action>
+			<from-outcome>equipo</from-outcome>
+			<to-view-id>/detalleEquipo.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+	</navigation-rule>
+
+
 </faces-config>

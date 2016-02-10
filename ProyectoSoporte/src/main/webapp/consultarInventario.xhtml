@@ -9,6 +9,7 @@
 
 	<ui:define name="cuerpo">
 
+
 		<br/>
 
 		<div>
@@ -54,7 +55,7 @@
 
 					</h:panelGrid>
 
-					<p:commandButton value="Filtrar" actionListener="#{consultarInventarioBean.bt_action_filtrar}" update=":datatable:InventarioRecursos"
+					<p:commandButton value="Filtrar" actionListener="#{consultarInventarioBean.filtrarRecuros}" update=":datatable"
 									 style="height: 30px; font-size: small; margin-top: 20px; margin-left: 50%"/>
 				</p:fieldset>
 			</h:form>
@@ -68,25 +69,33 @@
 							 rows="10" paginator="true" rowsPerPageTemplate="10,25,50,100"
 							 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 							 widgetVar="itemTabla" emptyMessage="No se encontraron registros"
-							 filteredValue="#{consultarInventarioBean.itemsBuscados}">
-
+							 filteredValue="#{consultarInventarioBean.itemsBuscados}"
+							 selectionMode="single" selection="#{consultarInventarioBean.itemSeleccionado}" rowKey="#{item.nombre}">
 
 					<f:facet name="header">
-						<p:outputPanel style="height: 30px; position: relative">
-							<!--
-							<p:commandButton id="toggler" type="button" value="Columnas" style="float: left; height: 30px; font-size: small;" />
-							<p:columnToggler datasource="InventarioRecursos" trigger="toggler" />
-							-->
-							<p:selectOneButton id="SeleccionRecurso" value="#{consultarInventarioBean.opcion}" style="height: 30px; font-size: small;">
-								<f:selectItem itemLabel="Equipos" itemValue="0" />
-								<f:selectItem itemLabel="Accesorios" itemValue="1" />
-								<p:ajax listener="#{consultarInventarioBean.cargarRecursosOpcion}" update=":datatable,:Filtro" />
-							</p:selectOneButton>
 
-							<p:inputText id="globalFilter" onkeyup="PF('itemTabla').filter()" style="width:150px; height: 30px; float: right;"/>
-							<h:outputText value="Buscar: " style="float: right; font-size: small; display: inline; padding-top: 8px;"/>
+						<p:panelGrid style="height: 30px" >
 
-						</p:outputPanel>
+							<p:row>
+								<p:column>
+									<p:commandButton id="VerDetalle" process="InventarioRecursos" icon="ui-icon-search" value="Ver" action="#{consultarInventarioBean.detalleRecurso}" style="font-size: small" />
+								</p:column>
+
+								<p:column style="text-align: center">
+									<p:selectOneButton id="SeleccionRecurso" value="#{consultarInventarioBean.opcion}" style="height: 30px; font-size: small;">
+										<f:selectItem itemLabel="Equipos" itemValue="0" />
+										<f:selectItem itemLabel="Accesorios" itemValue="1" />
+										<p:ajax listener="#{consultarInventarioBean.cargarRecursosOpcion}" update=":datatable,:Filtro" />
+									</p:selectOneButton>
+								</p:column>
+
+								<p:column>
+									<p:inputText id="globalFilter" onkeyup="PF('itemTabla').filter()" style="width:150px; height: 30px; float: right;"/>
+									<h:outputText value="Buscar: " style="float: right; font-size: small; display: inline; padding-top: 8px;"/>
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+
 					</f:facet>
 
 					<c:if test="#{consultarInventarioBean.opcion =='0'}">

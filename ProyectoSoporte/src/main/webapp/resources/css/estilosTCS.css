@@ -46,7 +46,9 @@ body {
     float:left;
 }
 
-.font{
+.font {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 }
+
+.ui-panelgrid tr, .ui-panelgrid td { background: none; border-style: none !important; }
 
