@@ -54,13 +54,11 @@ body {
     background: none; border-style: none !important;
 }
 
-.panelColumnaIzq{
-    width: 250px;
-    text-align: right;
-}
+.contenedorDetalle{
 
-.panelColumnaDer{
-    width: 250px;
+    overflow: hidden;
+    width: 100%;
+    padding-bottom: 3%;
 }
 
 .detalleDiv{
@@ -68,4 +66,15 @@ body {
     position: relative;
     width: 50%;
     float: left;
+}
+
+.panelColumnaIzq{
+    width: 250px;
+    text-align: right;
+    font-weight: bold;
+}
+
+.panelColumnaDer{
+    width: 250px;
+    font-size: medium;
 }

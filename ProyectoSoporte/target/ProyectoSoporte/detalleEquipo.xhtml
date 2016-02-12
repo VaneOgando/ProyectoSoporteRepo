@@ -16,14 +16,14 @@
 
 		<h1 style="text-align: center"> Detalle del equipo #{detalleEquipoBean.equipo.nombre}</h1>
 
-		<div style="height: 280px;">
+		<div class="contenedorDetalle">
 		<div class="detalleDiv">
 
 			<p:panelGrid styleClass="font panelDetalle">
 
 				<p:row>
 					<p:column styleClass="panelColumnaIzq">
-						<h:outputLabel value="Num de Serie:" style="font-weight: bold"/>
+						<h:outputLabel value="Num de Serie:"/>
 					</p:column>
 					<p:column styleClass="panelColumnaDer">
 						<h:outputLabel value="#{detalleEquipoBean.equipo.numSerie}"/>
@@ -32,7 +32,7 @@
 
 				<p:row>
 					<p:column styleClass="panelColumnaIzq">
-						<h:outputLabel value="Procesador:" style="font-weight: bold"/>
+						<h:outputLabel value="Procesador:"/>
 					</p:column>
 					<p:column styleClass="panelColumnaDer">
 						<h:outputLabel value="#{detalleEquipoBean.equipo.procesador}"/>
@@ -41,7 +41,7 @@
 
 				<p:row>
 					<p:column styleClass="panelColumnaIzq">
-						<h:outputLabel value="Memoria Ram:" style="font-weight: bold"/>
+						<h:outputLabel value="Memoria Ram:"/>
 					</p:column>
 					<p:column styleClass="panelColumnaDer">
 						<h:outputLabel value="#{detalleEquipoBean.equipo.memoriaRam}"/>
@@ -50,7 +50,7 @@
 
 				<p:row>
 					<p:column styleClass="panelColumnaIzq">
-						<h:outputLabel value="Disco Duro:" style="font-weight: bold"/>
+						<h:outputLabel value="Disco Duro:"/>
 					</p:column>
 					<p:column styleClass="panelColumnaDer">
 						<h:outputLabel value="#{detalleEquipoBean.equipo.discoDuro}"/>
@@ -59,7 +59,7 @@
 
 				<p:row>
 					<p:column styleClass="panelColumnaIzq">
-						<h:outputLabel value="Sistema Operativo:" style="font-weight: bold"/>
+						<h:outputLabel value="Sistema Operativo:"/>
 					</p:column>
 					<p:column styleClass="panelColumnaDer">
 						<h:outputLabel value="#{detalleEquipoBean.equipo.sistOperativo}"/>
@@ -68,7 +68,7 @@
 
 				<p:row>
 					<p:column styleClass="panelColumnaIzq">
-						<h:outputLabel value="Caracteristicas:" style="font-weight: bold"/>
+						<h:outputLabel value="Caracteristicas:"/>
 					</p:column>
 					<p:column styleClass="panelColumnaDer">
 						<h:outputLabel value="#{detalleEquipoBean.equipo.caracteristicas}"/>
@@ -77,7 +77,7 @@
 
 				<p:row>
 					<p:column styleClass="panelColumnaIzq">
-						<h:outputLabel value="Fecha de adquisición:" style="font-weight: bold"/>
+						<h:outputLabel value="Fecha de adquisición:"/>
 					</p:column>
 					<p:column styleClass="panelColumnaDer">
 						<h:outputLabel value="#{detalleEquipoBean.equipo.fechaCompra}">
@@ -95,7 +95,7 @@
 
 				<p:row>
 					<p:column styleClass="panelColumnaIzq">
-						<h:outputLabel value="Marca:" style="font-weight: bold"/>
+						<h:outputLabel value="Marca:"/>
 					</p:column>
 					<p:column styleClass="panelColumnaDer">
 						<h:outputLabel value="#{detalleEquipoBean.equipo.modelo.marca.nombre}"/>
@@ -104,7 +104,7 @@
 
 				<p:row>
 					<p:column styleClass="panelColumnaIzq">
-						<h:outputLabel value="Modelo:" style="font-weight: bold"/>
+						<h:outputLabel value="Modelo:"/>
 					</p:column>
 					<p:column styleClass="panelColumnaDer">
 						<h:outputLabel value="#{detalleEquipoBean.equipo.modelo.nombre}"/>
@@ -113,7 +113,7 @@
 
 				<p:row>
 					<p:column styleClass="panelColumnaIzq">
-						<h:outputLabel value="Estado:" style="font-weight: bold"/>
+						<h:outputLabel value="Estado:" />
 					</p:column>
 					<p:column styleClass="panelColumnaDer">
 						<h:outputLabel value="#{detalleEquipoBean.equipo.estado.nombre}"/>
@@ -122,10 +122,10 @@
 
 				<p:row>
 					<p:column styleClass="panelColumnaIzq">
-						<h:outputLabel value="Usuario:" style="font-weight: bold" rendered="#{detalleEquipoBean.equipo.estado.nombre == 'Asignado'}"/>
+						<h:outputLabel value="Usuario:" rendered="#{detalleEquipoBean.equipo.estado.nombre == 'Asignado'}"/>
 					</p:column>
 					<p:column styleClass="panelColumnaDer">
-						<h:outputLabel value=""/>
+						<h:outputLabel value="#{detalleEquipoBean.usuario}" rendered="#{detalleEquipoBean.equipo.estado.nombre == 'Asignado'}"/>
 					</p:column>
 				</p:row>
 

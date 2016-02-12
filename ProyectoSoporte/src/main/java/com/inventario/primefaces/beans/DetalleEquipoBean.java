@@ -22,7 +22,7 @@ public class DetalleEquipoBean {
 
 	private EquipoEntity equipo = new EquipoEntity();
 	private List<HistorialInventarioEntity> historial = new ArrayList<HistorialInventarioEntity>();
-
+	private String usuario;
 
 	public DetalleEquipoServicio getDetalleEquipoServicio() {
 		return detalleEquipoServicio;
@@ -48,12 +48,24 @@ public class DetalleEquipoBean {
 		this.historial = historial;
 	}
 
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
 
 	public void cargarDetalleEquipo() {
 
 		equipo 	  = detalleEquipoServicio.obtenerEquipo(equipo.getNumSerie());
 		historial = detalleEquipoServicio.obtenerHistorialEquipo(equipo.getNumSerie());
-
+/*
+		//Equipo posee usuario
+		if (equipo.getEstado().getNombre().equals("Asignado")){
+			usuario = detalleEquipoServicio.obtenerUsuarioAsignado(equipo.getNumSerie());
+		}
+*/
 	}
 
 }

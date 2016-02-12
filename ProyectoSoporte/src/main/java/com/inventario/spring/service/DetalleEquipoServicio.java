@@ -44,4 +44,14 @@ public class DetalleEquipoServicio {
 		return resultList;
 	}
 
+	@Transactional
+	public String obtenerUsuarioAsignado(String numSerie) throws DataAccessException {
+
+		String resultList = getEntityManager().createQuery(Constantes.HQL_OBTENER_USUARIO_ASIGNADO)
+							.setParameter("numSerie",numSerie)
+							.getSingleResult().toString();
+		return resultList;
+	}
+
+
 }

@@ -54,6 +54,20 @@ body {
     background: none; border-style: none !important;
 }
 
+.contenedorDetalle{
+
+    overflow: hidden;
+    width: 100%;
+    padding-bottom: 3%;
+}
+
+.detalleDiv{
+
+    position: relative;
+    width: 50%;
+    float: left;
+}
+
 .panelColumnaIzq{
     width: 250px;
     text-align: right;
@@ -62,11 +76,5 @@ body {
 
 .panelColumnaDer{
     width: 250px;
-}
-
-.detalleDiv{
-
-    position: relative;
-    width: 50%;
-    float: left;
+    font-size: medium;
 }

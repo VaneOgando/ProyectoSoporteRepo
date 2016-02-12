@@ -16,7 +16,7 @@
 
 		<h1 style="text-align: center"> Detalle del equipo #{detalleEquipoBean.equipo.nombre}</h1>
 
-		<div style="height: 280px;">
+		<div class="contenedorDetalle">
 		<div class="detalleDiv">
 
 			<p:panelGrid styleClass="font panelDetalle">
@@ -125,7 +125,7 @@
 						<h:outputLabel value="Usuario:" rendered="#{detalleEquipoBean.equipo.estado.nombre == 'Asignado'}"/>
 					</p:column>
 					<p:column styleClass="panelColumnaDer">
-						<h:outputLabel value=""/>
+						<h:outputLabel value="#{detalleEquipoBean.usuario}" rendered="#{detalleEquipoBean.equipo.estado.nombre == 'Asignado'}"/>
 					</p:column>
 				</p:row>
 

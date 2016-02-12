@@ -45,5 +45,6 @@ public class Constantes {
     public static final String HQL_OBTENER_EQUIPO_NUMSERIE       = "SELECT e FROM EquipoEntity e JOIN e.estado es JOIN e.modelo mo JOIN mo.marca ma WHERE e.numSerie = :numSerie";
 
     public static final String HQL_OBTENER_HISTORIAL_EQUIPO      = "SELECT h FROM HistorialInventarioEntity h JOIN h.equipo e JOIN h.categoria ca  WHERE e.numSerie = :numSerie AND ca.tipoCategoria = 'historial' ORDER BY h.id DESC";
+    public static final String HQL_OBTENER_USUARIO_ASIGNADO      = "SELECT h.usuarioAsignado FROM HistorialInventarioEntity h JOIN h.equipo e JOIN h.categoria ca  WHERE e.numSerie = :numSerie AND ca.tipoCategoria = 'historial' AND ca.nombre = 'Asignación' AND rownum = 1 ORDER BY h.id DESC";
 
 }
