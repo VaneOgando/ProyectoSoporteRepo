@@ -6,15 +6,12 @@ import com.inventario.spring.service.DetalleEquipoServicio;
 import org.primefaces.context.RequestContext;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class DetalleEquipoBean {
 
 	@ManagedProperty("#{detalleEquipoServicio}")
@@ -22,7 +19,8 @@ public class DetalleEquipoBean {
 
 	private EquipoEntity equipo = new EquipoEntity();
 	private List<HistorialInventarioEntity> historial = new ArrayList<HistorialInventarioEntity>();
-	private String usuario;
+	private List<HistorialInventarioEntity> itemsBuscados;
+	private String usuario = null;
 
 	public DetalleEquipoServicio getDetalleEquipoServicio() {
 		return detalleEquipoServicio;
@@ -48,6 +46,14 @@ public class DetalleEquipoBean {
 		this.historial = historial;
 	}
 
+	public List<HistorialInventarioEntity> getItemsBuscados() {
+		return itemsBuscados;
+	}
+
+	public void setItemsBuscados(List<HistorialInventarioEntity> itemsBuscados) {
+		this.itemsBuscados = itemsBuscados;
+	}
+
 	public String getUsuario() {
 		return usuario;
 	}
@@ -58,14 +64,15 @@ public class DetalleEquipoBean {
 
 	public void cargarDetalleEquipo() {
 
+		itemsBuscados = null;
 		equipo 	  = detalleEquipoServicio.obtenerEquipo(equipo.getNumSerie());
 		historial = detalleEquipoServicio.obtenerHistorialEquipo(equipo.getNumSerie());
-/*
+
 		//Equipo posee usuario
 		if (equipo.getEstado().getNombre().equals("Asignado")){
 			usuario = detalleEquipoServicio.obtenerUsuarioAsignado(equipo.getNumSerie());
 		}
-*/
+
 	}
 
 }

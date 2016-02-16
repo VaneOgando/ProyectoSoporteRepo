@@ -14,7 +14,7 @@
 
 		<div>
 			<h:form id="Filtro">
-				<p:fieldset widgetVar="filtro" legend="Filtros" toggleable="true" collapsed="true" toggleSpeed="500" style="font-size: small;">
+				<p:fieldset widgetVar="filtro" legend="Filtros" toggleable="true" collapsed="true" toggleSpeed="500" style="font-size: small">
 					<h:panelGrid columns="8" width="100%">
 
 							<p:outputLabel value="Estado:" style="float: right;" />
@@ -70,19 +70,21 @@
 							 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 							 widgetVar="itemTabla" emptyMessage="No se encontraron registros"
 							 filteredValue="#{consultarInventarioBean.itemsBuscados}"
-							 selectionMode="single" selection="#{consultarInventarioBean.itemSeleccionado}" rowKey="#{item.nombre}">
+							 selectionMode="single" selection="#{consultarInventarioBean.itemSeleccionado}" rowKey="#{item.nombre}" tableStyle="table-layout: auto">
+
 
 					<f:facet name="header">
 
-						<p:panelGrid style="height: 30px" styleClass="panelHeaderConsultar" >
+						<p:panelGrid style="height: 30px" styleClass="panelInventario" >
 
 							<p:row>
 								<p:column>
-									<p:commandButton id="VerDetalle" process="InventarioRecursos" icon="ui-icon-search" value="Ver" action="#{consultarInventarioBean.detalleRecurso}" style="font-size: small" />
+									<p:commandButton id="VerDetalle" process="InventarioRecursos" icon="ui-icon-search" value="Ver"
+													 action="#{consultarInventarioBean.detalleRecurso}" style="font-size: small" />
 								</p:column>
 
 								<p:column style="text-align: center">
-									<p:selectOneButton id="SeleccionRecurso" value="#{consultarInventarioBean.opcion}" style="height: 30px; font-size: small;">
+									<p:selectOneButton id="SeleccionRecurso" value="#{consultarInventarioBean.opcion}" style="height: 30px; font-size: small">
 										<f:selectItem itemLabel="Equipos" itemValue="0" />
 										<f:selectItem itemLabel="Accesorios" itemValue="1" />
 										<p:ajax listener="#{consultarInventarioBean.cargarRecursosOpcion}" update=":datatable,:Filtro" />
@@ -120,7 +122,7 @@
 							<h:outputText value="#{item.discoDuro}" />
 						</p:column>
 
-						<p:column headerText="Sistema Opetativor" filterBy="#{item.sistOperativo}" filterStyle="display:none">
+						<p:column headerText="Sistema Opetativo" filterBy="#{item.sistOperativo}" filterStyle="display:none">
 							<h:outputText value="#{item.sistOperativo}" />
 						</p:column>
 

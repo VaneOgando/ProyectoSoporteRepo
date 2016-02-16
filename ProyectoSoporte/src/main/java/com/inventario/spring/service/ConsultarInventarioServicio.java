@@ -3,6 +3,10 @@ package com.inventario.spring.service;
 import com.inventario.jpa.data.*;
 import com.inventario.util.constante.Constantes;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
@@ -11,12 +15,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class ConsultarInventarioServicio {
 
 	protected EntityManager entityManager;
-
 
 	public EntityManager getEntityManager() {
 		return entityManager;
@@ -30,6 +34,7 @@ public class ConsultarInventarioServicio {
 
 	@Transactional
 	 public List<Object> obtenerEquipos() throws DataAccessException {
+
 
 		List<Object> resultList = getEntityManager().createQuery(Constantes.HQL_OBTENER_EQUIPOS).getResultList();
 

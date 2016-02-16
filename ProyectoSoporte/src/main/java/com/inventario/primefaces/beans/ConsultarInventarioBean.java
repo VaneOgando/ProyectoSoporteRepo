@@ -2,21 +2,11 @@ package com.inventario.primefaces.beans;
 
 import com.inventario.jpa.data.*;
 import com.inventario.spring.service.ConsultarInventarioServicio;
-import org.primefaces.component.outputlabel.OutputLabel;
 import org.primefaces.context.RequestContext;
-import org.primefaces.event.ToggleEvent;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIViewRoot;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
+import javax.faces.bean.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,9 +24,6 @@ public class ConsultarInventarioBean {
 	private List<Object> items = new ArrayList<Object>();
 	private List<Object> itemsBuscados;
 	private Object itemSeleccionado;
-
-	private EquipoEntity equipo;
-	private AccesorioEntity accesorio;
 
 	private List<EstadoEntity> estados;
 	private EstadoEntity estado;
@@ -89,22 +76,6 @@ public class ConsultarInventarioBean {
 
 	public void setItemSeleccionado(Object itemSeleccionado) {
 		this.itemSeleccionado = itemSeleccionado;
-	}
-
-	public EquipoEntity getEquipo() {
-		return equipo;
-	}
-
-	public void setEquipo(EquipoEntity equipo) {
-		this.equipo = equipo;
-	}
-
-	public AccesorioEntity getAccesorio() {
-		return accesorio;
-	}
-
-	public void setAccesorio(AccesorioEntity accesorio) {
-		this.accesorio = accesorio;
 	}
 
 	public List<EstadoEntity> getEstados() {
@@ -194,13 +165,15 @@ public class ConsultarInventarioBean {
 		if(opcion.equals("0")) {		//Cargar equipos
 			requestContext.execute("ocultarCategoria();");
 			items = consultarInventarioServicio.obtenerEquipos();
-		} else {						//Cargar accesorios
+		}else{						//Cargar accesorios
 			requestContext.execute("mostrarCategoria();");
 			categorias = consultarInventarioServicio.cargarCategorias("accesorio");
 			items = consultarInventarioServicio.obtenerAccesorios();
 		}
 
 	}
+
+
 
 	public void cargarModelos(){		//evento al seleccionar marca
 
@@ -230,7 +203,7 @@ public class ConsultarInventarioBean {
 		if (opcion.equals("0")){		//Detalle equipo
 			return "detalleEquipo.xhtml?faces-redirect=true&numSerie=" + ((EquipoEntity) itemSeleccionado).getNumSerie();
 		} else {                            //Detalle accesorio
-			return "accesorio";
+			return "detalleAccesorio.xhtml?faces-redirect=true&id=" + ((AccesorioEntity) itemSeleccionado).getId();
 		}
 
 	}

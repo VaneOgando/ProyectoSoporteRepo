@@ -1,9 +1,7 @@
 package com.inventario.primefaces.beans;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.*;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import com.inventario.util.constante.Constantes;
@@ -15,7 +13,7 @@ import org.primefaces.context.RequestContext;
 import java.io.IOException;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class InicioSesionBean {
 
 	@ManagedProperty("#{inicioSesionServicio}")

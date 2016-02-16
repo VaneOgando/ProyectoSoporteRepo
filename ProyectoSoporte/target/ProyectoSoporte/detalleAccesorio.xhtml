@@ -10,11 +10,11 @@
 	<ui:define name="cuerpo">
 
 		<f:metadata>
-			<f:viewParam name="numSerie" value="#{detalleEquipoBean.equipo.numSerie}" required="true"/>
-			<f:event type="preRenderView" listener="#{detalleEquipoBean.cargarDetalleEquipo}"/>
+			<f:viewParam name="id" value="#{detalleAccesorioBean.accesorio.id}" required="true"/>
+			<f:event type="preRenderView" listener="#{detalleAccesorioBean.cargarDetalleAccesorio}"/>
 		</f:metadata>
 
-		<h1 style="text-align: center"> Detalle del equipo #{detalleEquipoBean.equipo.nombre}</h1>
+		<h1 style="text-align: center"> Detalle del accesorio #{detalleAccesorioBean.accesorio.nombre}</h1>
 
 		<div class="contenedorDetalle">
 		<div class="detalleDiv">
@@ -23,46 +23,29 @@
 
 				<p:row>
 					<p:column styleClass="panelColumnaIzq">
-						<h:outputLabel value="Num de Serie:"/>
+						<h:outputLabel value="Id de Accesorio:"/>
 					</p:column>
 					<p:column styleClass="panelColumnaDer">
-						<h:outputLabel value="#{detalleEquipoBean.equipo.numSerie}"/>
+						<h:outputLabel value="#{detalleAccesorioBean.accesorio.id}"/>
 					</p:column>
 				</p:row>
 
 				<p:row>
 					<p:column styleClass="panelColumnaIzq">
-						<h:outputLabel value="Procesador:"/>
+						<h:outputLabel value="Num de serie:"/>
 					</p:column>
 					<p:column styleClass="panelColumnaDer">
-						<h:outputLabel value="#{detalleEquipoBean.equipo.procesador}"/>
+						<h:outputLabel value="#{detalleAccesorioBean.accesorio.numSerie}" rendered="#{detalleAccesorioBean.accesorio.numSerie != null}"/>
+						<h:outputText value="N/A" rendered="#{detalleAccesorioBean.accesorio.numSerie == null}" />
 					</p:column>
 				</p:row>
 
 				<p:row>
 					<p:column styleClass="panelColumnaIzq">
-						<h:outputLabel value="Memoria Ram:"/>
+						<h:outputLabel value="Categoría:"/>
 					</p:column>
 					<p:column styleClass="panelColumnaDer">
-						<h:outputLabel value="#{detalleEquipoBean.equipo.memoriaRam}"/>
-					</p:column>
-				</p:row>
-
-				<p:row>
-					<p:column styleClass="panelColumnaIzq">
-						<h:outputLabel value="Disco Duro:"/>
-					</p:column>
-					<p:column styleClass="panelColumnaDer">
-						<h:outputLabel value="#{detalleEquipoBean.equipo.discoDuro}"/>
-					</p:column>
-				</p:row>
-
-				<p:row>
-					<p:column styleClass="panelColumnaIzq">
-						<h:outputLabel value="Sistema Operativo:"/>
-					</p:column>
-					<p:column styleClass="panelColumnaDer">
-						<h:outputLabel value="#{detalleEquipoBean.equipo.sistOperativo}"/>
+						<h:outputLabel value="#{detalleAccesorioBean.accesorio.categoria.nombre}"/>
 					</p:column>
 				</p:row>
 
@@ -71,7 +54,7 @@
 						<h:outputLabel value="Caracteristicas:"/>
 					</p:column>
 					<p:column styleClass="panelColumnaDer">
-						<h:outputLabel value="#{detalleEquipoBean.equipo.caracteristicas}"/>
+						<h:outputLabel value="#{detalleAccesorioBean.accesorio.caracteristicas}"/>
 					</p:column>
 				</p:row>
 
@@ -80,7 +63,7 @@
 						<h:outputLabel value="Fecha de adquisición:"/>
 					</p:column>
 					<p:column styleClass="panelColumnaDer">
-						<h:outputLabel value="#{detalleEquipoBean.equipo.fechaCompra}">
+						<h:outputLabel value="#{detalleAccesorioBean.accesorio.fechaCompra}">
 						<f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
 						</h:outputLabel>
 					</p:column>
@@ -98,7 +81,7 @@
 						<h:outputLabel value="Marca:"/>
 					</p:column>
 					<p:column styleClass="panelColumnaDer">
-						<h:outputLabel value="#{detalleEquipoBean.equipo.modelo.marca.nombre}"/>
+						<h:outputLabel value="#{detalleAccesorioBean.accesorio.modelo.marca.nombre}"/>
 					</p:column>
 				</p:row>
 
@@ -107,7 +90,7 @@
 						<h:outputLabel value="Modelo:"/>
 					</p:column>
 					<p:column styleClass="panelColumnaDer">
-						<h:outputLabel value="#{detalleEquipoBean.equipo.modelo.nombre}"/>
+						<h:outputLabel value="#{detalleAccesorioBean.accesorio.modelo.nombre}"/>
 					</p:column>
 				</p:row>
 
@@ -116,16 +99,16 @@
 						<h:outputLabel value="Estado:" />
 					</p:column>
 					<p:column styleClass="panelColumnaDer">
-						<h:outputLabel value="#{detalleEquipoBean.equipo.estado.nombre}"/>
+						<h:outputLabel value="#{detalleAccesorioBean.accesorio.estado.nombre}"/>
 					</p:column>
 				</p:row>
 
 				<p:row>
 					<p:column styleClass="panelColumnaIzq">
-						<h:outputLabel value="Usuario:" rendered="#{detalleEquipoBean.equipo.estado.nombre == 'Asignado'}"/>
+						<h:outputLabel value="Usuario:" rendered="#{detalleAccesorioBean.accesorio.estado.nombre == 'Asignado'}"/>
 					</p:column>
 					<p:column styleClass="panelColumnaDer">
-						<h:outputLabel value="#{detalleEquipoBean.usuario}" rendered="#{detalleEquipoBean.equipo.estado.nombre == 'Asignado'}"/>
+						<h:outputLabel value="#{detalleAccesorioBean.usuario}" rendered="#{detalleAccesorioBean.accesorio.estado.nombre == 'Asignado'}"/>
 					</p:column>
 				</p:row>
 
@@ -133,33 +116,33 @@
 
 		</div>
 
-		<div id="botonesGestion" class="detalleBotonesGestion">
+			<div id="botonesGestion" class="detalleBotonesGestion">
 
-			<p:panelGrid id="botones" styleClass="panelInventario" style="margin: 0 auto; font-size: small">
-				<p:row>
-					<p:column>
-						<p:commandButton id="modificar" value="Modificar" />
-					</p:column>
-					<p:column>
-						<p:commandButton id="cambioEstado" value="Cambiar estado" />
-					</p:column>
-					<p:column>
-						<p:commandButton id="eliminar" value="Eliminar" />
-					</p:column>
-				</p:row>
-			</p:panelGrid>
+				<p:panelGrid id="botones" styleClass="panelInventario" style="margin: 0 auto; font-size: small">
+					<p:row>
+						<p:column>
+							<p:commandButton id="modificar" value="Modificar" />
+						</p:column>
+						<p:column>
+							<p:commandButton id="cambioEstado" value="Cambiar estado" />
+						</p:column>
+						<p:column>
+							<p:commandButton id="eliminar" value="Eliminar" />
+						</p:column>
+					</p:row>
+				</p:panelGrid>
 
-		</div>
+			</div>
 
 		</div>
 
 		<div>
 			<h:form id="datatable">
-				<p:dataTable id="Historial" var="item" value="#{detalleEquipoBean.historial}"
-							 rows="10" paginator="true" rowsPerPageTemplate="10,25,50,100"
+				<p:dataTable id="Historial" var="item" value="#{detalleAccesorioBean.historial}"
+							rows="10" paginator="true" rowsPerPageTemplate="10,25,50,100"
 							 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 							 widgetVar="itemTabla" emptyMessage="No se encontraron registros"
-							 filteredValue="#{detalleEquipoBean.itemsBuscados}" tableStyle="table-layout: auto">
+							filteredValue="#{detalleAccesorioBean.itemsBuscados}" tableStyle="table-layout: auto">
 
 					<f:facet name="header">
 
@@ -173,6 +156,7 @@
 								<p:column style="text-align: center">
 									<p:outputLabel value="Historial" style="font-size: medium; font-weight: bold;"/>
 								</p:column>
+
 								<p:column>
 									<p:inputText id="globalFilter" onkeyup="PF('itemTabla').filter()" style="width:150px; height: 30px; float: right;"/>
 									<h:outputText value="Buscar: " style="float: right; font-size: small; display: inline; padding-top: 8px;"/>
@@ -182,22 +166,22 @@
 
 					</f:facet>
 
-					<p:column headerText="Fecha" filterBy="#{item.fechaGestion}" filterStyle="display:none" >
-						<h:outputText value="#{item.fechaGestion}">
+					<p:column headerText="Fecha" filterBy="#{item.fechaGestion}" filterStyle="display:none">
+						<h:outputText value="#{item.fechaGestion}" >
 							<f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
 						</h:outputText>
 					</p:column>
 
 					<p:column headerText="Tipo" filterBy="#{item.categoria.nombre}" filterStyle="display:none">
-						<h:outputText value="#{item.categoria.nombre}"/>
+						<h:outputText value="#{item.categoria.nombre}" />
 					</p:column>
 
-					<p:column headerText="Descripción" filterBy="#{item.descripcion}" filterStyle="display:none" >
-						<h:outputText value="#{item.descripcion}"/>
+					<p:column headerText="Descripción" filterBy="#{item.descripcion}" filterStyle="display:none">
+						<h:outputText value="#{item.descripcion}" />
 					</p:column>
 
 					<p:column headerText="Id incidencia" filterBy="#{item.idIncidencia}" filterStyle="display:none">
-						<h:outputText value="#{item.idIncidencia}"/>
+						<h:outputText value="#{item.idIncidencia}" rendered="#{item.idIncidencia != null}" />
 						<h:outputText value="N/A" rendered="#{item.idIncidencia == null}" />
 					</p:column>
 

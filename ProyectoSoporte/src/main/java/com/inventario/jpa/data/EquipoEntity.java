@@ -3,7 +3,6 @@ package com.inventario.jpa.data;
 import javax.persistence.*;
 import java.util.Date;
 
-
 @Entity
 @Table(name="EQUIPO")
 public class EquipoEntity{
