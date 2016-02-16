@@ -42,6 +42,12 @@ body {
 
 
 /*CLASES*/
+.requerido{
+    color: red;
+    padding-left: 5px;
+    font-size: larger;
+}
+
 .floatleft{
     float:left;
 }
@@ -52,6 +58,10 @@ body {
 
 .panelInventario tr, .panelInventario td{
     background: none; border-style: none !important;
+}
+
+.botonesPanel .ui-panelgrid-cell{
+    padding: 3px; !important;
 }
 
 .contenedorDetalle{
@@ -99,7 +109,7 @@ body {
 .detalleCreacion{
 
     position: relative;
-    margin: 2% auto;
+    margin: 5% auto;
 
 }
 

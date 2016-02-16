@@ -50,6 +50,7 @@ public class DetalleEquipoServicio {
 		String resultList = getEntityManager().createQuery(Constantes.HQL_OBTENER_USUARIO_ASIGNADO_EQ)
 							.setParameter("numSerie",numSerie)
 							.getSingleResult().toString();
+
 		return resultList;
 	}
 

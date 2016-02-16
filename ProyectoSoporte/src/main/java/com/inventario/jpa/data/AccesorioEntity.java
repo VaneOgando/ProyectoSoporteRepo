@@ -2,6 +2,7 @@ package com.inventario.jpa.data;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -32,6 +33,10 @@ public class AccesorioEntity {
 	@ManyToOne
 	@JoinColumn(name = "FKCATEGORIA")
 	private CategoriaEntity categoria;
+
+	@OneToMany(mappedBy = "accesorio")
+	private List<HistorialInventarioEntity> historiales;
+
 
 	/*GET AND SET*/
 
@@ -97,5 +102,13 @@ public class AccesorioEntity {
 
 	public void setCategoria(CategoriaEntity categoria) {
 		this.categoria = categoria;
+	}
+
+	public List<HistorialInventarioEntity> getHistoriales() {
+		return historiales;
+	}
+
+	public void setHistoriales(List<HistorialInventarioEntity> historiales) {
+		this.historiales = historiales;
 	}
 }

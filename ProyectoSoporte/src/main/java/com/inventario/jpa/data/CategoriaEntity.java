@@ -20,6 +20,10 @@ public class CategoriaEntity {
 	@OneToMany(mappedBy = "categoria")
 	private List<AccesorioEntity> accesorios;
 
+	@OneToMany(mappedBy = "categoria")
+	private List<HistorialInventarioEntity> historiales;
+
+
 	/*GET AND SET*/
 
 	public long getId() {
@@ -52,5 +56,13 @@ public class CategoriaEntity {
 
 	public void setAccesorios(List<AccesorioEntity> accesorios) {
 		this.accesorios = accesorios;
+	}
+
+	public List<HistorialInventarioEntity> getHistoriales() {
+		return historiales;
+	}
+
+	public void setHistoriales(List<HistorialInventarioEntity> historiales) {
+		this.historiales = historiales;
 	}
 }

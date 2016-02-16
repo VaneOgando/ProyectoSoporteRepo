@@ -9,140 +9,197 @@
 
 	<ui:define name="cuerpo">
 
-		<h1 style="text-align: center"> Crear </h1>
+		<h:form id="crearRecurso">
+			<div id="TituloRecurso">
+					<c:if test="#{crearRecursoBean.opcion=='0'}">
+						<h1 style="text-align: center" > Crear equipo </h1>
+					</c:if>
 
-		<div class="contenedorCreacion">
-
-			<div id="Recursos" class="detalleBotonesGestion">
-
-				<p:panelGrid id="seleccionRecurso" styleClass="panelInventario" style="margin: 0 auto; font-size: small">
-					<p:row>
-						<p:column>
-							<p:selectOneButton id="SeleccionRecurso" value="" style="height: 30px; font-size: small">
-								<f:selectItem itemLabel="Equipos" itemValue="0" />
-								<f:selectItem itemLabel="Accesorios" itemValue="1" />
-							</p:selectOneButton>
-						</p:column>
-					</p:row>
-				</p:panelGrid>
+					<c:if test="#{crearRecursoBean.opcion=='1'}">
+						<h1 style="text-align: center" > Crear accesorio </h1>
+					</c:if>
 			</div>
 
+			<div class="contenedorCreacion">
 
-			<div id="Detalle" class="detalleCreacion">
+				<div id="Recursos" class="detalleBotonesGestion">
 
-				<p:panelGrid styleClass="font panelInventario">
-
-					<p:row>
-						<p:column styleClass="panelColumnaIzq">
-							<h:outputLabel value="Num de Serie:"/>
-						</p:column>
-						<p:column styleClass="panelColumnaDer">
-							<h:inputText value=""/>
-						</p:column>
-					</p:row>
-
-					<p:row>
-						<p:column styleClass="panelColumnaIzq">
-							<h:outputLabel value="Nombre:"/>
-						</p:column>
-						<p:column styleClass="panelColumnaDer">
-							<h:inputText value=""/>
-						</p:column>
-					</p:row>
+					<p:panelGrid id="seleccionRecurso" styleClass="panelInventario" style="margin: 0 auto; font-size: small">
+						<p:row>
+							<p:column>
+								<p:selectOneButton id="SeleccionRecurso" value="#{crearRecursoBean.opcion}" style="height: 30px; font-size: small">
+									<f:selectItem itemLabel="Equipos" itemValue="0" />
+									<f:selectItem itemLabel="Accesorios" itemValue="1" />
+									<p:ajax  update="crearRecurso" />
+								</p:selectOneButton>
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+				</div>
 
 
-					<p:row>
-						<p:column styleClass="panelColumnaIzq">
-							<h:outputLabel value="Procesador:"/>
-						</p:column>
-						<p:column styleClass="panelColumnaDer">
-							<h:inputText value=""/>
-						</p:column>
-					</p:row>
+				<div id="Detalle" class="detalleCreacion">
 
-					<p:row>
-						<p:column styleClass="panelColumnaIzq">
-							<h:outputLabel value="Memoria Ram:"/>
-						</p:column>
-						<p:column styleClass="panelColumnaDer">
-							<h:inputText value=""/>
-						</p:column>
-					</p:row>
+						<p:panelGrid styleClass="font panelInventario">
 
-					<p:row>
-						<p:column styleClass="panelColumnaIzq">
-							<h:outputLabel value="Disco Duro:"/>
-						</p:column>
-						<p:column styleClass="panelColumnaDer">
-							<h:inputText value=""/>
-						</p:column>
-					</p:row>
+							<p:row>
+								<p:column styleClass="panelColumnaIzq">
+									<h:outputLabel value="Num de Serie:"/>
+								</p:column>
+								<p:column styleClass="panelColumnaDer" rendered="#{crearRecursoBean.opcion == '0'}">
+									<h:inputText value="" required="true"/>
+									<h:outputLabel value="*" styleClass="requerido"/>
+								</p:column>
 
-					<p:row>
-						<p:column styleClass="panelColumnaIzq">
-							<h:outputLabel value="Sistema Operativo:"/>
-						</p:column>
-						<p:column styleClass="panelColumnaDer">
-							<h:inputText value=""/>
-						</p:column>
-					</p:row>
+								<p:column styleClass="panelColumnaDer" rendered="#{crearRecursoBean.opcion == '1'}">
+									<h:inputText value=""/>
+								</p:column>
 
-					<p:row>
-						<p:column styleClass="panelColumnaIzq">
-							<h:outputLabel value="Caracteristicas:"/>
-						</p:column>
-						<p:column styleClass="panelColumnaDer">
-							<h:inputTextarea value="" style="width: 199px"/>
-						</p:column>
-					</p:row>
+							</p:row>
 
-					<p:row>
-						<p:column styleClass="panelColumnaIzq">
-							<h:outputLabel value="Fecha de adquisición:"/>
-						</p:column>
-						<p:column styleClass="panelColumnaDer">
-							<h:inputText value=""/>
-						</p:column>
-					</p:row>
+							<p:row>
+								<p:column styleClass="panelColumnaIzq">
+									<h:outputLabel value="Nombre:"/>
+								</p:column>
+								<p:column styleClass="panelColumnaDer">
+									<h:inputText value="" required="true"/>
+									<h:outputLabel value="*" styleClass="requerido"/>
+								</p:column>
+							</p:row>
 
-					<p:row>
-						<p:column styleClass="panelColumnaIzq">
-							<h:outputLabel value="Marca:"/>
-						</p:column>
-						<p:column styleClass="panelColumnaDer">
-							<h:selectOneMenu value="" style="width: 199px"/>
-						</p:column>
-					</p:row>
+							<p:row>
+								<p:column styleClass="panelColumnaIzq">
+									<h:outputLabel value="Marca:"/>
+								</p:column>
+								<p:column styleClass="panelColumnaDer">
+									<h:selectOneMenu value="" style="width: 199px" required="true">
+										<f:selectItem itemLabel="Seleccione" itemValue="" noSelectionOption="true"/>
+									</h:selectOneMenu>
+									<h:outputLabel value="*" styleClass="requerido"/>
+								</p:column>
+							</p:row>
 
-					<p:row>
-						<p:column styleClass="panelColumnaIzq">
-							<h:outputLabel value="Modelo:"/>
-						</p:column>
-						<p:column styleClass="panelColumnaDer">
-							<h:selectOneMenu value="" style="width: 199px"/>
-						</p:column>
-					</p:row>
+							<p:row>
+								<p:column styleClass="panelColumnaIzq">
+									<h:outputLabel value="Modelo:"/>
+								</p:column>
+								<p:column styleClass="panelColumnaDer">
+									<h:selectOneMenu value="" style="width: 199px" required="true">
+										<f:selectItem itemLabel="Seleccione" itemValue="" noSelectionOption="true"/>
+									</h:selectOneMenu>
+									<h:outputLabel value="*" styleClass="requerido"/>
+								</p:column>
+							</p:row>
 
-				</p:panelGrid>
+							<p:row rendered="#{crearRecursoBean.opcion == '1'}">
+								<p:column styleClass="panelColumnaIzq">
+									<h:outputLabel value="Categoría:"/>
+								</p:column>
+								<p:column styleClass="panelColumnaDer">
+									<h:selectOneMenu value="" style="width: 199px" required="true">
+										<f:selectItem itemLabel="Seleccione" itemValue="" noSelectionOption="true"/>
+									</h:selectOneMenu>
+									<h:outputLabel value="*" styleClass="requerido"/>
+								</p:column>
+							</p:row>
+
+							<p:row rendered="#{crearRecursoBean.opcion == '0'}">
+								<p:column styleClass="panelColumnaIzq">
+									<h:outputLabel value="Procesador:"/>
+								</p:column>
+								<p:column styleClass="panelColumnaDer">
+									<h:inputText value="" required="true"/>
+									<h:outputLabel value="*" styleClass="requerido"/>
+								</p:column>
+							</p:row>
+
+							<p:row rendered="#{crearRecursoBean.opcion == '0'}">
+								<p:column styleClass="panelColumnaIzq">
+									<h:outputLabel value="Memoria Ram:"/>
+								</p:column>
+								<p:column styleClass="panelColumnaDer">
+									<h:inputText value="" required="true"/>
+									<h:outputLabel value="*" styleClass="requerido"/>
+								</p:column>
+							</p:row>
+
+							<p:row rendered="#{crearRecursoBean.opcion == '0'}">
+								<p:column styleClass="panelColumnaIzq">
+									<h:outputLabel value="Disco Duro:"/>
+								</p:column>
+								<p:column styleClass="panelColumnaDer">
+									<h:inputText value="" required="true"/>
+									<h:outputLabel value="*" styleClass="requerido"/>
+								</p:column>
+							</p:row>
+
+							<p:row rendered="#{crearRecursoBean.opcion == '0'}">
+								<p:column styleClass="panelColumnaIzq">
+									<h:outputLabel value="Sistema Operativo:"/>
+								</p:column>
+								<p:column styleClass="panelColumnaDer">
+									<h:inputText value="" required="true"/>
+									<h:outputLabel value="*" styleClass="requerido"/>
+								</p:column>
+							</p:row>
+
+							<p:row>
+								<p:column styleClass="panelColumnaIzq">
+									<h:outputLabel value="Caracteristicas:"/>
+								</p:column>
+								<p:column styleClass="panelColumnaDer">
+									<h:inputTextarea value="" style="width: 199px"/>
+								</p:column>
+							</p:row>
+
+							<p:row>
+								<p:column styleClass="panelColumnaIzq">
+									<h:outputLabel value="Fecha de adquisición:"/>
+								</p:column>
+								<p:column styleClass="panelColumnaDer">
+									<h:inputText value=""/>
+								</p:column>
+							</p:row>
+
+							<p:row>
+								<p:column styleClass="panelColumnaIzq">
+									<h:outputLabel value="Incidencia:"/>
+								</p:column>
+								<p:column styleClass="panelColumnaDer">
+									<h:inputText value="" style="width: 199px"/>
+								</p:column>
+							</p:row>
+
+							<p:row>
+								<p:column styleClass="panelColumnaIzq">
+									<h:outputLabel value="Observación:"/>
+								</p:column>
+								<p:column styleClass="panelColumnaDer">
+									<h:inputTextarea value="" style="width: 199px"/>
+								</p:column>
+							</p:row>
+
+						</p:panelGrid>
+
+				</div>
+
+				<div id="Botones" class="detalleBotonesGestion">
+
+					<p:panelGrid id="botones" styleClass="panelInventario" style="margin: 0 auto; font-size: small">
+						<p:row>
+							<p:column>
+								<p:commandButton id="crear" value="Crear" />
+							</p:column>
+							<p:column>
+								<p:commandButton id="cancelar" value="Cancelar" />
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+
+				</div>
 
 			</div>
-
-			<div id="Botones" class="detalleBotonesGestion">
-
-				<p:panelGrid id="botones" styleClass="panelInventario" style="margin: 0 auto; font-size: small">
-					<p:row>
-						<p:column>
-							<p:commandButton id="crear" value="Crear" />
-						</p:column>
-						<p:column>
-							<p:commandButton id="cancelar" value="Cancelar" />
-						</p:column>
-					</p:row>
-				</p:panelGrid>
-
-			</div>
-
-		</div>
+		</h:form>
 
 	</ui:define>
 

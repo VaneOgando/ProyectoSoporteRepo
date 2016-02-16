@@ -2,6 +2,7 @@ package com.inventario.jpa.data;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="EQUIPO")
@@ -32,6 +33,10 @@ public class EquipoEntity{
 	@ManyToOne
 	@JoinColumn(name = "FKMODELO")
 	private ModeloEntity modelo;
+
+	@OneToMany(mappedBy = "equipo")
+	private List<HistorialInventarioEntity> historiales;
+
 
 
 	/*GET AND SET*/
@@ -114,5 +119,13 @@ public class EquipoEntity{
 
 	public void setModelo(ModeloEntity modelo) {
 		this.modelo = modelo;
+	}
+
+	public List<HistorialInventarioEntity> getHistoriales() {
+		return historiales;
+	}
+
+	public void setHistoriales(List<HistorialInventarioEntity> historiales) {
+		this.historiales = historiales;
 	}
 }
