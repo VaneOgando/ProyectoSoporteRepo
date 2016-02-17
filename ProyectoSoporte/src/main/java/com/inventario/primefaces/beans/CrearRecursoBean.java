@@ -2,9 +2,11 @@ package com.inventario.primefaces.beans;
 
 import com.inventario.spring.service.DetalleEquipoServicio;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import java.util.Date;
 
 @ManagedBean
 @ViewScoped
@@ -15,6 +17,8 @@ public class CrearRecursoBean {
 	private String observacion;
 	private String incidencia;
 
+	private Date fechaActual = new Date();
+	private Date date3;
 
 	public Object getRecurso() {
 		return recurso;
@@ -47,5 +51,24 @@ public class CrearRecursoBean {
 	public void setIncidencia(String incidencia) {
 		this.incidencia = incidencia;
 	}
+
+	public Date getFechaActual() {
+		return fechaActual;
+	}
+
+	public void setFechaActual(Date fechaActual) {
+		this.fechaActual = fechaActual;
+	}
+
+	public Date getDate3() {
+		return date3;
+	}
+
+	public void setDate3(Date date3) {
+		this.date3 = date3;
+	}
+
+
+
 }
 
