@@ -164,7 +164,7 @@ public class ConsultarInventarioBean {
 
 		if(opcion.equals("0")) {		//Cargar equipos
 			requestContext.execute("ocultarCategoria();");
-			items = consultarInventarioServicio.obtenerEquipos();
+			items = consultarInventarioServicio.filtrarEquipos(getEstado(), getMarca(), getModelo());
 		}else{						//Cargar accesorios
 			requestContext.execute("mostrarCategoria();");
 			categorias = consultarInventarioServicio.cargarCategorias("accesorio");
@@ -173,8 +173,6 @@ public class ConsultarInventarioBean {
 
 	}
 
-
-
 	public void cargarModelos(){		//evento al seleccionar marca
 
 		modelos = consultarInventarioServicio.cargarModelos(getMarca());
@@ -182,9 +180,9 @@ public class ConsultarInventarioBean {
 
 	public void inicializarFiltros(){
 
-		estado = new EstadoEntity();
-		marca = new MarcaEntity();
-		modelo = new ModeloEntity();
+		estado 	  = new EstadoEntity();
+		marca 	  = new MarcaEntity();
+		modelo 	  = new ModeloEntity();
 		categoria = new CategoriaEntity();
 	}
 

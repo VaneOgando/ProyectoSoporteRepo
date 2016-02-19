@@ -6,6 +6,16 @@ import java.util.List;
 
 @Entity
 @Table(name="EQUIPO")
+
+@NamedQueries(value={
+
+		@NamedQuery(name = "HQL_EQUIPO",
+				query = "SELECT e FROM EquipoEntity e JOIN e.estado es JOIN e.modelo mo JOIN mo.marca ma " +
+						"WHERE (:estadoId is null or :estadoId = '0' or es.id = :estadoId) AND (:modeloId is null or :modeloId = '0' or mo.id = :modeloId)" +
+						"AND (:marcaId is null or :marcaId = '0' or ma.id = :marcaId)")
+
+})
+
 public class EquipoEntity{
 	@Id
 	@Column(name = "NUMSERIE")

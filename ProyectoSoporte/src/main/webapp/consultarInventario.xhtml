@@ -20,7 +20,7 @@
 							<p:outputLabel value="Estado:" style="float: right;" />
 							<p:selectOneMenu id="estado"  style="width:150px"
 											 value="#{consultarInventarioBean.estado.id}">
-								<f:selectItem itemLabel="Seleccione" itemValue="" />
+								<f:selectItem itemLabel="Seleccione" itemValue="0" noSelectionOption="true"/>
 								<f:selectItems var ="estado" value="#{consultarInventarioBean.estados}"
 										itemLabel="#{estado.nombre}"
 										itemValue="#{estado.id}" />
@@ -29,7 +29,7 @@
 							<p:outputLabel value="Marca:" style="float: right;" />
 							<p:selectOneMenu id="marca"  style="width:150px"
 											value="#{consultarInventarioBean.marca.id}">
-								<f:selectItem itemLabel="Seleccione" itemValue="" noSelectionOption="true"/>
+								<f:selectItem itemLabel="Seleccione" itemValue="0" noSelectionOption="true"/>
 								<f:selectItems var ="marca" value="#{consultarInventarioBean.marcas}"
 											   itemLabel="#{marca.nombre}"
 											   itemValue="#{marca.id}" />
@@ -39,7 +39,7 @@
 							<p:outputLabel value="Modelo:" style="float: right;" />
 							<p:selectOneMenu id="modelo"  style="width:150px"
 											value="#{consultarInventarioBean.modelo.id}">
-								<f:selectItem itemLabel="Seleccione" itemValue="" noSelectionOption="true"/>
+								<f:selectItem itemLabel="Seleccione" itemValue="0" noSelectionOption="true"/>
 								<f:selectItems var ="modelo" value="#{consultarInventarioBean.modelos}"
 											   itemLabel="#{modelo.nombre}"
 											   itemValue="#{modelo.id}" />
@@ -47,7 +47,7 @@
 
 						<p:outputLabel id="categoria" value="Categoría:" style="float: right; visibility: hidden " />
 						<p:selectOneMenu id="categoriaAccesorio"  style="width:150px; visibility: hidden">
-							<f:selectItem itemLabel="Seleccione" itemValue="" />
+							<f:selectItem itemLabel="Seleccione" itemValue="0" noSelectionOption="true" />
 							<f:selectItems var ="categoria" value="#{consultarInventarioBean.categorias}"
 										   itemLabel="#{categoria.nombre}"
 										   itemValue="#{categoria.id}" />

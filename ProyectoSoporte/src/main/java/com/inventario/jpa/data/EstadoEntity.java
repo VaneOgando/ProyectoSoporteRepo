@@ -8,6 +8,14 @@ import java.util.Set;
 
 @Entity
 @Table(name="ESTADO")
+
+@NamedQueries(value={
+
+		@NamedQuery(name = "HQL_ESTADO",
+		query = "SELECT e FROM EstadoEntity e")
+
+})
+
 public class EstadoEntity {
 	@Id
 	@GeneratedValue

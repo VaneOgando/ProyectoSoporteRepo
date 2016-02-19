@@ -25,18 +25,23 @@ public class ConsultarInventarioServicio {
 	public EntityManager getEntityManager() {
 		return entityManager;
 	}
+
 	@PersistenceContext
 	public void setEntityManager(EntityManager entityManager) {
 		this.entityManager = entityManager;
 	}
 
 
-
 	@Transactional
-	 public List<Object> obtenerEquipos() throws DataAccessException {
+	 public List<Object> obtenerEquipos(EstadoEntity estado, MarcaEntity marca, ModeloEntity modelo) throws DataAccessException {
 
+		List<Object> resultList = getEntityManager().createNamedQuery("HQL_EQUIPO")
+				.setParameter("estadoId", estado.getId())
+				.setParameter("modeloId", modelo.getId())
+				.setParameter("marcaId", marca.getId())
+				.getResultList();
 
-		List<Object> resultList = getEntityManager().createQuery(Constantes.HQL_OBTENER_EQUIPOS).getResultList();
+//		List<Object> resultList = getEntityManager().createQuery(Constantes.HQL_OBTENER_EQUIPOS).getResultList();
 
 		return resultList;
 	}
@@ -52,7 +57,7 @@ public class ConsultarInventarioServicio {
 	@Transactional
 	public List<EstadoEntity> cargarEstados() throws DataAccessException {
 
-		List<EstadoEntity> resultList = getEntityManager().createQuery(Constantes.HQL_OBTENER_ESTADOS).getResultList();
+		List<EstadoEntity> resultList = getEntityManager().createNamedQuery("HQL_ESTADO").getResultList();
 
 		return resultList;
 	}
@@ -60,7 +65,7 @@ public class ConsultarInventarioServicio {
 	@Transactional
 	public List<MarcaEntity> cargarMarcas() throws DataAccessException {
 
-		List<MarcaEntity> resultList = getEntityManager().createQuery(Constantes.HQL_OBTENER_MARCAS).getResultList();
+		List<MarcaEntity> resultList = getEntityManager().createNamedQuery("HQL_MARCA").getResultList();
 
 		return resultList;
 	}
@@ -68,7 +73,7 @@ public class ConsultarInventarioServicio {
 	@Transactional
 	public List<ModeloEntity> cargarModelos(MarcaEntity marca) throws DataAccessException {
 
-		List<ModeloEntity> resultList = getEntityManager().createQuery(Constantes.HQL_OBTENER_MODELOS)
+		List<ModeloEntity> resultList = getEntityManager().createNamedQuery("HQL_MODELO_POR_MARCA")
 										.setParameter("marcaId", marca.getId())
 										.getResultList();
 
@@ -88,8 +93,15 @@ public class ConsultarInventarioServicio {
 	@Transactional
 	public List<Object> filtrarEquipos(EstadoEntity estado, MarcaEntity marca, ModeloEntity modelo) throws DataAccessException {
 
-		List<Object> resultList;
+		List<Object> resultList = getEntityManager().createNamedQuery("HQL_EQUIPO")
+				.setParameter("estadoId", estado.getId())
+				.setParameter("modeloId", modelo.getId())
+				.setParameter("marcaId", marca.getId())
+				.getResultList();
 
+
+
+/*
 		if (estado.getId() != 0 && marca.getId() != 0){
 
 			if (modelo.getId() != 0) {
@@ -133,7 +145,7 @@ public class ConsultarInventarioServicio {
 			}
 
 		}
-
+*/
 		return resultList;
 	}
 

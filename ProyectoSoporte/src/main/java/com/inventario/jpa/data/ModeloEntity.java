@@ -5,7 +5,15 @@ import java.util.List;
 
 
 @Entity
-@Table(name="modelo")
+@Table(name="MODELO")
+
+@NamedQueries(value={
+
+		@NamedQuery(name = "HQL_MODELO_POR_MARCA",
+				query = "SELECT mo FROM ModeloEntity mo JOIN mo.marca ma WHERE ma.id = :marcaId")
+
+})
+
 public class ModeloEntity {
 	@Id
 	@GeneratedValue
