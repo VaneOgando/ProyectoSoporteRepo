@@ -14,6 +14,7 @@ import java.util.List;
 @ViewScoped
 public class ConsultarInventarioBean {
 
+	/*ATRIBUTOS*/
 	@ManagedProperty("#{consultarInventarioServicio}")
 	private ConsultarInventarioServicio consultarInventarioServicio;
 
@@ -38,6 +39,75 @@ public class ConsultarInventarioBean {
 	private CategoriaEntity categoria;
 
 
+	/*METODOS*/
+	@PostConstruct
+	private void init() {
+
+		cargarRecursosOpcion();
+
+	}
+
+	public void cargarRecursosOpcion() {
+
+		requestContext = RequestContext.getCurrentInstance();
+
+		//Limpiar input busqueda
+		requestContext.execute("PF('itemTabla').clearFilters()");
+		itemsBuscados	 = null;
+		itemSeleccionado = null;
+
+		inicializarFiltros();
+
+		estados = consultarInventarioServicio.cargarEstados();
+		marcas = consultarInventarioServicio.cargarMarcas();
+
+		if(opcion.equals("0")) {		//Cargar equipos
+			requestContext.execute("ocultarCategoria();");
+		}else{						//Cargar accesorios
+			requestContext.execute("mostrarCategoria();");
+			categorias = consultarInventarioServicio.cargarCategorias("accesorio");
+		}
+
+		filtrarRecuros();
+	}
+
+	public void cargarModelos(){		//evento al seleccionar marca
+
+		modelos = consultarInventarioServicio.cargarModelos(getMarca());
+
+	}
+
+	public void inicializarFiltros(){
+
+		estado 	  = new EstadoEntity();
+		marca 	  = new MarcaEntity();
+		modelo 	  = new ModeloEntity();
+		categoria = new CategoriaEntity();
+	}
+
+	public void filtrarRecuros(){
+
+		if (opcion.equals("0")){		//Filtrar equipos
+			items = consultarInventarioServicio.filtrarEquipos(getEstado(), getMarca(), getModelo());
+		} else {                            //Filtrar accesorios
+			items = consultarInventarioServicio.filtrarAccesorios(getEstado(), getMarca(), getModelo(), getCategoria());
+		}
+
+	}
+
+	public String detalleRecurso(){
+
+		if (opcion.equals("0")){		//Detalle equipo
+			return "detalleEquipo.xhtml?faces-redirect=true&numSerie=" + ((EquipoEntity) itemSeleccionado).getNumSerie();
+		} else {                            //Detalle accesorio
+			return "detalleAccesorio.xhtml?faces-redirect=true&id=" + ((AccesorioEntity) itemSeleccionado).getId();
+		}
+
+	}
+
+
+
+	/*GET & SET*/
 	public ConsultarInventarioServicio getConsultarInventarioServicio() {
 		return consultarInventarioServicio;
 	}
@@ -142,67 +212,4 @@ public class ConsultarInventarioBean {
 		this.categoria = categoria;
 	}
 
-	@PostConstruct
-	private void init() {
-
-		cargarRecursosOpcion();
-
-	}
-
-	public void cargarRecursosOpcion() {
-
-		requestContext = RequestContext.getCurrentInstance();
-		//Limpiar input busqueda
-		requestContext.execute("PF('itemTabla').clearFilters()");
-		itemsBuscados	 = null;
-		itemSeleccionado = null;
-
-		inicializarFiltros();
-
-		estados = consultarInventarioServicio.cargarEstados();
-		marcas = consultarInventarioServicio.cargarMarcas();
-
-		if(opcion.equals("0")) {		//Cargar equipos
-			requestContext.execute("ocultarCategoria();");
-			items = consultarInventarioServicio.filtrarEquipos(getEstado(), getMarca(), getModelo());
-		}else{						//Cargar accesorios
-			requestContext.execute("mostrarCategoria();");
-			categorias = consultarInventarioServicio.cargarCategorias("accesorio");
-			items = consultarInventarioServicio.obtenerAccesorios();
-		}
-
-	}
-
-	public void cargarModelos(){		//evento al seleccionar marca
-
-		modelos = consultarInventarioServicio.cargarModelos(getMarca());
-	}
-
-	public void inicializarFiltros(){
-
-		estado 	  = new EstadoEntity();
-		marca 	  = new MarcaEntity();
-		modelo 	  = new ModeloEntity();
-		categoria = new CategoriaEntity();
-	}
-
-	public void filtrarRecuros(){
-
-		if (opcion.equals("0")){		//Filtrar equipos
-			items = consultarInventarioServicio.filtrarEquipos(getEstado(), getMarca(), getModelo());
-		} else {                            //Filtrar accesorios
-			items = consultarInventarioServicio.filtrarAccesorios(getEstado(), getMarca(), getModelo(), getCategoria());
-		}
-
-	}
-
-	public String detalleRecurso(){
-
-		if (opcion.equals("0")){		//Detalle equipo
-			return "detalleEquipo.xhtml?faces-redirect=true&numSerie=" + ((EquipoEntity) itemSeleccionado).getNumSerie();
-		} else {                            //Detalle accesorio
-			return "detalleAccesorio.xhtml?faces-redirect=true&id=" + ((AccesorioEntity) itemSeleccionado).getId();
-		}
-
-	}
 }

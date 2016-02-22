@@ -7,6 +7,18 @@ import java.util.List;
 
 @Entity
 @Table(name="ACCESORIO")
+
+@NamedQueries(value={
+
+		@NamedQuery(name = "HQL_ACCESORIO",
+				query = "SELECT a FROM AccesorioEntity a JOIN a.estado es JOIN a.modelo mo JOIN mo.marca ma JOIN a.categoria ca " +
+						"WHERE (:estadoId is null or :estadoId = '0' or es.id = :estadoId) " +
+						"AND (:modeloId is null or :modeloId = '0' or mo.id = :modeloId)" +
+						"AND (:marcaId is null or :marcaId = '0' or ma.id = :marcaId)" +
+						"AND (:categoriaId is null or :categoriaId = '0' or ca.id = :categoriaId)")
+
+})
+
 public class AccesorioEntity {
 	@Id
 	@GeneratedValue

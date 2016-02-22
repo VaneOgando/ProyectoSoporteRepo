@@ -6,6 +6,15 @@ import java.util.List;
 
 @Entity
 @Table(name="CATEGORIA")
+
+@NamedQueries(value={
+
+@NamedQuery(name = "HQL_CATEGORIA_POR_TIPO",
+		query = "SELECT ca FROM CategoriaEntity ca " +
+				"WHERE ca.tipoCategoria = :tipoCategoria")
+
+})
+
 public class CategoriaEntity {
 	@Id
 	@GeneratedValue
