@@ -21,22 +21,22 @@ public class ConsultarInventarioBean {
 	RequestContext requestContext;
 
 	private String opcion = "0";
-	
+
 	private List<Object> items = new ArrayList<Object>();
 	private List<Object> itemsBuscados;
 	private Object itemSeleccionado;
 
 	private List<EstadoEntity> estados;
-	private EstadoEntity estado;
+	private EstadoEntity estado = new EstadoEntity();
 
 	private List<MarcaEntity> marcas;
-	private MarcaEntity marca;
+	private MarcaEntity marca = new MarcaEntity();
 
 	private List<ModeloEntity> modelos;
-	private ModeloEntity modelo;
+	private ModeloEntity modelo = new ModeloEntity();
 
 	private List<CategoriaEntity> categorias;
-	private CategoriaEntity categoria;
+	private CategoriaEntity categoria = new CategoriaEntity();
 
 
 	/*METODOS*/
@@ -53,7 +53,7 @@ public class ConsultarInventarioBean {
 
 		//Limpiar input busqueda
 		requestContext.execute("PF('itemTabla').clearFilters()");
-		itemsBuscados	 = null;
+		itemsBuscados = null;
 		itemSeleccionado = null;
 
 		inicializarFiltros();
@@ -61,33 +61,43 @@ public class ConsultarInventarioBean {
 		estados = consultarInventarioServicio.cargarEstados();
 		marcas = consultarInventarioServicio.cargarMarcas();
 
-		if(opcion.equals("0")) {		//Cargar equipos
+		if(opcion.equals("1")) {
+			categorias = consultarInventarioServicio.cargarCategorias("accesorio");
+		}
+/*
+		if (opcion.equals("0")) {        //Cargar equipos
 			requestContext.execute("ocultarCategoria();");
-		}else{						//Cargar accesorios
+		} else {                        //Cargar accesorios
 			requestContext.execute("mostrarCategoria();");
 			categorias = consultarInventarioServicio.cargarCategorias("accesorio");
 		}
-
+*/
 		filtrarRecuros();
 	}
 
-	public void cargarModelos(){		//evento al seleccionar marca
+	public void cargarModelos() {        //evento al seleccionar marca
 
-		modelos = consultarInventarioServicio.cargarModelos(getMarca());
+		if (!marca.getNombre().equals("")) {
+			marca.setId(Long.parseLong(consultarInventarioServicio.obtenerMarcaId(marca)));
+			modelos = consultarInventarioServicio.cargarModelos(getMarca());
+		}else{
+			modelos = new ArrayList<ModeloEntity>();
+		}
 
 	}
 
-	public void inicializarFiltros(){
+	public void inicializarFiltros() {
 
-		estado 	  = new EstadoEntity();
-		marca 	  = new MarcaEntity();
-		modelo 	  = new ModeloEntity();
-		categoria = new CategoriaEntity();
+		marca 	   = new MarcaEntity();
+		estados    = new ArrayList<EstadoEntity>();
+		marcas 	   = new ArrayList<MarcaEntity>();
+		modelos    = new ArrayList<ModeloEntity>();
+		categorias = new ArrayList<CategoriaEntity>();
 	}
 
-	public void filtrarRecuros(){
+	public void filtrarRecuros() {
 
-		if (opcion.equals("0")){		//Filtrar equipos
+		if (opcion.equals("0")) {        //Filtrar equipos
 			items = consultarInventarioServicio.filtrarEquipos(getEstado(), getMarca(), getModelo());
 		} else {                            //Filtrar accesorios
 			items = consultarInventarioServicio.filtrarAccesorios(getEstado(), getMarca(), getModelo(), getCategoria());
@@ -95,14 +105,18 @@ public class ConsultarInventarioBean {
 
 	}
 
-	public String detalleRecurso(){
+	public String detalleRecurso() {
 
-		if (opcion.equals("0")){		//Detalle equipo
-			return "detalleEquipo.xhtml?faces-redirect=true&numSerie=" + ((EquipoEntity) itemSeleccionado).getNumSerie();
-		} else {                            //Detalle accesorio
-			return "detalleAccesorio.xhtml?faces-redirect=true&id=" + ((AccesorioEntity) itemSeleccionado).getId();
+		if (itemSeleccionado != null) {
+
+			if (opcion.equals("0")) {        //Detalle equipo
+				return "detalleEquipo.xhtml?faces-redirect=true&numSerie=" + ((EquipoEntity) itemSeleccionado).getNumSerie();
+			} else {                            //Detalle accesorio
+				return "detalleAccesorio.xhtml?faces-redirect=true&id=" + ((AccesorioEntity) itemSeleccionado).getId();
+			}
 		}
 
+		return "";
 	}
 
 

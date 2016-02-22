@@ -10,7 +10,7 @@ import java.util.List;
 @NamedQueries(value={
 
 		@NamedQuery(name = "HQL_MODELO_POR_MARCA",
-				query = "SELECT mo FROM ModeloEntity mo JOIN mo.marca ma WHERE ma.id = :marcaId")
+				query = "SELECT mo FROM ModeloEntity mo JOIN mo.marca ma WHERE  ma.id = :marcaId")
 
 })
 

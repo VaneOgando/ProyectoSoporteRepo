@@ -10,7 +10,11 @@ import java.util.List;
 @NamedQueries(value={
 
 		@NamedQuery(name = "HQL_MARCA",
-				query = "SELECT m FROM MarcaEntity m")
+				query = "SELECT m FROM MarcaEntity m"),
+
+		@NamedQuery(name = "HQL_MARCA_OBTENER_ID",
+		query = "SELECT m.id FROM MarcaEntity m " +
+				"WHERE m.nombre = :marcaNombre")
 
 })
 
