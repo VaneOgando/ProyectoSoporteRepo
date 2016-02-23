@@ -36,7 +36,7 @@ public class DetalleAccesorioBean {
 	/*METODOS*/
 	public void cargarDetalleAccesorio() {
 
-		limpiarFiltros();
+		itemsBuscados = null;
 
 		accesorio = detalleAccesorioServicio.obtenerAccesorio(accesorio.getId());
 		historial = detalleAccesorioServicio.obtenerHistorialAccesorio(accesorio.getId());
@@ -48,17 +48,6 @@ public class DetalleAccesorioBean {
 		}
 
 	}
-
-	public void limpiarFiltros(){
-
-		requestContext = RequestContext.getCurrentInstance();
-
-		//Limpiar filtros, filtrar vacio
-		requestContext.execute("PF('itemTabla').clearFilters()");
-
-	}
-
-
 
 	/*GET & SET*/
 	public DetalleAccesorioServicio getDetalleAccesorioServicio() {
