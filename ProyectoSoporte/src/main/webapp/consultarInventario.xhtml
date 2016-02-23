@@ -14,7 +14,7 @@
 		<div>
 			<h:form id="Datatable">
 					<p:dataTable id="InventarioRecursos" var="item" value="#{consultarInventarioBean.items}"
-								 rows="10" paginator="true" rowsPerPageTemplate="10,25,50,100"
+								 rows="15" paginator="true" rowsPerPageTemplate="10,15,25,50,100"
 								 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 								 widgetVar="itemTabla" emptyMessage="No se encontraron registros"
 								 filteredValue="#{consultarInventarioBean.itemsBuscados}"
@@ -94,7 +94,7 @@
 
 							<p:column headerText="Categoria" filterBy="#{item.categoria.nombre}">
 								<f:facet name="filter">
-									<p:selectOneMenu onchange="PF('itemTabla').filter()">
+									<p:selectOneMenu onchange="PF('itemTabla').filter()" value="#{consultarInventarioBean.categoria.nombre}">
 										<f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />
 										<f:selectItems var ="categoria" value="#{consultarInventarioBean.categorias}"
 													   itemLabel="#{categoria.nombre}"
@@ -106,7 +106,7 @@
 
 						</c:if>
 
-						<p:column headerText="Marca" filterBy="#{item.modelo.marca.nombre}" filterMatchMode="exact">
+						<p:column headerText="Marca" filterBy="#{item.modelo.marca.nombre}">
 							<f:facet name="filter">
 								<p:selectOneMenu onchange="PF('itemTabla').filter()" value="#{consultarInventarioBean.marca.nombre}">
 									<f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />
@@ -121,7 +121,7 @@
 
 						<p:column headerText="Modelo" filterBy="#{item.modelo.nombre}">
 							<f:facet name="filter">
-								<p:selectOneMenu id="filtroModelo" onchange="PF('itemTabla').filter()">
+								<p:selectOneMenu id="filtroModelo" onchange="PF('itemTabla').filter()" value="#{consultarInventarioBean.modelo.nombre}">
 									<f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true"/>
 									<f:selectItems var ="modelo" value="#{consultarInventarioBean.modelos}"
 												   itemLabel="#{modelo.nombre}"
@@ -131,9 +131,9 @@
 							<h:outputText value="#{item.modelo.nombre}" />
 						</p:column>
 
-						<p:column headerText="Estado" filterBy="#{item.estado.nombre}" filterMatchMode="exact">
+						<p:column headerText="Estado" filterBy="#{item.estado.nombre}">
 							<f:facet name="filter">
-								<p:selectOneMenu onchange="PF('itemTabla').filter()">
+								<p:selectOneMenu onchange="PF('itemTabla').filter()" value="#{consultarInventarioBean.estado.nombre}">
 									<f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />
 									<f:selectItems var ="estado" value="#{consultarInventarioBean.estados}"
 												   itemLabel="#{estado.nombre}"

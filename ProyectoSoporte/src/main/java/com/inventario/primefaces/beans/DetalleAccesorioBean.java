@@ -1,30 +1,66 @@
 package com.inventario.primefaces.beans;
 
 import com.inventario.jpa.data.AccesorioEntity;
+import com.inventario.jpa.data.CategoriaEntity;
 import com.inventario.jpa.data.EquipoEntity;
 import com.inventario.jpa.data.HistorialInventarioEntity;
 import com.inventario.spring.service.DetalleAccesorioServicio;
 import com.inventario.spring.service.DetalleEquipoServicio;
+import org.primefaces.context.RequestContext;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @ManagedBean
 @ViewScoped
 public class DetalleAccesorioBean {
 
+	/*ATRIBUTOS*/
 	@ManagedProperty("#{detalleAccesorioServicio}")
 	private DetalleAccesorioServicio detalleAccesorioServicio;
+	RequestContext requestContext;
 
 	private AccesorioEntity accesorio = new AccesorioEntity();
+
+	private List<CategoriaEntity> categorias = new ArrayList<CategoriaEntity>();
 	private List<HistorialInventarioEntity> historial = new ArrayList<HistorialInventarioEntity>();
 	private List<HistorialInventarioEntity> itemsBuscados;
+
 	private String usuario = null;
 
 
+	/*METODOS*/
+	public void cargarDetalleAccesorio() {
+
+		limpiarFiltros();
+
+		accesorio = detalleAccesorioServicio.obtenerAccesorio(accesorio.getId());
+		historial = detalleAccesorioServicio.obtenerHistorialAccesorio(accesorio.getId());
+		categorias = detalleAccesorioServicio.obtenerCategoriaHistorial("historial");
+
+		//Accesorio posee usuario
+		if (accesorio.getEstado().getNombre().equals("Asignado")){
+			usuario = detalleAccesorioServicio.obtenerUsuarioAsignado(accesorio.getId());
+		}
+
+	}
+
+	public void limpiarFiltros(){
+
+		requestContext = RequestContext.getCurrentInstance();
+
+		//Limpiar filtros, filtrar vacio
+		requestContext.execute("PF('itemTabla').clearFilters()");
+
+	}
+
+
+
+	/*GET & SET*/
 	public DetalleAccesorioServicio getDetalleAccesorioServicio() {
 		return detalleAccesorioServicio;
 	}
@@ -33,12 +69,28 @@ public class DetalleAccesorioBean {
 		this.detalleAccesorioServicio = detalleAccesorioServicio;
 	}
 
+	public RequestContext getRequestContext() {
+		return requestContext;
+	}
+
+	public void setRequestContext(RequestContext requestContext) {
+		this.requestContext = requestContext;
+	}
+
 	public AccesorioEntity getAccesorio() {
 		return accesorio;
 	}
 
 	public void setAccesorio(AccesorioEntity accesorio) {
 		this.accesorio = accesorio;
+	}
+
+	public List<CategoriaEntity> getCategorias() {
+		return categorias;
+	}
+
+	public void setCategorias(List<CategoriaEntity> categorias) {
+		this.categorias = categorias;
 	}
 
 	public List<HistorialInventarioEntity> getHistorial() {
@@ -65,17 +117,6 @@ public class DetalleAccesorioBean {
 		this.usuario = usuario;
 	}
 
-	public void cargarDetalleAccesorio() {
-
-		accesorio = detalleAccesorioServicio.obtenerAccesorio(accesorio.getId());
-		historial = detalleAccesorioServicio.obtenerHistorialAccesorio(accesorio.getId());
-
-		//Accesorio posee usuario
-		if (accesorio.getEstado().getNombre().equals("Asignado")){
-			usuario = detalleAccesorioServicio.obtenerUsuarioAsignado(accesorio.getId());
-		}
-
-	}
 
 }
 

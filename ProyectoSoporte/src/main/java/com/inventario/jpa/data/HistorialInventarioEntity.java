@@ -6,6 +6,33 @@ import java.util.Date;
 
 @Entity
 @Table(name="HISTORIALINVENTARIO")
+
+@NamedQueries(value={
+
+		@NamedQuery(name = "HQL_HISTORIAL_POR_EQUIPO",
+				query = "SELECT h FROM HistorialInventarioEntity h JOIN h.equipo e JOIN h.categoria ca " +
+						"WHERE e.numSerie = :numSerie AND ca.tipoCategoria = 'historial' " +
+						"ORDER BY h.id DESC"),
+
+		@NamedQuery(name = "HQL_HISTORIAL_USUARIO_ASIGNADO_EQUIPO",
+				query = "SELECT h.usuarioAsignado FROM HistorialInventarioEntity h JOIN h.equipo e JOIN h.categoria ca " +
+						"WHERE e.numSerie = :numSerie AND ca.tipoCategoria = 'historial' " +
+						"AND ca.nombre = 'Asignación' AND rownum = 1 " +
+						"ORDER BY h.id DESC"),
+
+		@NamedQuery(name = "HQL_HISTORIAL_POR_ACCESORIO",
+				query = "SELECT h FROM HistorialInventarioEntity h JOIN h.accesorio a JOIN h.categoria ca " +
+						"WHERE a.id = :idAccesorio AND ca.tipoCategoria = 'historial' " +
+						"ORDER BY h.id DESC"),
+
+		@NamedQuery(name = "HQL_HISTORIAL_USUARIO_ASIGNADO_ACCESORIO",
+				query = "SELECT h.usuarioAsignado FROM HistorialInventarioEntity h JOIN h.accesorio a JOIN h.categoria ca " +
+						"WHERE a.id = :idAccesorio AND ca.tipoCategoria = 'historial' " +
+						"AND ca.nombre = 'Asignación' AND rownum = 1 " +
+						"ORDER BY h.id DESC")
+
+})
+
 public class HistorialInventarioEntity {
 	@Id
 	@GeneratedValue

@@ -13,33 +13,35 @@ import java.util.List;
 @Component
 public class DetalleEquipoServicio {
 
+	/*ATRIBUTO*/
 	protected EntityManager entityManager;
 
 
-	public EntityManager getEntityManager() {
-		return entityManager;
-	}
-	@PersistenceContext
-	public void setEntityManager(EntityManager entityManager) {
-		this.entityManager = entityManager;
-	}
-
-
-
+	/*METODOS*/
 	@Transactional
 	 public EquipoEntity obtenerEquipo(String numSerie) throws DataAccessException {
 
-		EquipoEntity resultList = (EquipoEntity) getEntityManager().createQuery(Constantes.HQL_OBTENER_EQUIPO_NUMSERIE)
-								.setParameter("numSerie",numSerie)
-								.getSingleResult();
+		EquipoEntity resultList = (EquipoEntity) getEntityManager().createNamedQuery("HQL_EQUIPO_POR_NUMSERIE")
+									.setParameter("numSerie", numSerie)
+									.getSingleResult();
+
 		return resultList;
 	}
 
 	@Transactional
 	public List<HistorialInventarioEntity> obtenerHistorialEquipo(String numSerie) throws DataAccessException {
 
-		List<HistorialInventarioEntity> resultList = getEntityManager().createQuery(Constantes.HQL_OBTENER_HISTORIAL_EQUIPO)
-											.setParameter("numSerie",numSerie)
+		List<HistorialInventarioEntity> resultList = getEntityManager().createNamedQuery("HQL_HISTORIAL_POR_EQUIPO")
+													.setParameter("numSerie", numSerie)
+													.getResultList();
+		return resultList;
+	}
+
+	@Transactional
+	public List<CategoriaEntity> obtenerCategoriaHistorial(String tipoCategoria) throws DataAccessException {
+
+		List<CategoriaEntity> resultList = getEntityManager().createNamedQuery("HQL_CATEGORIA_POR_TIPO")
+											.setParameter("tipoCategoria", tipoCategoria)
 											.getResultList();
 		return resultList;
 	}
@@ -47,12 +49,22 @@ public class DetalleEquipoServicio {
 	@Transactional
 	public String obtenerUsuarioAsignado(String numSerie) throws DataAccessException {
 
-		String resultList = getEntityManager().createQuery(Constantes.HQL_OBTENER_USUARIO_ASIGNADO_EQ)
-							.setParameter("numSerie",numSerie)
+		String resultList = getEntityManager().createNamedQuery("HQL_HISTORIAL_USUARIO_ASIGNADO_EQUIPO")
+							.setParameter("numSerie", numSerie)
 							.getSingleResult().toString();
 
 		return resultList;
 	}
 
+
+	/*GET & SET*/
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
+
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
 
 }

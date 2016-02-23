@@ -49,14 +49,11 @@ public class ConsultarInventarioBean {
 
 	public void cargarRecursosOpcion() {
 
-		requestContext = RequestContext.getCurrentInstance();
+		inicializarFiltros();
+		limpiarFiltros();
 
-		//Limpiar input busqueda
-		requestContext.execute("PF('itemTabla').clearFilters()");
 		itemsBuscados = null;
 		itemSeleccionado = null;
-
-		inicializarFiltros();
 
 		estados = consultarInventarioServicio.cargarEstados();
 		marcas = consultarInventarioServicio.cargarMarcas();
@@ -82,17 +79,9 @@ public class ConsultarInventarioBean {
 			modelos = consultarInventarioServicio.cargarModelos(getMarca());
 		}else{
 			modelos = new ArrayList<ModeloEntity>();
+			limpiarFiltros();
 		}
 
-	}
-
-	public void inicializarFiltros() {
-
-		marca 	   = new MarcaEntity();
-		estados    = new ArrayList<EstadoEntity>();
-		marcas 	   = new ArrayList<MarcaEntity>();
-		modelos    = new ArrayList<ModeloEntity>();
-		categorias = new ArrayList<CategoriaEntity>();
 	}
 
 	public void filtrarRecuros() {
@@ -102,6 +91,28 @@ public class ConsultarInventarioBean {
 		} else {                            //Filtrar accesorios
 			items = consultarInventarioServicio.filtrarAccesorios(getEstado(), getMarca(), getModelo(), getCategoria());
 		}
+
+	}
+
+	public void inicializarFiltros() {
+
+		estado	   = new EstadoEntity();
+		marca 	   = new MarcaEntity();
+		modelo	   = new ModeloEntity();
+		categoria  = new CategoriaEntity();
+
+		estados    = new ArrayList<EstadoEntity>();
+		marcas 	   = new ArrayList<MarcaEntity>();
+		modelos    = new ArrayList<ModeloEntity>();
+		categorias = new ArrayList<CategoriaEntity>();
+	}
+
+	public void limpiarFiltros(){
+
+		requestContext = RequestContext.getCurrentInstance();
+
+		//Limpiar filtros, filtrar vacio
+		requestContext.execute("PF('itemTabla').clearFilters()");
 
 	}
 

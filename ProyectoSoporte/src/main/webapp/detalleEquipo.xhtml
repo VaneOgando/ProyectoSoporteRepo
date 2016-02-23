@@ -68,7 +68,7 @@
 
 				<p:row>
 					<p:column styleClass="panelColumnaIzq">
-						<h:outputLabel value="Caracteristicas:"/>
+						<h:outputLabel value="Características:"/>
 					</p:column>
 					<p:column styleClass="panelColumnaDer">
 						<h:outputLabel value="#{detalleEquipoBean.equipo.caracteristicas}"/>
@@ -81,7 +81,7 @@
 					</p:column>
 					<p:column styleClass="panelColumnaDer">
 						<h:outputLabel value="#{detalleEquipoBean.equipo.fechaCompra}">
-						<f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+							<f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
 						</h:outputLabel>
 					</p:column>
 				</p:row>
@@ -156,7 +156,7 @@
 		<div>
 			<h:form id="datatable">
 				<p:dataTable id="Historial" var="item" value="#{detalleEquipoBean.historial}"
-							 rows="10" paginator="true" rowsPerPageTemplate="10,25,50,100"
+							 rows="15" paginator="true" rowsPerPageTemplate="10,15,25,50,100"
 							 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 							 widgetVar="itemTabla" emptyMessage="No se encontraron registros"
 							 filteredValue="#{detalleEquipoBean.itemsBuscados}" tableStyle="table-layout: auto">
@@ -188,7 +188,15 @@
 						</h:outputText>
 					</p:column>
 
-					<p:column headerText="Tipo" filterBy="#{item.categoria.nombre}" filterStyle="display:none">
+					<p:column headerText="Tipo" filterBy="#{item.categoria.nombre}">
+						<f:facet name="filter">
+							<p:selectOneMenu onchange="PF('itemTabla').filter()" >
+								<f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />
+								<f:selectItems var="categoria" value="#{detalleEquipoBean.categorias}"
+										itemLabel="#{categoria.nombre}"
+										itemValue="#{categoria.nombre}"/>
+							</p:selectOneMenu>
+						</f:facet>
 						<h:outputText value="#{item.categoria.nombre}"/>
 					</p:column>
 

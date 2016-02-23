@@ -14,14 +14,36 @@ import java.util.List;
 @ViewScoped
 public class DetalleEquipoBean {
 
+	/*ATRIBUTOS*/
 	@ManagedProperty("#{detalleEquipoServicio}")
 	private DetalleEquipoServicio detalleEquipoServicio;
 
 	private EquipoEntity equipo = new EquipoEntity();
+
+	private List<CategoriaEntity> categorias = new ArrayList<CategoriaEntity>();
 	private List<HistorialInventarioEntity> historial = new ArrayList<HistorialInventarioEntity>();
 	private List<HistorialInventarioEntity> itemsBuscados;
+
 	private String usuario = null;
 
+	/*METODOS*/
+	public void cargarDetalleEquipo() {
+
+		itemsBuscados = null;
+
+		equipo 	  = detalleEquipoServicio.obtenerEquipo(equipo.getNumSerie());
+		historial = detalleEquipoServicio.obtenerHistorialEquipo(equipo.getNumSerie());
+		categorias = detalleEquipoServicio.obtenerCategoriaHistorial("historial");
+
+		//Equipo posee usuario
+		if (equipo.getEstado().getNombre().equals("Asignado")){
+			usuario = detalleEquipoServicio.obtenerUsuarioAsignado(equipo.getNumSerie());
+		}
+
+	}
+
+
+	/*GET & SET*/
 	public DetalleEquipoServicio getDetalleEquipoServicio() {
 		return detalleEquipoServicio;
 	}
@@ -42,6 +64,14 @@ public class DetalleEquipoBean {
 		return historial;
 	}
 
+	public List<CategoriaEntity> getCategorias() {
+		return categorias;
+	}
+
+	public void setCategorias(List<CategoriaEntity> categorias) {
+		this.categorias = categorias;
+	}
+
 	public void setHistorial(List<HistorialInventarioEntity> historial) {
 		this.historial = historial;
 	}
@@ -60,19 +90,6 @@ public class DetalleEquipoBean {
 
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
-	}
-
-	public void cargarDetalleEquipo() {
-
-		itemsBuscados = null;
-		equipo 	  = detalleEquipoServicio.obtenerEquipo(equipo.getNumSerie());
-		historial = detalleEquipoServicio.obtenerHistorialEquipo(equipo.getNumSerie());
-
-		//Equipo posee usuario
-		if (equipo.getEstado().getNombre().equals("Asignado")){
-			usuario = detalleEquipoServicio.obtenerUsuarioAsignado(equipo.getNumSerie());
-		}
-
 	}
 
 }

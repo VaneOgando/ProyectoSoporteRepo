@@ -1,6 +1,7 @@
 package com.inventario.spring.service;
 
 import com.inventario.jpa.data.AccesorioEntity;
+import com.inventario.jpa.data.CategoriaEntity;
 import com.inventario.jpa.data.EquipoEntity;
 import com.inventario.jpa.data.HistorialInventarioEntity;
 import com.inventario.util.constante.Constantes;
@@ -15,33 +16,34 @@ import java.util.List;
 @Component
 public class DetalleAccesorioServicio {
 
+	/*ATRIBUTO*/
 	protected EntityManager entityManager;
 
 
-	public EntityManager getEntityManager() {
-		return entityManager;
-	}
-	@PersistenceContext
-	public void setEntityManager(EntityManager entityManager) {
-		this.entityManager = entityManager;
-	}
-
-
-
+	/*METODOS*/
 	@Transactional
 	 public AccesorioEntity obtenerAccesorio(String idAccesorio) throws DataAccessException {
 
-		AccesorioEntity resultList = (AccesorioEntity) getEntityManager().createQuery(Constantes.HQL_OBTENER_ACCESORIO_ID)
-								.setParameter("idAccesorio", idAccesorio)
-								.getSingleResult();
+		AccesorioEntity resultList = (AccesorioEntity) getEntityManager().createNamedQuery("HQL_ACCESORIO_POR_ID")
+														.setParameter("idAccesorio", idAccesorio)
+														.getSingleResult();
 		return resultList;
 	}
 
 	@Transactional
 	public List<HistorialInventarioEntity> obtenerHistorialAccesorio(String idAccesorio) throws DataAccessException {
 
-		List<HistorialInventarioEntity> resultList = getEntityManager().createQuery(Constantes.HQL_OBTENER_HISTORIAL_ACCESORIO)
-											.setParameter("idAccesorio", idAccesorio)
+		List<HistorialInventarioEntity> resultList = getEntityManager().createNamedQuery("HQL_HISTORIAL_POR_ACCESORIO")
+													.setParameter("idAccesorio", idAccesorio)
+													.getResultList();
+		return resultList;
+	}
+
+	@Transactional
+	public List<CategoriaEntity> obtenerCategoriaHistorial(String tipoCategoria) throws DataAccessException {
+
+		List<CategoriaEntity> resultList = getEntityManager().createNamedQuery("HQL_CATEGORIA_POR_TIPO")
+											.setParameter("tipoCategoria", tipoCategoria)
 											.getResultList();
 		return resultList;
 	}
@@ -49,10 +51,21 @@ public class DetalleAccesorioServicio {
 	@Transactional
 	public String obtenerUsuarioAsignado(String idAccesorio) throws DataAccessException {
 
-		String resultList = getEntityManager().createQuery(Constantes.HQL_OBTENER_USUARIO_ASIGNADO_ACC)
+		String resultList = getEntityManager().createNamedQuery("HQL_HISTORIAL_USUARIO_ASIGNADO_ACCESORIO")
 							.setParameter("idAccesorio", idAccesorio)
 							.getSingleResult().toString();
+
 		return resultList;
+	}
+
+
+	/*GET & SET*/
+	public EntityManager getEntityManager() {
+		return entityManager;
+	}
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
 	}
 
 
