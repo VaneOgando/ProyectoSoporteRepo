@@ -166,21 +166,12 @@
 
 					</f:facet>
 
-					<p:column headerText="Fecha" filterBy="#{item.fechaGestion}" filterStyle="display:none" >
+					<p:column headerText="Fecha" filterBy="#{item.fechaGestion}" filterStyle="display: none;" >
 						<h:outputText value="#{item.fechaGestion}">
-							<f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
 						</h:outputText>
 					</p:column>
 
-					<p:column headerText="Tipo" filterBy="#{item.categoria.nombre}">
-						<f:facet name="filter">
-							<p:selectOneMenu onchange="PF('itemTabla').filter()" >
-								<f:selectItem itemLabel="Seleccione" itemValue="#{null}" noSelectionOption="true" />
-								<f:selectItems var="categoria" value="#{detalleAccesorioBean.categorias}"
-											   itemLabel="#{categoria.nombre}"
-											   itemValue="#{categoria.nombre}"/>
-							</p:selectOneMenu>
-						</f:facet>
+					<p:column headerText="Tipo" filterBy="#{item.categoria.nombre}" filterStyle="display: none;">
 						<h:outputText value="#{item.categoria.nombre}" />
 					</p:column>
 

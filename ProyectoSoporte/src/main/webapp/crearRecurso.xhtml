@@ -46,8 +46,10 @@
 									<p:outputLabel value="Num de Serie:"/>
 								</p:column>
 								<p:column styleClass="panelColumnaDer" rendered="#{crearRecursoBean.opcion == '0'}">
-									<p:inputText value="" required="true" style="width: 200px"/>
+									<p:inputText id="NumeroSerie" value="" required="true" style="width: 200px">
+									</p:inputText>
 									<p:outputLabel value="*" styleClass="requerido"/>
+									<h:message for="NumeroSerie" style="color:red" />
 								</p:column>
 
 								<p:column styleClass="panelColumnaDer" rendered="#{crearRecursoBean.opcion == '1'}">
@@ -184,12 +186,13 @@
 
 				</div>
 
+
 			<div id="Botones" class="detalleBotonesGestion">
 
 				<p:panelGrid id="botones" styleClass="panelInventario botonesPanel" style="margin: 0 auto; font-size: small">
 					<p:row>
 						<p:column>
-							<p:commandButton id="crear" value="Crear" />
+							<p:commandButton id="crear" value="Crear" process="crearRecurso" action="#{crearRecursoBean.crearRecurso}" />
 						</p:column>
 						<p:column>
 							<p:commandButton id="cancelar" value="Cancelar" />

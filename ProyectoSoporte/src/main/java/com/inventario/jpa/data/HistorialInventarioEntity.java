@@ -39,7 +39,7 @@ public class HistorialInventarioEntity {
 	@Column(name = "IDHISTORIALINV")
 	private String id;
 	@Column(name = "FECHAGESTION")
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	private Date fechaGestion;
 	@Column(name = "DESCRIPCION")
 	private String descripcion;

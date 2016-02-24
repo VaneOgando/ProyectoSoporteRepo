@@ -12,6 +12,7 @@ import java.util.Date;
 @ViewScoped
 public class CrearRecursoBean {
 
+	/*ATRIBUTOS*/
 	private Object recurso = new Object();
 	private String opcion = "0";
 	private String observacion;
@@ -20,6 +21,16 @@ public class CrearRecursoBean {
 	private Date fechaActual = new Date();
 	private Date date3;
 
+
+	public String crearRecurso(){
+
+		return "consultarInventario.xhtml?faces-redirect=true";
+	}
+
+
+
+
+	/*GET & SET*/
 	public Object getRecurso() {
 		return recurso;
 	}
@@ -67,7 +78,6 @@ public class CrearRecursoBean {
 	public void setDate3(Date date3) {
 		this.date3 = date3;
 	}
-
 
 
 }

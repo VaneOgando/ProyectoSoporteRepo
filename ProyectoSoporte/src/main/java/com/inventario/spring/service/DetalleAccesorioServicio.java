@@ -5,6 +5,7 @@ import com.inventario.jpa.data.CategoriaEntity;
 import com.inventario.jpa.data.EquipoEntity;
 import com.inventario.jpa.data.HistorialInventarioEntity;
 import com.inventario.util.constante.Constantes;
+import org.hibernate.Criteria;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
@@ -33,9 +34,12 @@ public class DetalleAccesorioServicio {
 	@Transactional
 	public List<HistorialInventarioEntity> obtenerHistorialAccesorio(String idAccesorio) throws DataAccessException {
 
+
 		List<HistorialInventarioEntity> resultList = getEntityManager().createNamedQuery("HQL_HISTORIAL_POR_ACCESORIO")
 													.setParameter("idAccesorio", idAccesorio)
 													.getResultList();
+
+
 		return resultList;
 	}
 
