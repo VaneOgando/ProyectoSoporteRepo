@@ -6,7 +6,9 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @ManagedBean
 @ViewScoped
@@ -21,13 +23,21 @@ public class CrearRecursoBean {
 	private Date fechaActual = new Date();
 	private Date date3;
 
+	private String txt6;
 
 	public String crearRecurso(){
 
 		return "consultarInventario.xhtml?faces-redirect=true";
 	}
 
+	public List<String> completeText(String query) {
+		List<String> results = new ArrayList<String>();
+		for(int i = 0; i < 10; i++) {
+			results.add(query + i);
+		}
 
+		return results;
+	}
 
 
 	/*GET & SET*/
@@ -79,6 +89,12 @@ public class CrearRecursoBean {
 		this.date3 = date3;
 	}
 
+	public String getTxt6() {
+		return txt6;
+	}
 
+	public void setTxt6(String txt6) {
+		this.txt6 = txt6;
+	}
 }
 

@@ -43,17 +43,18 @@
 
 							<p:row>
 								<p:column styleClass="panelColumnaIzq">
-									<p:outputLabel value="Num de Serie:"/>
+									<p:outputLabel value="Número de Serie:"/>
 								</p:column>
+
 								<p:column styleClass="panelColumnaDer" rendered="#{crearRecursoBean.opcion == '0'}">
-									<p:inputText id="NumeroSerie" value="" required="true" style="width: 200px">
-									</p:inputText>
+									<p:inputText id="NumeroSerie" value="" style="width: 203px"
+											required="true" requiredMessage="Por favor indique un numero de serie"/>
+
 									<p:outputLabel value="*" styleClass="requerido"/>
-									<h:message for="NumeroSerie" style="color:red" />
 								</p:column>
 
 								<p:column styleClass="panelColumnaDer" rendered="#{crearRecursoBean.opcion == '1'}">
-									<p:inputText value="" style="width: 200px"/>
+									<p:inputText value="" style="width: 203px"/>
 								</p:column>
 
 							</p:row>
@@ -63,7 +64,8 @@
 									<p:outputLabel value="Nombre:"/>
 								</p:column>
 								<p:column styleClass="panelColumnaDer">
-									<p:inputText value="" required="true" style="width: 200px"/>
+									<p:inputText id="Nombre" value="" style="width: 203px"
+											required="true" requiredMessage="Por favor indique un nombre"/>
 									<p:outputLabel value="*" styleClass="requerido"/>
 								</p:column>
 							</p:row>
@@ -73,10 +75,9 @@
 									<p:outputLabel value="Marca:"/>
 								</p:column>
 								<p:column styleClass="panelColumnaDer">
-									<p:selectOneMenu value="" style="width: 200px" required="true">
-										<f:selectItem itemLabel="Seleccione" itemValue="" noSelectionOption="true"/>
-									</p:selectOneMenu>
-									<p:outputLabel value="*" styleClass="requerido"/>
+									<p:autoComplete id="Marca" dropdown="true" value="#{crearRecursoBean.txt6}" completeMethod="#{crearRecursoBean.completeText}"
+											required="true" requiredMessage="Por favor indique una marca" size="19"/>
+									<p:outputLabel value="*" styleClass="requerido" style="padding-left: 40px"/>
 								</p:column>
 							</p:row>
 
@@ -85,10 +86,9 @@
 									<p:outputLabel value="Modelo:"/>
 								</p:column>
 								<p:column styleClass="panelColumnaDer">
-									<p:selectOneMenu value="" style="width: 200px" required="true">
-										<f:selectItem itemLabel="Seleccione" itemValue="" noSelectionOption="true"/>
-									</p:selectOneMenu>
-									<p:outputLabel value="*" styleClass="requerido"/>
+									<p:autoComplete id="Modelo" dropdown="true" value="" size="19"
+													required="true" requiredMessage="Por favor indique un modelo"/>
+									<p:outputLabel value="*" styleClass="requerido" style="padding-left: 40px"/>
 								</p:column>
 							</p:row>
 
@@ -97,10 +97,9 @@
 									<p:outputLabel value="Categoría:"/>
 								</p:column>
 								<p:column styleClass="panelColumnaDer">
-									<p:selectOneMenu value="" style="width: 200px" required="true">
-										<f:selectItem itemLabel="Seleccione" itemValue="" noSelectionOption="true"/>
-									</p:selectOneMenu>
-									<p:outputLabel value="*" styleClass="requerido"/>
+									<p:autoComplete id="Categoria" dropdown="true" value="" size="19"
+													required="true" requiredMessage="Por favor indique una categoria"/>
+									<p:outputLabel value="*" styleClass="requerido" style="padding-left: 40px"/>
 								</p:column>
 							</p:row>
 
@@ -109,7 +108,8 @@
 									<p:outputLabel value="Procesador:"/>
 								</p:column>
 								<p:column styleClass="panelColumnaDer">
-									<p:inputText value="" required="true" style="width: 200px"/>
+									<p:inputText id="Procesador" value="" style="width: 203px"
+												 required="true" requiredMessage="Por favor indique un procesador"/>
 									<p:outputLabel value="*" styleClass="requerido"/>
 								</p:column>
 							</p:row>
@@ -119,7 +119,8 @@
 									<p:outputLabel value="Memoria Ram:"/>
 								</p:column>
 								<p:column styleClass="panelColumnaDer">
-									<p:inputText value="" required="true" style="width: 200px"/>
+									<p:inputText id="MemoriaRam" value="" style="width: 203px"
+												 required="true" requiredMessage="Por favor indique la memoria ram"/>
 									<p:outputLabel value="*" styleClass="requerido"/>
 								</p:column>
 							</p:row>
@@ -129,7 +130,8 @@
 									<p:outputLabel value="Disco Duro:"/>
 								</p:column>
 								<p:column styleClass="panelColumnaDer">
-									<p:inputText value="" required="true" style="width: 200px"/>
+									<p:inputText id="DiscoDuro" value="" style="width: 203px"
+												 required="true" requiredMessage="Por favor indique el disco duro"/>
 									<p:outputLabel value="*" styleClass="requerido"/>
 								</p:column>
 							</p:row>
@@ -139,7 +141,8 @@
 									<p:outputLabel value="Sistema Operativo:"/>
 								</p:column>
 								<p:column styleClass="panelColumnaDer">
-									<p:inputText value="" required="true" style="width: 200px"/>
+									<p:inputText id="SistemaOperativo" value="" style="width: 203px"
+												 required="true" requiredMessage="Por favor indique el sistema operativo"/>
 									<p:outputLabel value="*" styleClass="requerido"/>
 								</p:column>
 							</p:row>
@@ -149,7 +152,8 @@
 									<p:outputLabel value="Caracteristicas:"/>
 								</p:column>
 								<p:column styleClass="panelColumnaDer">
-									<p:inputTextarea value="" style="width: 200px"/>
+									<p:inputTextarea rows="3" cols="22" autoResize="false"
+													 value="" />
 								</p:column>
 							</p:row>
 
@@ -158,7 +162,7 @@
 									<p:outputLabel value="Fecha de adquisición:" />
 								</p:column>
 								<p:column styleClass="panelColumnaDer">
-									<p:calendar value="#{crearRecursoBean.date3}" showOn="button" styleClass="labelCalendario inputCalendario"
+									<p:calendar value="#{crearRecursoBean.date3}" showOn="button" styleClass="labelCalendario inputCalendario inputPanelCreacion"
 											pattern="dd/MM/yyyy" maxdate="#{crearRecursoBean.fechaActual}"/>
 								</p:column>
 							</p:row>
@@ -168,7 +172,7 @@
 									<p:outputLabel value="Incidencia:"/>
 								</p:column>
 								<p:column styleClass="panelColumnaDer">
-									<p:inputText value="" style="width: 200px"/>
+									<p:inputText value="" style="width: 203px" />
 									<p:button icon="ui-icon-search" style="font-size: small; margin-left: 3px"/>
 								</p:column>
 							</p:row>
@@ -178,7 +182,8 @@
 									<p:outputLabel value="Observación:"/>
 								</p:column>
 								<p:column styleClass="panelColumnaDer">
-									<p:inputTextarea value="" style="width: 200px"/>
+									<p:inputTextarea rows="3" cols="22" autoResize="false"
+													 value="" />
 								</p:column>
 							</p:row>
 
@@ -186,16 +191,28 @@
 
 				</div>
 
+				<div id="Mensajes" style="margin: 0 auto; width: 270px; margin-bottom: 5%; text-align: center">
+					<p><h:message for="NumeroSerie" style="color:red" /></p>
+					<p><h:message for="Nombre" style="color:red" /></p>
+					<p><h:message for="Marca" style="color:red" /></p>
+					<p><h:message for="Modelo" style="color:red" /></p>
+					<p><h:message for="Categoria" style="color:red" /></p>
+					<p><h:message for="Procesador" style="color:red" /></p>
+					<p><h:message for="MemoriaRam" style="color:red" /></p>
+					<p><h:message for="DiscoDuro" style="color:red" /></p>
+					<p><h:message for="SistemaOperativo" style="color:red"/></p>
+
+				</div>
 
 			<div id="Botones" class="detalleBotonesGestion">
 
 				<p:panelGrid id="botones" styleClass="panelInventario botonesPanel" style="margin: 0 auto; font-size: small">
 					<p:row>
 						<p:column>
-							<p:commandButton id="crear" value="Crear" process="crearRecurso" action="#{crearRecursoBean.crearRecurso}" />
+							<h:commandButton id="crear" value="Crear" process="crearRecurso" action="#{crearRecursoBean.crearRecurso}" />
 						</p:column>
 						<p:column>
-							<p:commandButton id="cancelar" value="Cancelar" />
+							<h:commandButton id="cancelar" value="Cancelar" />
 						</p:column>
 					</p:row>
 				</p:panelGrid>
