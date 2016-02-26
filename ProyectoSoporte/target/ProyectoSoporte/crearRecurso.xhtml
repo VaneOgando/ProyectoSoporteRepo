@@ -37,24 +37,36 @@
 					</p:panelGrid>
 				</div>
 
+				<div id="Mensajes" style="margin: 0 auto; margin-bottom: 5%; width: 450px">
+					<p:messages id="messages" autoUpdate="true" closable="true" />
+				</div>
+
 				<div id="Detalle" class="detalleCreacion">
 
 						<p:panelGrid id="formularioCreacion" styleClass="font panelInventario">
 
 							<p:row>
 								<p:column styleClass="colIzqCreacion">
-									<p:outputLabel value="Número de Serie:"/>
+									<p:outputLabel value="Número de Serie:" />
 								</p:column>
 
-								<p:column styleClass="colDerCreacion" rendered="#{crearRecursoBean.opcion == '0'}">
-									<p:inputText id="NumeroSerie" value="" style="width: 203px"
-											required="true" requiredMessage="Por favor indique un numero de serie"/>
+								<p:column styleClass="colDerCreacion">
+									<c:choose>
+										<c:when test="#{crearRecursoBean.opcion == '0'}">
+												<p:inputText id="NumeroSerie" value="" style="width: 203px"
+															 required="true" requiredMessage="Por favor indique un numero de serie"
+															 validatorMessage="El número de serie no puede sobrepasar los 22 caracteres">
+													<f:validateLength maximum="22" />
+												</p:inputText>
+												<p:outputLabel value="*" styleClass="requerido"/>
+										</c:when>
 
-									<p:outputLabel value="*" styleClass="requerido"/>
-								</p:column>
-
-								<p:column styleClass="colDerCreacion" rendered="#{crearRecursoBean.opcion == '1'}">
-									<p:inputText value="" style="width: 203px"/>
+										<c:when test="#{crearRecursoBean.opcion == '1'}">
+												<p:inputText value="" style="width: 203px" validatorMessage="El número de serie no puede sobrepasar los 22 caracteres">
+													<f:validateLength maximum="22" />
+												</p:inputText>
+										</c:when>
+									</c:choose>
 								</p:column>
 
 							</p:row>
@@ -65,7 +77,10 @@
 								</p:column>
 								<p:column styleClass="colDerCreacion">
 									<p:inputText id="Nombre" value="" style="width: 203px"
-											required="true" requiredMessage="Por favor indique un nombre"/>
+											required="true" requiredMessage="Por favor indique un nombre"
+											validatorMessage="El nombre no puede sobrepasar los 30 caracteres">
+										<f:validateLength maximum="30" />
+									</p:inputText>
 									<p:outputLabel value="*" styleClass="requerido"/>
 								</p:column>
 							</p:row>
@@ -76,8 +91,11 @@
 								</p:column>
 								<p:column styleClass="colDerCreacion">
 									<p:autoComplete id="Marca" dropdown="true" value="#{crearRecursoBean.txt6}" completeMethod="#{crearRecursoBean.completeText}"
-											required="true" requiredMessage="Por favor indique una marca" size="19"/>
-									<p:outputLabel value="*" styleClass="requerido" style="padding-left: 40px"/>
+											required="true" requiredMessage="Por favor indique una marca" styleClass="autoPrimeCreacion"
+											validatorMessage="La marca no puede sobrepasar los 30 caracteres">
+										<f:validateLength maximum="30" />
+									</p:autoComplete>
+									<p:outputLabel value="*" styleClass="requerido" style="padding-left: 36px"/>
 								</p:column>
 							</p:row>
 
@@ -86,9 +104,12 @@
 									<p:outputLabel value="Modelo:"/>
 								</p:column>
 								<p:column styleClass="colDerCreacion">
-									<p:autoComplete id="Modelo" dropdown="true" value="" size="19"
-													required="true" requiredMessage="Por favor indique un modelo"/>
-									<p:outputLabel value="*" styleClass="requerido" style="padding-left: 40px"/>
+									<p:autoComplete id="Modelo" dropdown="true" value=""
+													required="true" requiredMessage="Por favor indique un modelo" styleClass="autoPrimeCreacion"
+													validatorMessage="El modelo no puede sobrepasar los 30 caracteres">
+										<f:validateLength maximum="30" />
+									</p:autoComplete>
+									<p:outputLabel value="*" styleClass="requerido" style="padding-left: 36px"/>
 								</p:column>
 							</p:row>
 
@@ -97,9 +118,12 @@
 									<p:outputLabel value="Categoría:"/>
 								</p:column>
 								<p:column styleClass="colDerCreacion">
-									<p:autoComplete id="Categoria" dropdown="true" value="" size="19"
-													required="true" requiredMessage="Por favor indique una categoria"/>
-									<p:outputLabel value="*" styleClass="requerido" style="padding-left: 40px"/>
+									<p:autoComplete id="Categoria" dropdown="true" value=""
+													required="true" requiredMessage="Por favor indique una categoria" styleClass="autoPrimeCreacion"
+													validatorMessage="La categoría no puede sobrepasar los 30 caracteres">
+										<f:validateLength maximum="30" />
+									</p:autoComplete>
+									<p:outputLabel value="*" styleClass="requerido" style="padding-left: 36px"/>
 								</p:column>
 							</p:row>
 
@@ -109,7 +133,10 @@
 								</p:column>
 								<p:column styleClass="colDerCreacion">
 									<p:inputText id="Procesador" value="" style="width: 203px"
-												 required="true" requiredMessage="Por favor indique un procesador"/>
+												 required="true" requiredMessage="Por favor indique un procesador"
+												 validatorMessage="El procesador no puede sobrepasar los 30 caracteres">
+										<f:validateLength maximum="30" />
+									</p:inputText>
 									<p:outputLabel value="*" styleClass="requerido"/>
 								</p:column>
 							</p:row>
@@ -120,7 +147,10 @@
 								</p:column>
 								<p:column styleClass="colDerCreacion">
 									<p:inputText id="MemoriaRam" value="" style="width: 203px"
-												 required="true" requiredMessage="Por favor indique la memoria ram"/>
+												 required="true" requiredMessage="Por favor indique la memoria ram"
+												 validatorMessage="La memoria ram no puede sobrepasar los 30 caracteres">
+										<f:validateLength maximum="30" />
+									</p:inputText>
 									<p:outputLabel value="*" styleClass="requerido"/>
 								</p:column>
 							</p:row>
@@ -131,7 +161,10 @@
 								</p:column>
 								<p:column styleClass="colDerCreacion">
 									<p:inputText id="DiscoDuro" value="" style="width: 203px"
-												 required="true" requiredMessage="Por favor indique el disco duro"/>
+												 required="true" requiredMessage="Por favor indique el disco duro"
+												 validatorMessage="El disco duro no puede sobrepasar los 30 caracteres">
+										<f:validateLength maximum="30" />
+									</p:inputText>
 									<p:outputLabel value="*" styleClass="requerido"/>
 								</p:column>
 							</p:row>
@@ -142,7 +175,10 @@
 								</p:column>
 								<p:column styleClass="colDerCreacion">
 									<p:inputText id="SistemaOperativo" value="" style="width: 203px"
-												 required="true" requiredMessage="Por favor indique el sistema operativo"/>
+												 required="true" requiredMessage="Por favor indique el sistema operativo"
+												 validatorMessage="El sistema operativo no puede sobrepasar los 30 caracteres">
+										<f:validateLength maximum="30" />
+									</p:inputText>
 									<p:outputLabel value="*" styleClass="requerido"/>
 								</p:column>
 							</p:row>
@@ -152,8 +188,9 @@
 									<p:outputLabel value="Caracteristicas:"/>
 								</p:column>
 								<p:column styleClass="colDerCreacion">
-									<p:inputTextarea rows="3" cols="22" autoResize="false"
-													 value="" />
+									<p:inputTextarea rows="3" cols="22" autoResize="false" counter="caract_caract" maxlength="100" counterTemplate="{0} caracteres restantes."
+													 style="margin-right: 46px" value="" />
+									<p:outputLabel id="caract_caract" style="font-size: x-small"/>
 								</p:column>
 							</p:row>
 
@@ -162,7 +199,7 @@
 									<p:outputLabel value="Fecha de adquisición:" />
 								</p:column>
 								<p:column styleClass="colDerCreacion">
-									<p:calendar value="#{crearRecursoBean.date3}" showOn="button" styleClass="labelCalendario inputCalendario inputPanelCreacion"
+									<p:calendar value="#{crearRecursoBean.date3}" showOn="button" styleClass="labelCalendario inputCalendario inputPanelCreacion calPrimeCreacion"
 											pattern="dd/MM/yyyy" maxdate="#{crearRecursoBean.fechaActual}"/>
 								</p:column>
 							</p:row>
@@ -172,8 +209,12 @@
 									<p:outputLabel value="Incidencia:"/>
 								</p:column>
 								<p:column styleClass="colDerCreacion">
-									<p:inputText value="" style="width: 203px" />
-									<p:button icon="ui-icon-search" style="font-size: small; margin-left: 3px"/>
+									<p:inputText value="" style="width: 203px"
+											validatorMessage="En número de incidencia debe contener únicamente números y no sobrepasar los 7 caracteres">
+										<f:validateLength maximum="7" />
+										<f:validateRegex pattern="/^[0-9]+$/"/>
+									</p:inputText>
+									<p:button icon="ui-icon-search" style="font-size: small"/>
 								</p:column>
 							</p:row>
 
@@ -182,25 +223,13 @@
 									<p:outputLabel value="Observación:"/>
 								</p:column>
 								<p:column styleClass="colDerCreacion">
-									<p:inputTextarea rows="3" cols="22" autoResize="false"
-													 value="" />
+									<p:inputTextarea rows="3" cols="22" autoResize="false" counter="observ_caract" maxlength="100" counterTemplate="{0} caracteres restantes."
+													 style="margin-right: 46px" value="" />
+									<p:outputLabel id="observ_caract" style="font-size: x-small"/>
 								</p:column>
 							</p:row>
 
 						</p:panelGrid>
-
-				</div>
-
-				<div id="Mensajes" style="margin: 0 auto; width: 270px; margin-bottom: 5%; text-align: center">
-					<p><h:message for="NumeroSerie" style="color:red" /></p>
-					<p><h:message for="Nombre" style="color:red" /></p>
-					<p><h:message for="Marca" style="color:red" /></p>
-					<p><h:message for="Modelo" style="color:red" /></p>
-					<p><h:message for="Categoria" style="color:red" /></p>
-					<p><h:message for="Procesador" style="color:red" /></p>
-					<p><h:message for="MemoriaRam" style="color:red" /></p>
-					<p><h:message for="DiscoDuro" style="color:red" /></p>
-					<p><h:message for="SistemaOperativo" style="color:red"/></p>
 
 				</div>
 

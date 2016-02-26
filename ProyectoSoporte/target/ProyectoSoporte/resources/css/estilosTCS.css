@@ -130,3 +130,19 @@ body {
     width: 250px;
     font-size: medium;
 }
+
+.autoPrimeCreacion .ui-autocomplete-input{
+    width: 203px; !important;
+}
+
+.autoPrimeCreacion .ui-autocomplete-dropdown {
+    font-size: small; !important;
+}
+
+.calPrimeCreacion .ui-inputfield{
+   width: 203px; !important;
+}
+
+.calPrimeCreacion .ui-datepicker-trigger{
+    font-size: small; !important;
+}

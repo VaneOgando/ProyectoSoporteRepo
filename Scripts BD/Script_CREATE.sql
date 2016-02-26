@@ -3,7 +3,7 @@
 CREATE TABLE ACCESORIO(
 
 	idAccesorio 	INT 		NOT NULL,
-	numSerie		VARCHAR(11),
+	numSerie		VARCHAR(22),
 	accesorio		VARCHAR(30)	NOT NULL,
 	caracteristicas	VARCHAR(100),
 	fechaCompra		DATE		NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE DOCUMENTO(
 
 CREATE TABLE EQUIPO(
 
-	numSerie 		VARCHAR(11)	NOT NULL,
+	numSerie 		VARCHAR(22)	NOT NULL,
 	equipo			VARCHAR(30)	NOT NULL,
 	procesador		VARCHAR(30)	NOT NULL,
 	memoriaRam		VARCHAR(30)	NOT NULL,
