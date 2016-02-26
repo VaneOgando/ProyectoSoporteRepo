@@ -64,6 +64,7 @@ body {
     padding: 3px; !important;
 }
 
+/*DETALLE RECURSO*/
 .contenedorDetalle{
 
     overflow: hidden;
@@ -100,6 +101,11 @@ body {
 }
 
 
+
+
+
+ /*CREAR RECURSO*/
+
 .contenedorCreacion{
 
     overflow: hidden;
@@ -112,4 +118,15 @@ body {
     position: relative;
     margin: 5% auto;
 
+}
+
+.colIzqCreacion{
+    width: 200px;
+    text-align: right;
+    font-weight: bold;
+}
+
+.colDerCreacion {
+    width: 250px;
+    font-size: medium;
 }

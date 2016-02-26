@@ -42,28 +42,28 @@
 						<p:panelGrid id="formularioCreacion" styleClass="font panelInventario">
 
 							<p:row>
-								<p:column styleClass="panelColumnaIzq">
+								<p:column styleClass="colIzqCreacion">
 									<p:outputLabel value="Número de Serie:"/>
 								</p:column>
 
-								<p:column styleClass="panelColumnaDer" rendered="#{crearRecursoBean.opcion == '0'}">
+								<p:column styleClass="colDerCreacion" rendered="#{crearRecursoBean.opcion == '0'}">
 									<p:inputText id="NumeroSerie" value="" style="width: 203px"
 											required="true" requiredMessage="Por favor indique un numero de serie"/>
 
 									<p:outputLabel value="*" styleClass="requerido"/>
 								</p:column>
 
-								<p:column styleClass="panelColumnaDer" rendered="#{crearRecursoBean.opcion == '1'}">
+								<p:column styleClass="colDerCreacion" rendered="#{crearRecursoBean.opcion == '1'}">
 									<p:inputText value="" style="width: 203px"/>
 								</p:column>
 
 							</p:row>
 
 							<p:row>
-								<p:column styleClass="panelColumnaIzq">
+								<p:column styleClass="colIzqCreacion">
 									<p:outputLabel value="Nombre:"/>
 								</p:column>
-								<p:column styleClass="panelColumnaDer">
+								<p:column styleClass="colDerCreacion">
 									<p:inputText id="Nombre" value="" style="width: 203px"
 											required="true" requiredMessage="Por favor indique un nombre"/>
 									<p:outputLabel value="*" styleClass="requerido"/>
@@ -71,10 +71,10 @@
 							</p:row>
 
 							<p:row>
-								<p:column styleClass="panelColumnaIzq">
+								<p:column styleClass="colIzqCreacion">
 									<p:outputLabel value="Marca:"/>
 								</p:column>
-								<p:column styleClass="panelColumnaDer">
+								<p:column styleClass="colDerCreacion">
 									<p:autoComplete id="Marca" dropdown="true" value="#{crearRecursoBean.txt6}" completeMethod="#{crearRecursoBean.completeText}"
 											required="true" requiredMessage="Por favor indique una marca" size="19"/>
 									<p:outputLabel value="*" styleClass="requerido" style="padding-left: 40px"/>
@@ -82,10 +82,10 @@
 							</p:row>
 
 							<p:row>
-								<p:column styleClass="panelColumnaIzq">
+								<p:column styleClass="colIzqCreacion">
 									<p:outputLabel value="Modelo:"/>
 								</p:column>
-								<p:column styleClass="panelColumnaDer">
+								<p:column styleClass="colDerCreacion">
 									<p:autoComplete id="Modelo" dropdown="true" value="" size="19"
 													required="true" requiredMessage="Por favor indique un modelo"/>
 									<p:outputLabel value="*" styleClass="requerido" style="padding-left: 40px"/>
@@ -93,10 +93,10 @@
 							</p:row>
 
 							<p:row rendered="#{crearRecursoBean.opcion == '1'}">
-								<p:column styleClass="panelColumnaIzq">
+								<p:column styleClass="colIzqCreacion">
 									<p:outputLabel value="Categoría:"/>
 								</p:column>
-								<p:column styleClass="panelColumnaDer">
+								<p:column styleClass="colDerCreacion">
 									<p:autoComplete id="Categoria" dropdown="true" value="" size="19"
 													required="true" requiredMessage="Por favor indique una categoria"/>
 									<p:outputLabel value="*" styleClass="requerido" style="padding-left: 40px"/>
@@ -104,10 +104,10 @@
 							</p:row>
 
 							<p:row rendered="#{crearRecursoBean.opcion == '0'}">
-								<p:column styleClass="panelColumnaIzq">
+								<p:column styleClass="colIzqCreacion">
 									<p:outputLabel value="Procesador:"/>
 								</p:column>
-								<p:column styleClass="panelColumnaDer">
+								<p:column styleClass="colDerCreacion">
 									<p:inputText id="Procesador" value="" style="width: 203px"
 												 required="true" requiredMessage="Por favor indique un procesador"/>
 									<p:outputLabel value="*" styleClass="requerido"/>
@@ -115,10 +115,10 @@
 							</p:row>
 
 							<p:row rendered="#{crearRecursoBean.opcion == '0'}">
-								<p:column styleClass="panelColumnaIzq">
+								<p:column styleClass="colIzqCreacion">
 									<p:outputLabel value="Memoria Ram:"/>
 								</p:column>
-								<p:column styleClass="panelColumnaDer">
+								<p:column styleClass="colDerCreacion">
 									<p:inputText id="MemoriaRam" value="" style="width: 203px"
 												 required="true" requiredMessage="Por favor indique la memoria ram"/>
 									<p:outputLabel value="*" styleClass="requerido"/>
@@ -126,10 +126,10 @@
 							</p:row>
 
 							<p:row rendered="#{crearRecursoBean.opcion == '0'}">
-								<p:column styleClass="panelColumnaIzq">
+								<p:column styleClass="colIzqCreacion">
 									<p:outputLabel value="Disco Duro:"/>
 								</p:column>
-								<p:column styleClass="panelColumnaDer">
+								<p:column styleClass="colDerCreacion">
 									<p:inputText id="DiscoDuro" value="" style="width: 203px"
 												 required="true" requiredMessage="Por favor indique el disco duro"/>
 									<p:outputLabel value="*" styleClass="requerido"/>
@@ -137,10 +137,10 @@
 							</p:row>
 
 							<p:row rendered="#{crearRecursoBean.opcion == '0'}">
-								<p:column styleClass="panelColumnaIzq">
+								<p:column styleClass="colIzqCreacion">
 									<p:outputLabel value="Sistema Operativo:"/>
 								</p:column>
-								<p:column styleClass="panelColumnaDer">
+								<p:column styleClass="colDerCreacion">
 									<p:inputText id="SistemaOperativo" value="" style="width: 203px"
 												 required="true" requiredMessage="Por favor indique el sistema operativo"/>
 									<p:outputLabel value="*" styleClass="requerido"/>
@@ -148,40 +148,40 @@
 							</p:row>
 
 							<p:row>
-								<p:column styleClass="panelColumnaIzq">
+								<p:column styleClass="colIzqCreacion">
 									<p:outputLabel value="Caracteristicas:"/>
 								</p:column>
-								<p:column styleClass="panelColumnaDer">
+								<p:column styleClass="colDerCreacion">
 									<p:inputTextarea rows="3" cols="22" autoResize="false"
 													 value="" />
 								</p:column>
 							</p:row>
 
 							<p:row>
-								<p:column styleClass="panelColumnaIzq">
+								<p:column styleClass="colIzqCreacion">
 									<p:outputLabel value="Fecha de adquisición:" />
 								</p:column>
-								<p:column styleClass="panelColumnaDer">
+								<p:column styleClass="colDerCreacion">
 									<p:calendar value="#{crearRecursoBean.date3}" showOn="button" styleClass="labelCalendario inputCalendario inputPanelCreacion"
 											pattern="dd/MM/yyyy" maxdate="#{crearRecursoBean.fechaActual}"/>
 								</p:column>
 							</p:row>
 
 							<p:row>
-								<p:column styleClass="panelColumnaIzq">
+								<p:column styleClass="colIzqCreacion">
 									<p:outputLabel value="Incidencia:"/>
 								</p:column>
-								<p:column styleClass="panelColumnaDer">
+								<p:column styleClass="colDerCreacion">
 									<p:inputText value="" style="width: 203px" />
 									<p:button icon="ui-icon-search" style="font-size: small; margin-left: 3px"/>
 								</p:column>
 							</p:row>
 
 							<p:row>
-								<p:column styleClass="panelColumnaIzq">
+								<p:column styleClass="colIzqCreacion">
 									<p:outputLabel value="Observación:"/>
 								</p:column>
-								<p:column styleClass="panelColumnaDer">
+								<p:column styleClass="colDerCreacion">
 									<p:inputTextarea rows="3" cols="22" autoResize="false"
 													 value="" />
 								</p:column>
