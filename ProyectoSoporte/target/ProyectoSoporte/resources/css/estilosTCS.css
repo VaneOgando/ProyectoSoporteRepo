@@ -111,12 +111,19 @@ body {
     overflow: hidden;
     margin: 2% auto;
     display: table;
+    width: 100%;
+}
+
+.mensajeCreacion{
+    margin: 0 auto;
+    width: 75%;
+    text-align: center;
 }
 
 .detalleCreacion{
 
     position: relative;
-    margin: 5% auto;
+    margin: 3% auto;
 
 }
 

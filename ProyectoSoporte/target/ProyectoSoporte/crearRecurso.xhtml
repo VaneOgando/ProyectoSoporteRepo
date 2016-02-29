@@ -11,13 +11,16 @@
 
 		<h:form id="crearRecurso">
 			<div id="TituloRecurso">
-					<c:if test="#{crearRecursoBean.opcion=='0'}">
-						<h1 style="text-align: center" > Crear equipo </h1>
-					</c:if>
 
-					<c:if test="#{crearRecursoBean.opcion=='1'}">
-						<h1 style="text-align: center" > Crear accesorio </h1>
-					</c:if>
+				<c:choose>
+					<c:when test="#{crearRecursoBean.opcion=='0'}">
+						<h1 style="text-align: center" > Crear equipo </h1>
+					</c:when>
+					<c:when test="#{crearRecursoBean.opcion=='1'}">
+						<h1 style="text-align: center" > Crear Accesorio </h1>
+					</c:when>
+				</c:choose>
+
 			</div>
 
 			<div class="contenedorCreacion">
@@ -37,13 +40,13 @@
 					</p:panelGrid>
 				</div>
 
-				<div id="Mensajes" style="margin: 0 auto; margin-bottom: 5%; width: 450px">
-					<p:messages id="messages" autoUpdate="true" closable="true" />
+				<div id="Mensajes" class="mensajeCreacion">
+					<p:messages id="mensajes" autoUpdate="true" closable="true"/>
 				</div>
 
 				<div id="Detalle" class="detalleCreacion">
 
-						<p:panelGrid id="formularioCreacion" styleClass="font panelInventario">
+						<p:panelGrid id="formularioCreacion" styleClass="font panelInventario" style="margin: 0 auto">
 
 							<p:row>
 								<p:column styleClass="colIzqCreacion">
@@ -83,6 +86,7 @@
 									</p:inputText>
 									<p:outputLabel value="*" styleClass="requerido"/>
 								</p:column>
+
 							</p:row>
 
 							<p:row>
@@ -211,8 +215,8 @@
 								<p:column styleClass="colDerCreacion">
 									<p:inputText value="" style="width: 203px"
 											validatorMessage="En número de incidencia debe contener únicamente números y no sobrepasar los 7 caracteres">
-										<f:validateLength maximum="7" />
-										<f:validateRegex pattern="/^[0-9]+$/"/>
+
+										<f:validateRegex pattern="/^[0-9]{7,}"/>
 									</p:inputText>
 									<p:button icon="ui-icon-search" style="font-size: small"/>
 								</p:column>
