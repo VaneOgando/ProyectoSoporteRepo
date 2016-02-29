@@ -48,190 +48,288 @@
 
 						<p:panelGrid id="formularioCreacion" styleClass="font panelInventario" style="margin: 0 auto">
 
-							<p:row>
-								<p:column styleClass="colIzqCreacion">
-									<p:outputLabel value="Número de Serie:" />
-								</p:column>
+							<c:choose>
+								<c:when test="#{crearRecursoBean.opcion == '0'}">
 
-								<p:column styleClass="colDerCreacion">
-									<c:choose>
-										<c:when test="#{crearRecursoBean.opcion == '0'}">
-												<p:inputText id="NumeroSerie" value="" style="width: 203px"
-															 required="true" requiredMessage="Por favor indique un numero de serie"
-															 validatorMessage="El número de serie no puede sobrepasar los 22 caracteres">
-													<f:validateLength maximum="22" />
-												</p:inputText>
-												<p:outputLabel value="*" styleClass="requerido"/>
-										</c:when>
+									<p:row>
+										<p:column styleClass="colIzqCreacion">
+											<p:outputLabel value="Número de Serie:" />
+										</p:column>
 
-										<c:when test="#{crearRecursoBean.opcion == '1'}">
-												<p:inputText value="" style="width: 203px" validatorMessage="El número de serie no puede sobrepasar los 22 caracteres">
-													<f:validateLength maximum="22" />
-												</p:inputText>
-										</c:when>
-									</c:choose>
-								</p:column>
+										<p:column styleClass="colDerCreacion">
+											<p:inputText styleClass="anchoCompCreacion" value="#{crearRecursoBean.equipo.numSerie}"
+														 required="true" requiredMessage="Por favor indique un numero de serie"
+														 validatorMessage="El número de serie no puede sobrepasar los 22 caracteres">
+												<f:validateLength maximum="22" />
+											</p:inputText>
+											<p:outputLabel value="*" styleClass="requerido"/>
+										</p:column>
+									</p:row>
 
-							</p:row>
+									<p:row>
+										<p:column styleClass="colIzqCreacion">
+											<p:outputLabel value="Nombre:"/>
+										</p:column>
+										<p:column styleClass="colDerCreacion">
+											<p:inputText styleClass="anchoCompCreacion" value="#{crearRecursoBean.equipo.nombre}"
+														 required="true" requiredMessage="Por favor indique un nombre"
+														 validatorMessage="El nombre no puede sobrepasar los 30 caracteres">
+												<f:validateLength maximum="30" />
+											</p:inputText>
+											<p:outputLabel value="*" styleClass="requerido"/>
+										</p:column>
+									</p:row>
 
-							<p:row>
-								<p:column styleClass="colIzqCreacion">
-									<p:outputLabel value="Nombre:"/>
-								</p:column>
-								<p:column styleClass="colDerCreacion">
-									<p:inputText id="Nombre" value="" style="width: 203px"
-											required="true" requiredMessage="Por favor indique un nombre"
-											validatorMessage="El nombre no puede sobrepasar los 30 caracteres">
-										<f:validateLength maximum="30" />
-									</p:inputText>
-									<p:outputLabel value="*" styleClass="requerido"/>
-								</p:column>
+									<p:row>
+										<p:column styleClass="colIzqCreacion">
+											<p:outputLabel value="Marca:"/>
+										</p:column>
+										<p:column styleClass="colDerCreacion">
+											<p:autoComplete dropdown="true" itemValue="#{crearRecursoBean.equipo.modelo.marca.nombre}" completeMethod="#{crearRecursoBean.completarMarcas}"
+															required="true" requiredMessage="Por favor indique una marca" styleClass="autoPrimeCreacion"
+															validatorMessage="La marca no puede sobrepasar los 30 caracteres">
+												<f:validateLength maximum="30" />
+											</p:autoComplete>
+											<p:outputLabel value="*" styleClass="requerido" style="padding-left: 36px"/>
+										</p:column>
+									</p:row>
 
-							</p:row>
+									<p:row>
+										<p:column styleClass="colIzqCreacion">
+											<p:outputLabel value="Modelo:"/>
+										</p:column>
+										<p:column styleClass="colDerCreacion">
+											<p:autoComplete dropdown="true" value="#{crearRecursoBean.equipo.modelo.nombre}" completeMethod="#{crearRecursoBean.completarModelos}"
+															required="true" requiredMessage="Por favor indique un modelo" styleClass="autoPrimeCreacion"
+															validatorMessage="El modelo no puede sobrepasar los 30 caracteres">
+												<f:validateLength maximum="30" />
+											</p:autoComplete>
+											<p:outputLabel value="*" styleClass="requerido" style="padding-left: 36px"/>
+										</p:column>
+									</p:row>
 
-							<p:row>
-								<p:column styleClass="colIzqCreacion">
-									<p:outputLabel value="Marca:"/>
-								</p:column>
-								<p:column styleClass="colDerCreacion">
-									<p:autoComplete id="Marca" dropdown="true" value="#{crearRecursoBean.txt6}" completeMethod="#{crearRecursoBean.completeText}"
-											required="true" requiredMessage="Por favor indique una marca" styleClass="autoPrimeCreacion"
-											validatorMessage="La marca no puede sobrepasar los 30 caracteres">
-										<f:validateLength maximum="30" />
-									</p:autoComplete>
-									<p:outputLabel value="*" styleClass="requerido" style="padding-left: 36px"/>
-								</p:column>
-							</p:row>
+									<p:row>
+										<p:column styleClass="colIzqCreacion">
+											<p:outputLabel value="Procesador:"/>
+										</p:column>
+										<p:column styleClass="colDerCreacion">
+											<p:inputText styleClass="anchoCompCreacion" value="#{crearRecursoBean.equipo.procesador}"
+														 required="true" requiredMessage="Por favor indique un procesador"
+														 validatorMessage="El procesador no puede sobrepasar los 30 caracteres">
+												<f:validateLength maximum="30" />
+											</p:inputText>
+											<p:outputLabel value="*" styleClass="requerido"/>
+										</p:column>
+									</p:row>
 
-							<p:row>
-								<p:column styleClass="colIzqCreacion">
-									<p:outputLabel value="Modelo:"/>
-								</p:column>
-								<p:column styleClass="colDerCreacion">
-									<p:autoComplete id="Modelo" dropdown="true" value=""
-													required="true" requiredMessage="Por favor indique un modelo" styleClass="autoPrimeCreacion"
-													validatorMessage="El modelo no puede sobrepasar los 30 caracteres">
-										<f:validateLength maximum="30" />
-									</p:autoComplete>
-									<p:outputLabel value="*" styleClass="requerido" style="padding-left: 36px"/>
-								</p:column>
-							</p:row>
+									<p:row>
+										<p:column styleClass="colIzqCreacion">
+											<p:outputLabel value="Memoria Ram:"/>
+										</p:column>
+										<p:column styleClass="colDerCreacion">
+											<p:inputText styleClass="anchoCompCreacion" value="#{crearRecursoBean.equipo.memoriaRam}"
+														 required="true" requiredMessage="Por favor indique la memoria ram"
+														 validatorMessage="La memoria ram no puede sobrepasar los 30 caracteres">
+												<f:validateLength maximum="30" />
+											</p:inputText>
+											<p:outputLabel value="*" styleClass="requerido"/>
+										</p:column>
+									</p:row>
 
-							<p:row rendered="#{crearRecursoBean.opcion == '1'}">
-								<p:column styleClass="colIzqCreacion">
-									<p:outputLabel value="Categoría:"/>
-								</p:column>
-								<p:column styleClass="colDerCreacion">
-									<p:autoComplete id="Categoria" dropdown="true" value=""
-													required="true" requiredMessage="Por favor indique una categoria" styleClass="autoPrimeCreacion"
-													validatorMessage="La categoría no puede sobrepasar los 30 caracteres">
-										<f:validateLength maximum="30" />
-									</p:autoComplete>
-									<p:outputLabel value="*" styleClass="requerido" style="padding-left: 36px"/>
-								</p:column>
-							</p:row>
+									<p:row>
+										<p:column styleClass="colIzqCreacion">
+											<p:outputLabel value="Disco Duro:"/>
+										</p:column>
+										<p:column styleClass="colDerCreacion">
+											<p:inputText styleClass="anchoCompCreacion" value="#{crearRecursoBean.equipo.discoDuro}"
+														 required="true" requiredMessage="Por favor indique el disco duro"
+														 validatorMessage="El disco duro no puede sobrepasar los 30 caracteres">
+												<f:validateLength maximum="30" />
+											</p:inputText>
+											<p:outputLabel value="*" styleClass="requerido"/>
+										</p:column>
+									</p:row>
 
-							<p:row rendered="#{crearRecursoBean.opcion == '0'}">
-								<p:column styleClass="colIzqCreacion">
-									<p:outputLabel value="Procesador:"/>
-								</p:column>
-								<p:column styleClass="colDerCreacion">
-									<p:inputText id="Procesador" value="" style="width: 203px"
-												 required="true" requiredMessage="Por favor indique un procesador"
-												 validatorMessage="El procesador no puede sobrepasar los 30 caracteres">
-										<f:validateLength maximum="30" />
-									</p:inputText>
-									<p:outputLabel value="*" styleClass="requerido"/>
-								</p:column>
-							</p:row>
+									<p:row>
+										<p:column styleClass="colIzqCreacion">
+											<p:outputLabel value="Sistema Operativo:"/>
+										</p:column>
+										<p:column styleClass="colDerCreacion">
+											<p:inputText styleClass="anchoCompCreacion" value="#{crearRecursoBean.equipo.sistOperativo}"
+														 required="true" requiredMessage="Por favor indique el sistema operativo"
+														 validatorMessage="El sistema operativo no puede sobrepasar los 30 caracteres">
+												<f:validateLength maximum="30" />
+											</p:inputText>
+											<p:outputLabel value="*" styleClass="requerido"/>
+										</p:column>
+									</p:row>
 
-							<p:row rendered="#{crearRecursoBean.opcion == '0'}">
-								<p:column styleClass="colIzqCreacion">
-									<p:outputLabel value="Memoria Ram:"/>
-								</p:column>
-								<p:column styleClass="colDerCreacion">
-									<p:inputText id="MemoriaRam" value="" style="width: 203px"
-												 required="true" requiredMessage="Por favor indique la memoria ram"
-												 validatorMessage="La memoria ram no puede sobrepasar los 30 caracteres">
-										<f:validateLength maximum="30" />
-									</p:inputText>
-									<p:outputLabel value="*" styleClass="requerido"/>
-								</p:column>
-							</p:row>
+									<p:row>
+										<p:column styleClass="colIzqCreacion">
+											<p:outputLabel value="Caracteristicas:"/>
+										</p:column>
+										<p:column styleClass="colDerCreacion">
+											<p:inputTextarea value="#{crearRecursoBean.equipo.caracteristicas}" rows="3" cols="22" autoResize="false"
+															 counter="caractCaractE" maxlength="100" counterTemplate="{0} caracteres restantes."
+															 style="margin-right: 46px" />
+											<p:outputLabel id="caractCaractE" style="font-size: x-small"/>
+										</p:column>
+									</p:row>
 
-							<p:row rendered="#{crearRecursoBean.opcion == '0'}">
-								<p:column styleClass="colIzqCreacion">
-									<p:outputLabel value="Disco Duro:"/>
-								</p:column>
-								<p:column styleClass="colDerCreacion">
-									<p:inputText id="DiscoDuro" value="" style="width: 203px"
-												 required="true" requiredMessage="Por favor indique el disco duro"
-												 validatorMessage="El disco duro no puede sobrepasar los 30 caracteres">
-										<f:validateLength maximum="30" />
-									</p:inputText>
-									<p:outputLabel value="*" styleClass="requerido"/>
-								</p:column>
-							</p:row>
+									<p:row>
+										<p:column styleClass="colIzqCreacion">
+											<p:outputLabel value="Fecha de adquisición:" />
+										</p:column>
+										<p:column styleClass="colDerCreacion">
+											<p:calendar value="#{crearRecursoBean.equipo.fechaCompra}" showOn="button" styleClass="labelCalendario inputCalendario inputPanelCreacion calPrimeCreacion"
+														pattern="dd/MM/yyyy" maxdate="#{crearRecursoBean.fechaActual}"/>
+										</p:column>
+									</p:row>
 
-							<p:row rendered="#{crearRecursoBean.opcion == '0'}">
-								<p:column styleClass="colIzqCreacion">
-									<p:outputLabel value="Sistema Operativo:"/>
-								</p:column>
-								<p:column styleClass="colDerCreacion">
-									<p:inputText id="SistemaOperativo" value="" style="width: 203px"
-												 required="true" requiredMessage="Por favor indique el sistema operativo"
-												 validatorMessage="El sistema operativo no puede sobrepasar los 30 caracteres">
-										<f:validateLength maximum="30" />
-									</p:inputText>
-									<p:outputLabel value="*" styleClass="requerido"/>
-								</p:column>
-							</p:row>
+									<p:row>
+										<p:column styleClass="colIzqCreacion">
+											<p:outputLabel value="Incidencia:"/>
+										</p:column>
+										<p:column styleClass="colDerCreacion">
+											<p:inputText styleClass="anchoCompCreacion" value="#{crearRecursoBean.incidencia}"
+														 validatorMessage="En número de incidencia debe contener únicamente números y no sobrepasar los 7 caracteres">
+												<f:validateRegex pattern="\d{1,7}"/>
+											</p:inputText>
+											<p:button icon="ui-icon-search" style="font-size: small"/>
+										</p:column>
+									</p:row>
 
-							<p:row>
-								<p:column styleClass="colIzqCreacion">
-									<p:outputLabel value="Caracteristicas:"/>
-								</p:column>
-								<p:column styleClass="colDerCreacion">
-									<p:inputTextarea rows="3" cols="22" autoResize="false" counter="caract_caract" maxlength="100" counterTemplate="{0} caracteres restantes."
-													 style="margin-right: 46px" value="" />
-									<p:outputLabel id="caract_caract" style="font-size: x-small"/>
-								</p:column>
-							</p:row>
+									<p:row>
+										<p:column styleClass="colIzqCreacion">
+											<p:outputLabel value="Observación:"/>
+										</p:column>
+										<p:column styleClass="colDerCreacion">
+											<p:inputTextarea value="#{crearRecursoBean.observacion}" rows="3" cols="22" autoResize="false" counter="observ_caractEquipo" maxlength="100"
+															 counterTemplate="{0} caracteres restantes." style="margin-right: 46px" />
+											<p:outputLabel id="observ_caractEquipo" style="font-size: x-small"/>
+										</p:column>
+									</p:row>
 
-							<p:row>
-								<p:column styleClass="colIzqCreacion">
-									<p:outputLabel value="Fecha de adquisición:" />
-								</p:column>
-								<p:column styleClass="colDerCreacion">
-									<p:calendar value="#{crearRecursoBean.date3}" showOn="button" styleClass="labelCalendario inputCalendario inputPanelCreacion calPrimeCreacion"
-											pattern="dd/MM/yyyy" maxdate="#{crearRecursoBean.fechaActual}"/>
-								</p:column>
-							</p:row>
+								</c:when>
 
-							<p:row>
-								<p:column styleClass="colIzqCreacion">
-									<p:outputLabel value="Incidencia:"/>
-								</p:column>
-								<p:column styleClass="colDerCreacion">
-									<p:inputText value="" style="width: 203px"
-											validatorMessage="En número de incidencia debe contener únicamente números y no sobrepasar los 7 caracteres">
+								<c:when test="#{crearRecursoBean.opcion == '1'}">
 
-										<f:validateRegex pattern="/^[0-9]{7,}"/>
-									</p:inputText>
-									<p:button icon="ui-icon-search" style="font-size: small"/>
-								</p:column>
-							</p:row>
+									<p:row>
+										<p:column styleClass="colIzqCreacion">
+											<p:outputLabel value="Número de Serie:" />
+										</p:column>
+										<p:column styleClass="colDerCreacion">
+											<p:inputText value="#{crearRecursoBean.accesorio.numSerie}" styleClass="anchoCompCreacion"
+														 validatorMessage="El número de serie no puede sobrepasar los 22 caracteres">
+												<f:validateLength maximum="22" />
+											</p:inputText>
+										</p:column>
+									</p:row>
 
-							<p:row>
-								<p:column styleClass="colIzqCreacion">
-									<p:outputLabel value="Observación:"/>
-								</p:column>
-								<p:column styleClass="colDerCreacion">
-									<p:inputTextarea rows="3" cols="22" autoResize="false" counter="observ_caract" maxlength="100" counterTemplate="{0} caracteres restantes."
-													 style="margin-right: 46px" value="" />
-									<p:outputLabel id="observ_caract" style="font-size: x-small"/>
-								</p:column>
-							</p:row>
+									<p:row>
+										<p:column styleClass="colIzqCreacion">
+											<p:outputLabel value="Nombre:"/>
+										</p:column>
+										<p:column styleClass="colDerCreacion">
+											<p:inputText styleClass="anchoCompCreacion" value="#{crearRecursoBean.accesorio.nombre}"
+														 required="true" requiredMessage="Por favor indique un nombre"
+														 validatorMessage="El nombre no puede sobrepasar los 30 caracteres">
+												<f:validateLength maximum="30" />
+											</p:inputText>
+											<p:outputLabel value="*" styleClass="requerido"/>
+										</p:column>
+									</p:row>
+
+									<p:row>
+										<p:column styleClass="colIzqCreacion">
+											<p:outputLabel value="Marca:"/>
+										</p:column>
+										<p:column styleClass="colDerCreacion">
+											<p:autoComplete dropdown="true" value="#{crearRecursoBean.accesorio.modelo.marca.nombre}" completeMethod="#{crearRecursoBean.completarMarcas}"
+															required="true" requiredMessage="Por favor indique una marca" styleClass="autoPrimeCreacion"
+															validatorMessage="La marca no puede sobrepasar los 30 caracteres">
+												<f:validateLength maximum="30" />
+											</p:autoComplete>
+											<p:outputLabel value="*" styleClass="requerido" style="padding-left: 36px"/>
+										</p:column>
+									</p:row>
+
+									<p:row>
+										<p:column styleClass="colIzqCreacion">
+											<p:outputLabel value="Modelo:"/>
+										</p:column>
+										<p:column styleClass="colDerCreacion">
+											<p:autoComplete dropdown="true" value="#{crearRecursoBean.accesorio.modelo.nombre}" completeMethod="#{crearRecursoBean.completarModelos}"
+															required="true" requiredMessage="Por favor indique un modelo" styleClass="autoPrimeCreacion"
+															validatorMessage="El modelo no puede sobrepasar los 30 caracteres">
+												<f:validateLength maximum="30" />
+											</p:autoComplete>
+											<p:outputLabel value="*" styleClass="requerido" style="padding-left: 36px"/>
+										</p:column>
+									</p:row>
+
+									<p:row>
+										<p:column styleClass="colIzqCreacion">
+											<p:outputLabel value="Categoría:"/>
+										</p:column>
+										<p:column styleClass="colDerCreacion">
+											<p:autoComplete dropdown="true" value="#{crearRecursoBean.accesorio.categoria.nombre}" completeMethod="#{crearRecursoBean.completarCategorias}"
+															required="true" requiredMessage="Por favor indique una categoria" styleClass="autoPrimeCreacion"
+															validatorMessage="La categoría no puede sobrepasar los 30 caracteres">
+												<f:validateLength maximum="30" />
+											</p:autoComplete>
+											<p:outputLabel value="*" styleClass="requerido" style="padding-left: 36px"/>
+										</p:column>
+									</p:row>
+
+									<p:row>
+										<p:column styleClass="colIzqCreacion">
+											<p:outputLabel value="Caracteristicas:"/>
+										</p:column>
+										<p:column styleClass="colDerCreacion">
+											<p:inputTextarea value="#{crearRecursoBean.accesorio.caracteristicas}" rows="3" cols="22" autoResize="false" counter="caractCaractA"
+															 maxlength="100" counterTemplate="{0} caracteres restantes." style="margin-right: 46px" />
+											<p:outputLabel id="caractCaractA" style="font-size: x-small"/>
+										</p:column>
+									</p:row>
+
+									<p:row>
+										<p:column styleClass="colIzqCreacion">
+											<p:outputLabel value="Fecha de adquisición:" />
+										</p:column>
+										<p:column styleClass="colDerCreacion">
+											<p:calendar value="#{crearRecursoBean.accesorio.fechaCompra}" showOn="button" styleClass="labelCalendario inputCalendario inputPanelCreacion calPrimeCreacion"
+														pattern="dd/MM/yyyy" maxdate="#{crearRecursoBean.fechaActual}"/>
+										</p:column>
+									</p:row>
+
+									<p:row>
+										<p:column styleClass="colIzqCreacion">
+											<p:outputLabel value="Incidencia:"/>
+										</p:column>
+										<p:column styleClass="colDerCreacion">
+											<p:inputText styleClass="anchoCompCreacion" value="#{crearRecursoBean.incidencia}"
+														 validatorMessage="En número de incidencia debe contener únicamente números y no sobrepasar los 7 caracteres">
+												<f:validateRegex pattern="\d{1,7}"/>
+											</p:inputText>
+											<p:button icon="ui-icon-search" style="font-size: small"/>
+										</p:column>
+									</p:row>
+
+									<p:row>
+										<p:column styleClass="colIzqCreacion">
+											<p:outputLabel value="Observación:"/>
+										</p:column>
+										<p:column styleClass="colDerCreacion">
+											<p:inputTextarea value="#{crearRecursoBean.observacion}" rows="3" cols="22" autoResize="false" counter="observCaractA"
+															 maxlength="100" counterTemplate="{0} caracteres restantes." style="margin-right: 46px" />
+											<p:outputLabel id="observCaractA" style="font-size: x-small"/>
+										</p:column>
+									</p:row>
+
+								</c:when>
+
+							</c:choose>
 
 						</p:panelGrid>
 

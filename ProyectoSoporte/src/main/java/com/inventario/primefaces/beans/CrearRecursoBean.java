@@ -1,5 +1,8 @@
 package com.inventario.primefaces.beans;
 
+import com.inventario.jpa.data.*;
+import com.inventario.spring.service.CrearRecursoServicio;
+import com.inventario.spring.service.DetalleAccesorioServicio;
 import com.inventario.spring.service.DetalleEquipoServicio;
 
 import javax.annotation.PostConstruct;
@@ -15,38 +18,103 @@ import java.util.List;
 public class CrearRecursoBean {
 
 	/*ATRIBUTOS*/
-	private Object recurso = new Object();
+	@ManagedProperty("#{crearRecursoServicio}")
+	private CrearRecursoServicio crearRecursoServicio;
+
+	private EquipoEntity equipo;
+	private AccesorioEntity accesorio;
+
 	private String opcion = "0";
 	private String observacion;
 	private String incidencia;
 
 	private Date fechaActual = new Date();
-	private Date date3;
 
-	private String txt6;
+
+	/*METODOS*/
+	@PostConstruct
+	public void init(){
+
+		if(opcion.equals("0")){
+
+			equipo = new EquipoEntity();
+			equipo.setModelo(new ModeloEntity());
+			equipo.getModelo().setMarca(new MarcaEntity());
+			equipo.setEstado(new EstadoEntity());
+
+		}else{
+
+			accesorio = new AccesorioEntity();
+			accesorio.setModelo(new ModeloEntity());
+			accesorio.getModelo().setMarca(new MarcaEntity());
+			accesorio.setEstado(new EstadoEntity());
+		}
+
+	}
+
 
 	public String crearRecurso(){
 
-		return "consultarInventario.xhtml?faces-redirect=true";
+		return "";
 	}
 
-	public List<String> completeText(String query) {
+	public List<String> completarMarcas(String nombreMarca) {
+
+		List<String> results = crearRecursoServicio.completarMarca(nombreMarca);
+
+		return results;
+	}
+
+	public List<String> completarModelos(String nombreModelo) {
+
+		String marcaId;
 		List<String> results = new ArrayList<String>();
-		for(int i = 0; i < 10; i++) {
-			results.add(query + i);
+
+		if(opcion.equals("0")){
+
+			marcaId = crearRecursoServicio.obtenerMarcaId(getEquipo().getModelo().getMarca());
+
+			results = crearRecursoServicio.completarModelo(nombreModelo, marcaId);
+
 		}
+
+
+
+		return results;
+	}
+
+	public List<String> completarCategorias(String nombreMarca) {
+
+		List<String> results = crearRecursoServicio.completarMarca(nombreMarca);
 
 		return results;
 	}
 
 
+
 	/*GET & SET*/
-	public Object getRecurso() {
-		return recurso;
+	public CrearRecursoServicio getCrearRecursoServicio() {
+		return crearRecursoServicio;
 	}
 
-	public void setRecurso(Object recurso) {
-		this.recurso = recurso;
+	public void setCrearRecursoServicio(CrearRecursoServicio crearRecursoServicio) {
+		this.crearRecursoServicio = crearRecursoServicio;
+	}
+
+	public EquipoEntity getEquipo() {
+		return equipo;
+	}
+
+	public void setEquipo(EquipoEntity equipo) {
+		this.equipo = equipo;
+	}
+
+	public AccesorioEntity getAccesorio() {
+		return accesorio;
+	}
+
+	public void setAccesorio(AccesorioEntity accesorio) {
+		this.accesorio = accesorio;
 	}
 
 	public String getOpcion() {
@@ -81,20 +149,5 @@ public class CrearRecursoBean {
 		this.fechaActual = fechaActual;
 	}
 
-	public Date getDate3() {
-		return date3;
-	}
-
-	public void setDate3(Date date3) {
-		this.date3 = date3;
-	}
-
-	public String getTxt6() {
-		return txt6;
-	}
-
-	public void setTxt6(String txt6) {
-		this.txt6 = txt6;
-	}
 }
 

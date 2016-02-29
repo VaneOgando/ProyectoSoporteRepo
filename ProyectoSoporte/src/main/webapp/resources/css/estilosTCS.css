@@ -127,6 +127,10 @@ body {
 
 }
 
+.anchoCompCreacion{
+    width: 203px;
+}
+
 .colIzqCreacion{
     width: 200px;
     text-align: right;
