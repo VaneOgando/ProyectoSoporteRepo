@@ -45,6 +45,7 @@ public class CrearRecursoBean {
 	@PostConstruct
 	public void init(){
 
+		inicializarListas();
 		marcas = cargarMarcas();
 
 		if(opcion.equals("1")){
@@ -77,6 +78,7 @@ public class CrearRecursoBean {
 
 			}else{
 				marca.setId(0);
+				modelos = new ArrayList<ModeloEntity>();
 			}
 
 		}else{
@@ -91,6 +93,19 @@ public class CrearRecursoBean {
 		return "";
 	}
 
+	public void inicializarListas(){
+
+		equipo = new EquipoEntity();
+		accesorio = new AccesorioEntity();
+		marcas  = new ArrayList<MarcaEntity>();
+		modelos = new ArrayList<ModeloEntity>();
+		categorias = new ArrayList<CategoriaEntity>();
+
+		marca = new MarcaEntity();
+		modelo = new ModeloEntity();
+		categoria = new CategoriaEntity();
+		
+	}
 
 	/*GET & SET*/
 	public CrearRecursoServicio getCrearRecursoServicio() {

@@ -88,7 +88,6 @@
 											<p:selectOneMenu value="#{crearRecursoBean.marca.nombre}" editable="true" style="width: 203px"
 															required="true" requiredMessage="Por favor indique una marca"
 															validatorMessage="La marca no puede sobrepasar los 30 caracteres">
-												<f:selectItem itemLabel="" itemValue="#{0}"/>
 												<f:selectItems value="#{crearRecursoBean.marcas}" var="marca"
 															   itemLabel="#{marca.nombre}" itemValue="#{marca.id}"/>
 												<f:validateLength maximum="30"/>
