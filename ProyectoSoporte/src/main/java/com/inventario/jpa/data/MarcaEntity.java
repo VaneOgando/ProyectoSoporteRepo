@@ -13,11 +13,8 @@ import java.util.List;
 				query = "SELECT m FROM MarcaEntity m"),
 
 		@NamedQuery(name = "HQL_MARCA_OBTENER_ID",
-		query = "SELECT m.id FROM MarcaEntity m " +
+		query = "SELECT m FROM MarcaEntity m " +
 				"WHERE m.nombre = :marcaNombre"),
-
-		@NamedQuery(name = "HQL_MARCA_COMPLETAR_NOMBRE",
-		query = "SELECT m.nombre FROM MarcaEntity m WHERE upper(m.nombre) LIKE upper(:marcaNombre)")
 
 })
 

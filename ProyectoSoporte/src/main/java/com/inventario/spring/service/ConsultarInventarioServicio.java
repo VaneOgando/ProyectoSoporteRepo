@@ -42,15 +42,19 @@ public class ConsultarInventarioServicio {
 	}
 
 	@Transactional
-	public String obtenerMarcaId(MarcaEntity marca) throws DataAccessException {
+	public MarcaEntity obtenerMarcaPorNombre(String marcaNombre) throws DataAccessException {
 
-		String resultList = getEntityManager().createNamedQuery("HQL_MARCA_OBTENER_ID")
-							.setParameter("marcaNombre", marca.getNombre())
-							.getSingleResult().toString();
+		List<MarcaEntity> resultList = getEntityManager().createNamedQuery("HQL_MARCA_OBTENER_ID")
+				.setParameter("marcaNombre", marcaNombre)
+				.getResultList();
 
-		return resultList;
+		if (resultList.size() < 1 ){
+			return null;
+		}else{
+			return resultList.get(0);
+		}
+
 	}
-
 
 	@Transactional
 	public List<ModeloEntity> cargarModelos(MarcaEntity marca) throws DataAccessException {

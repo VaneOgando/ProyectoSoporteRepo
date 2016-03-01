@@ -85,12 +85,15 @@
 											<p:outputLabel value="Marca:"/>
 										</p:column>
 										<p:column styleClass="colDerCreacion">
-											<p:autoComplete dropdown="true" itemValue="#{crearRecursoBean.equipo.modelo.marca.nombre}" completeMethod="#{crearRecursoBean.completarMarcas}"
-															required="true" requiredMessage="Por favor indique una marca" styleClass="autoPrimeCreacion"
+											<p:selectOneMenu value="#{crearRecursoBean.marca.nombre}" editable="true" style="width: 203px"
+															required="true" requiredMessage="Por favor indique una marca"
 															validatorMessage="La marca no puede sobrepasar los 30 caracteres">
-												<f:validateLength maximum="30" />
-											</p:autoComplete>
-											<p:outputLabel value="*" styleClass="requerido" style="padding-left: 36px"/>
+												<f:selectItems value="#{crearRecursoBean.marcas}" var="marca"
+															   itemLabel="#{marca.nombre}" itemValue="#{marca.id}"/>
+												<f:validateLength maximum="30"/>
+												<p:ajax event="valueChange" listener="#{crearRecursoBean.cargarModelos}" update=":crearRecurso:modeloEquipo"/>
+											</p:selectOneMenu>
+											<p:outputLabel value="*" styleClass="requerido"/>
 										</p:column>
 									</p:row>
 
@@ -99,12 +102,14 @@
 											<p:outputLabel value="Modelo:"/>
 										</p:column>
 										<p:column styleClass="colDerCreacion">
-											<p:autoComplete dropdown="true" value="#{crearRecursoBean.equipo.modelo.nombre}" completeMethod="#{crearRecursoBean.completarModelos}"
-															required="true" requiredMessage="Por favor indique un modelo" styleClass="autoPrimeCreacion"
-															validatorMessage="El modelo no puede sobrepasar los 30 caracteres">
-												<f:validateLength maximum="30" />
-											</p:autoComplete>
-											<p:outputLabel value="*" styleClass="requerido" style="padding-left: 36px"/>
+											<p:selectOneMenu id="modeloEquipo" value="#{crearRecursoBean.modelo.nombre}" editable="true" style="width:203px;"
+															 required="true" requiredMessage="Por favor indique un modelo"
+															 validatorMessage="El modelo no puede sobrepasar los 30 caracteres">
+												<f:selectItems value="#{crearRecursoBean.modelos}" var="modelo"
+															   itemLabel="#{modelo.nombre}" itemValue="#{modelo.id}"/>
+												<f:validateLength maximum="30"/>
+												</p:selectOneMenu>
+											<p:outputLabel value="*" styleClass="requerido"/>
 										</p:column>
 									</p:row>
 
@@ -245,12 +250,15 @@
 											<p:outputLabel value="Marca:"/>
 										</p:column>
 										<p:column styleClass="colDerCreacion">
-											<p:autoComplete dropdown="true" value="#{crearRecursoBean.accesorio.modelo.marca.nombre}" completeMethod="#{crearRecursoBean.completarMarcas}"
-															required="true" requiredMessage="Por favor indique una marca" styleClass="autoPrimeCreacion"
-															validatorMessage="La marca no puede sobrepasar los 30 caracteres">
-												<f:validateLength maximum="30" />
-											</p:autoComplete>
-											<p:outputLabel value="*" styleClass="requerido" style="padding-left: 36px"/>
+											<p:selectOneMenu value="#{crearRecursoBean.marca.nombre}" editable="true" style="width: 203px"
+															 required="true" requiredMessage="Por favor indique una marca"
+															 validatorMessage="La marca no puede sobrepasar los 30 caracteres">
+												<f:selectItems value="#{crearRecursoBean.marcas}" var="marca"
+															   itemLabel="#{marca.nombre}" itemValue="#{marca.id}"/>
+												<f:validateLength maximum="30"/>
+												<p:ajax event="valueChange" listener="#{crearRecursoBean.cargarModelos}" update=":crearRecurso:modeloAccesorio"/>
+											</p:selectOneMenu>
+											<p:outputLabel value="*" styleClass="requerido"/>
 										</p:column>
 									</p:row>
 
@@ -259,12 +267,14 @@
 											<p:outputLabel value="Modelo:"/>
 										</p:column>
 										<p:column styleClass="colDerCreacion">
-											<p:autoComplete dropdown="true" value="#{crearRecursoBean.accesorio.modelo.nombre}" completeMethod="#{crearRecursoBean.completarModelos}"
-															required="true" requiredMessage="Por favor indique un modelo" styleClass="autoPrimeCreacion"
-															validatorMessage="El modelo no puede sobrepasar los 30 caracteres">
-												<f:validateLength maximum="30" />
-											</p:autoComplete>
-											<p:outputLabel value="*" styleClass="requerido" style="padding-left: 36px"/>
+											<p:selectOneMenu id="modeloAccesorio" value="#{crearRecursoBean.modelo.nombre}" editable="true" style="width:203px;"
+															 required="true" requiredMessage="Por favor indique un modelo"
+															 validatorMessage="El modelo no puede sobrepasar los 30 caracteres">
+												<f:selectItems value="#{crearRecursoBean.modelos}" var="modelo"
+															   itemLabel="#{modelo.nombre}" itemValue="#{modelo.id}"/>
+												<f:validateLength maximum="30"/>
+											</p:selectOneMenu>
+											<p:outputLabel value="*" styleClass="requerido"/>
 										</p:column>
 									</p:row>
 
@@ -273,12 +283,14 @@
 											<p:outputLabel value="Categoría:"/>
 										</p:column>
 										<p:column styleClass="colDerCreacion">
-											<p:autoComplete dropdown="true" value="#{crearRecursoBean.accesorio.categoria.nombre}" completeMethod="#{crearRecursoBean.completarCategorias}"
-															required="true" requiredMessage="Por favor indique una categoria" styleClass="autoPrimeCreacion"
-															validatorMessage="La categoría no puede sobrepasar los 30 caracteres">
-												<f:validateLength maximum="30" />
-											</p:autoComplete>
-											<p:outputLabel value="*" styleClass="requerido" style="padding-left: 36px"/>
+											<p:selectOneMenu value="#{crearRecursoBean.categoria.nombre}" editable="true" style="width:203px;"
+															 required="true" requiredMessage="Por favor indique una categoría"
+															 validatorMessage="La categoría no puede sobrepasar los 30 caracteres">
+												<f:selectItems value="#{crearRecursoBean.categorias}" var="categoria"
+															   itemLabel="#{categoria.nombre}" itemValue="#{categoria.id}"/>
+												<f:validateLength maximum="30"/>
+											</p:selectOneMenu>
+											<p:outputLabel value="*" styleClass="requerido"/>
 										</p:column>
 									</p:row>
 

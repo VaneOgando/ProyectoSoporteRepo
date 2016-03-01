@@ -128,7 +128,7 @@ body {
 }
 
 .anchoCompCreacion{
-    width: 203px;
+    width: 203px; !important;
 }
 
 .colIzqCreacion{

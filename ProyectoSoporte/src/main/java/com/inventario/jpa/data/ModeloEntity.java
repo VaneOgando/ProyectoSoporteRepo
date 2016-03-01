@@ -12,10 +12,6 @@ import java.util.List;
 		@NamedQuery(name = "HQL_MODELO_POR_MARCA",
 				query = "SELECT mo FROM ModeloEntity mo JOIN mo.marca ma WHERE  ma.id = :marcaId"),
 
-		@NamedQuery(name = "HQL_MODELO_COMPLETAR_NOMBRE",
-				query = "SELECT mo.nombre FROM ModeloEntity mo JOIN mo.marca ma " +
-						"WHERE upper(mo.nombre) LIKE upper(:modeloNombre) AND ma.id = :marcaId")
-
 })
 
 public class ModeloEntity {

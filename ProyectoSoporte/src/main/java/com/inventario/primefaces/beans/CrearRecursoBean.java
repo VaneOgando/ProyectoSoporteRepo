@@ -21,8 +21,8 @@ public class CrearRecursoBean {
 	@ManagedProperty("#{crearRecursoServicio}")
 	private CrearRecursoServicio crearRecursoServicio;
 
-	private EquipoEntity equipo;
-	private AccesorioEntity accesorio;
+	private EquipoEntity equipo = new EquipoEntity();
+	private AccesorioEntity accesorio = new AccesorioEntity();
 
 	private String opcion = "0";
 	private String observacion;
@@ -30,66 +30,66 @@ public class CrearRecursoBean {
 
 	private Date fechaActual = new Date();
 
+	private List<MarcaEntity> marcas = new ArrayList<MarcaEntity>();
+	private MarcaEntity marca = new MarcaEntity();
+
+	private List<ModeloEntity> modelos = new ArrayList<ModeloEntity>();
+	private ModeloEntity modelo = new ModeloEntity();
+
+	private List<CategoriaEntity> categorias = new ArrayList<CategoriaEntity>();
+	private CategoriaEntity categoria = new CategoriaEntity();
+
+
 
 	/*METODOS*/
 	@PostConstruct
 	public void init(){
 
-		if(opcion.equals("0")){
+		marcas = cargarMarcas();
 
-			equipo = new EquipoEntity();
-			equipo.setModelo(new ModeloEntity());
-			equipo.getModelo().setMarca(new MarcaEntity());
-			equipo.setEstado(new EstadoEntity());
+		if(opcion.equals("1")){
+			categorias = cargarCategorias();
+		}
+	}
+
+	public List<CategoriaEntity> cargarCategorias() {
+
+		List<CategoriaEntity> results = crearRecursoServicio.cargarCategorias("accesorio");
+
+		return results;
+	}
+
+	public List<MarcaEntity> cargarMarcas() {
+
+		List<MarcaEntity> results = crearRecursoServicio.cargarMarcas();
+
+		return results;
+	}
+
+	public void cargarModelos() {
+
+		if(!marca.getNombre().equals("")){
+
+			if (crearRecursoServicio.obtenerMarcaPorNombre(marca.getNombre()) != null){
+
+				setMarca(crearRecursoServicio.obtenerMarcaPorNombre(marca.getNombre()));
+				modelos = crearRecursoServicio.cargarModelos(getMarca());
+
+			}else{
+				marca.setId(0);
+			}
 
 		}else{
-
-			accesorio = new AccesorioEntity();
-			accesorio.setModelo(new ModeloEntity());
-			accesorio.getModelo().setMarca(new MarcaEntity());
-			accesorio.setEstado(new EstadoEntity());
+			marca = new MarcaEntity();
+			modelos = new ArrayList<ModeloEntity>();
 		}
 
 	}
-
 
 	public String crearRecurso(){
 
 		return "";
 	}
-
-	public List<String> completarMarcas(String nombreMarca) {
-
-		List<String> results = crearRecursoServicio.completarMarca(nombreMarca);
-
-		return results;
-	}
-
-	public List<String> completarModelos(String nombreModelo) {
-
-		String marcaId;
-		List<String> results = new ArrayList<String>();
-
-		if(opcion.equals("0")){
-
-			marcaId = crearRecursoServicio.obtenerMarcaId(getEquipo().getModelo().getMarca());
-
-			results = crearRecursoServicio.completarModelo(nombreModelo, marcaId);
-
-		}
-
-
-
-		return results;
-	}
-
-	public List<String> completarCategorias(String nombreMarca) {
-
-		List<String> results = crearRecursoServicio.completarMarca(nombreMarca);
-
-		return results;
-	}
-
 
 
 	/*GET & SET*/
@@ -149,5 +149,52 @@ public class CrearRecursoBean {
 		this.fechaActual = fechaActual;
 	}
 
+	public List<MarcaEntity> getMarcas() {
+		return marcas;
+	}
+
+	public void setMarcas(List<MarcaEntity> marcas) {
+		this.marcas = marcas;
+	}
+
+	public MarcaEntity getMarca() {
+		return marca;
+	}
+
+	public void setMarca(MarcaEntity marca) {
+		this.marca = marca;
+	}
+
+	public List<ModeloEntity> getModelos() {
+		return modelos;
+	}
+
+	public void setModelos(List<ModeloEntity> modelos) {
+		this.modelos = modelos;
+	}
+
+	public ModeloEntity getModelo() {
+		return modelo;
+	}
+
+	public void setModelo(ModeloEntity modelo) {
+		this.modelo = modelo;
+	}
+
+	public CategoriaEntity getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(CategoriaEntity categoria) {
+		this.categoria = categoria;
+	}
+
+	public List<CategoriaEntity> getCategorias() {
+		return categorias;
+	}
+
+	public void setCategorias(List<CategoriaEntity> categorias) {
+		this.categorias = categorias;
+	}
 }
 

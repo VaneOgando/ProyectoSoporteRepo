@@ -74,9 +74,13 @@ public class ConsultarInventarioBean {
 
 	public void cargarModelos() {        //evento al seleccionar marca
 
-		if (!marca.getNombre().equals("")) {
-			marca.setId(Long.parseLong(consultarInventarioServicio.obtenerMarcaId(marca)));
-			modelos = consultarInventarioServicio.cargarModelos(getMarca());
+		if(!marca.getNombre().equals("")){
+
+			if (consultarInventarioServicio.obtenerMarcaPorNombre(marca.getNombre()) != null){
+
+				setMarca(consultarInventarioServicio.obtenerMarcaPorNombre(marca.getNombre()));
+				modelos = consultarInventarioServicio.cargarModelos(getMarca());
+			}
 		}else{
 			modelos = new ArrayList<ModeloEntity>();
 			limpiarFiltros();
