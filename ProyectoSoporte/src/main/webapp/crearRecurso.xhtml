@@ -33,7 +33,7 @@
 								<p:selectOneButton id="SeleccionRecurso" value="#{crearRecursoBean.opcion}" style="height: 30px; font-size: small">
 									<f:selectItem itemLabel="Equipos" itemValue="0" />
 									<f:selectItem itemLabel="Accesorios" itemValue="1" />
-									<p:ajax  update="crearRecurso" />
+									<p:ajax listener="#{crearRecursoBean.cambiarRecursoOpcion}" update=":crearRecurso" />
 								</p:selectOneButton>
 							</p:column>
 						</p:row>

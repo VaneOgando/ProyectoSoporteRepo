@@ -25,10 +25,15 @@ public class DetalleAccesorioServicio {
 	@Transactional
 	 public AccesorioEntity obtenerAccesorio(String idAccesorio) throws DataAccessException {
 
-		AccesorioEntity resultList = (AccesorioEntity) getEntityManager().createNamedQuery("HQL_ACCESORIO_POR_ID")
+		List<AccesorioEntity> resultList = getEntityManager().createNamedQuery("HQL_ACCESORIO_POR_ID")
 														.setParameter("idAccesorio", idAccesorio)
-														.getSingleResult();
-		return resultList;
+														.getResultList();
+		if(resultList.size() < 1){
+			return null;
+		}else{
+			return resultList.get(0);
+		}
+
 	}
 
 	@Transactional
@@ -39,7 +44,6 @@ public class DetalleAccesorioServicio {
 													.setParameter("idAccesorio", idAccesorio)
 													.getResultList();
 
-
 		return resultList;
 	}
 
@@ -49,17 +53,23 @@ public class DetalleAccesorioServicio {
 		List<CategoriaEntity> resultList = getEntityManager().createNamedQuery("HQL_CATEGORIA_POR_TIPO")
 											.setParameter("tipoCategoria", tipoCategoria)
 											.getResultList();
+
 		return resultList;
 	}
 
 	@Transactional
 	public String obtenerUsuarioAsignado(String idAccesorio) throws DataAccessException {
 
-		String resultList = getEntityManager().createNamedQuery("HQL_HISTORIAL_USUARIO_ASIGNADO_ACCESORIO")
+		List<String> resultList = getEntityManager().createNamedQuery("HQL_HISTORIAL_USUARIO_ASIGNADO_ACCESORIO")
 							.setParameter("idAccesorio", idAccesorio)
-							.getSingleResult().toString();
+							.getResultList();
 
-		return resultList;
+		if(resultList.size() < 1){
+			return null;
+		}else{
+			return resultList.get(0).toString();
+		}
+
 	}
 
 
@@ -71,6 +81,5 @@ public class DetalleAccesorioServicio {
 	public void setEntityManager(EntityManager entityManager) {
 		this.entityManager = entityManager;
 	}
-
 
 }

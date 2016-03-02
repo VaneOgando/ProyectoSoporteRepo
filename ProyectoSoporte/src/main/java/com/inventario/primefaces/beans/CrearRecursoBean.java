@@ -2,8 +2,9 @@ package com.inventario.primefaces.beans;
 
 import com.inventario.jpa.data.*;
 import com.inventario.spring.service.CrearRecursoServicio;
-import com.inventario.spring.service.DetalleAccesorioServicio;
-import com.inventario.spring.service.DetalleEquipoServicio;
+
+import com.inventario.util.constante.Constantes;
+import com.inventario.primefaces.beans.InicioSesionBean;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -21,8 +22,8 @@ public class CrearRecursoBean {
 	@ManagedProperty("#{crearRecursoServicio}")
 	private CrearRecursoServicio crearRecursoServicio;
 
-	private EquipoEntity equipo = new EquipoEntity();
-	private AccesorioEntity accesorio = new AccesorioEntity();
+	private EquipoEntity equipo;
+	private AccesorioEntity accesorio;
 
 	private String opcion = "0";
 	private String observacion;
@@ -30,20 +31,26 @@ public class CrearRecursoBean {
 
 	private Date fechaActual = new Date();
 
-	private List<MarcaEntity> marcas = new ArrayList<MarcaEntity>();
-	private MarcaEntity marca = new MarcaEntity();
+	private List<MarcaEntity> marcas;
+	private MarcaEntity marca;
 
-	private List<ModeloEntity> modelos = new ArrayList<ModeloEntity>();
-	private ModeloEntity modelo = new ModeloEntity();
+	private List<ModeloEntity> modelos;
+	private ModeloEntity modelo;
 
-	private List<CategoriaEntity> categorias = new ArrayList<CategoriaEntity>();
-	private CategoriaEntity categoria = new CategoriaEntity();
+	private List<CategoriaEntity> categorias;
+	private CategoriaEntity categoria;
 
-
+	private EstadoEntity estado;
+	private HistorialInventarioEntity historial;
 
 	/*METODOS*/
 	@PostConstruct
 	public void init(){
+
+		cambiarRecursoOpcion();
+	}
+
+	public void cambiarRecursoOpcion() {
 
 		inicializarListas();
 		marcas = cargarMarcas();
@@ -51,13 +58,7 @@ public class CrearRecursoBean {
 		if(opcion.equals("1")){
 			categorias = cargarCategorias();
 		}
-	}
 
-	public List<CategoriaEntity> cargarCategorias() {
-
-		List<CategoriaEntity> results = crearRecursoServicio.cargarCategorias("accesorio");
-
-		return results;
 	}
 
 	public List<MarcaEntity> cargarMarcas() {
@@ -82,30 +83,75 @@ public class CrearRecursoBean {
 			}
 
 		}else{
-			marca = new MarcaEntity();
 			modelos = new ArrayList<ModeloEntity>();
 		}
 
 	}
 
+	public List<CategoriaEntity> cargarCategorias() {
+
+		List<CategoriaEntity> results = crearRecursoServicio.cargarCategorias("accesorio");
+
+		return results;
+	}
+
 	public String crearRecurso(){
+
+		Boolean creacion;
+
+		//Armar equipo
+		if(opcion.equals("0")){
+
+			if (equipo.getFechaCompra() == null){
+				equipo.setFechaCompra(fechaActual);
+			}
+
+			estado = crearRecursoServicio.obtenerEstado(Constantes.D_ID_ESTADO);
+			equipo.setEstado(estado);
+
+			crearHistorial();
+			historial.setEquipo(equipo);
+
+			creacion = crearRecursoServicio.crearRecursoEquipo(marca, modelo, estado, historial, equipo);
+
+		}
 
 		return "";
 	}
 
+	public void crearHistorial(){
+
+		historial.setFechaGestion(fechaActual);
+		historial.setResponsableSoporte("12345678");
+		historial.setCategoria(crearRecursoServicio.obtenerCategoriaHistorial(Constantes.D_CAT_HISTORIAL_CREACION));
+		historial.setIdIncidencia(incidencia);
+
+		if(observacion != null){
+			historial.setDescripcion(observacion);
+		}else{
+			historial.setDescripcion(Constantes.D_DESC_HISTORIAL_CREACION_EQ + equipo.getNombre());
+		}
+
+	}
+
+
 	public void inicializarListas(){
 
-		equipo = new EquipoEntity();
-		accesorio = new AccesorioEntity();
-		marcas  = new ArrayList<MarcaEntity>();
-		modelos = new ArrayList<ModeloEntity>();
+		equipo 	   = new EquipoEntity();
+		accesorio  = new AccesorioEntity();
+
+		marcas     = new ArrayList<MarcaEntity>();
+		modelos    = new ArrayList<ModeloEntity>();
 		categorias = new ArrayList<CategoriaEntity>();
 
-		marca = new MarcaEntity();
-		modelo = new ModeloEntity();
+		marca 	  = new MarcaEntity();
+		modelo 	  = new ModeloEntity();
 		categoria = new CategoriaEntity();
-		
+
+		estado 	   = new EstadoEntity();
+		historial  = new HistorialInventarioEntity();
 	}
+
 
 	/*GET & SET*/
 	public CrearRecursoServicio getCrearRecursoServicio() {
@@ -210,6 +256,22 @@ public class CrearRecursoBean {
 
 	public void setCategorias(List<CategoriaEntity> categorias) {
 		this.categorias = categorias;
+	}
+
+	public EstadoEntity getEstado() {
+		return estado;
+	}
+
+	public void setEstado(EstadoEntity estado) {
+		this.estado = estado;
+	}
+
+	public HistorialInventarioEntity getHistorial() {
+		return historial;
+	}
+
+	public void setHistorial(HistorialInventarioEntity historial) {
+		this.historial = historial;
 	}
 }
 

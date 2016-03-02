@@ -21,11 +21,15 @@ public class DetalleEquipoServicio {
 	@Transactional
 	 public EquipoEntity obtenerEquipo(String numSerie) throws DataAccessException {
 
-		EquipoEntity resultList = (EquipoEntity) getEntityManager().createNamedQuery("HQL_EQUIPO_POR_NUMSERIE")
+		List<EquipoEntity> resultList = getEntityManager().createNamedQuery("HQL_EQUIPO_POR_NUMSERIE")
 									.setParameter("numSerie", numSerie)
-									.getSingleResult();
+									.getResultList();
+		if(resultList.size() < 1){
+			return null;
+		}else{
+			return resultList.get(0);
+		}
 
-		return resultList;
 	}
 
 	@Transactional
@@ -49,11 +53,16 @@ public class DetalleEquipoServicio {
 	@Transactional
 	public String obtenerUsuarioAsignado(String numSerie) throws DataAccessException {
 
-		String resultList = getEntityManager().createNamedQuery("HQL_HISTORIAL_USUARIO_ASIGNADO_EQUIPO")
+		List<String> resultList = getEntityManager().createNamedQuery("HQL_HISTORIAL_USUARIO_ASIGNADO_EQUIPO")
 							.setParameter("numSerie", numSerie)
-							.getSingleResult().toString();
+							.getResultList();
 
-		return resultList;
+		if(resultList.size() < 1){
+			return null;
+		}else{
+			return resultList.get(0).toString();
+		}
+
 	}
 
 

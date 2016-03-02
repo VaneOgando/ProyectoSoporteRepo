@@ -12,7 +12,11 @@ import java.util.Set;
 @NamedQueries(value={
 
 		@NamedQuery(name = "HQL_ESTADO",
-		query = "SELECT e FROM EstadoEntity e")
+		query = "SELECT e FROM EstadoEntity e"),
+
+		@NamedQuery(name = "HQL_ESTADO_POR_ID",
+				query = "SELECT e FROM EstadoEntity e " +
+						"WHERE e.id = :estadoId")
 
 })
 

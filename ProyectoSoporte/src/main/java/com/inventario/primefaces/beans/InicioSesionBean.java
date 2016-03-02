@@ -13,7 +13,7 @@ import org.primefaces.context.RequestContext;
 import java.io.IOException;
 
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class InicioSesionBean {
 
 	@ManagedProperty("#{inicioSesionServicio}")

@@ -5,6 +5,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.net.CacheRequest;
@@ -15,6 +16,7 @@ public class CrearRecursoServicio {
 
 	/*ATRIBUTO*/
 	protected EntityManager entityManager;
+	protected EntityTransaction tx = null;
 
 
 	/*METODOS*/
@@ -52,7 +54,6 @@ public class CrearRecursoServicio {
 
 	}
 
-
 	@Transactional
 	public List<ModeloEntity> cargarModelos(MarcaEntity marca) throws DataAccessException {
 
@@ -63,37 +64,68 @@ public class CrearRecursoServicio {
 		return resultList;
 	}
 
-
 	@Transactional
-	 public List<String> completarMarca(String marcaNombre) throws DataAccessException {
+	public EstadoEntity obtenerEstado(int idEstadoDefecto) throws DataAccessException {
 
-		List<String> resultList = getEntityManager().createNamedQuery("HQL_MARCA_COMPLETAR_NOMBRE")
-									.setParameter("marcaNombre", marcaNombre + "%")
-									.getResultList();
+		List<EstadoEntity> resultList = getEntityManager().createNamedQuery("HQL_ESTADO_POR_ID")
+										.setParameter("estadoId", Long.valueOf(idEstadoDefecto))
+										.getResultList();
 
-		return resultList;
+		if(resultList.size() < 1){
+			return null;
+		}else{
+			return resultList.get(0);
+		}
+
 	}
 
 	@Transactional
-	public String obtenerMarcaId(String marca) throws DataAccessException {
+	public CategoriaEntity obtenerCategoriaHistorial(int idCategoriaDefecto) throws DataAccessException {
 
-		String resultList = getEntityManager().createNamedQuery("HQL_MARCA_OBTENER_ID")
-				.setParameter("marcaNombre", marca)
-				.getSingleResult().toString();
+		List<CategoriaEntity> resultList = getEntityManager().createNamedQuery("HQL_CATEGORIA_POR_ID")
+				.setParameter("categoriaId", Long.valueOf(idCategoriaDefecto))
+				.getResultList();
 
-		return resultList;
+		if(resultList.size() < 1){
+			return null;
+		}else{
+			return resultList.get(0);
+		}
+
 	}
 
 	@Transactional
-	public List<String> completarModelo(String modeloNombre, String marcaId) throws DataAccessException {
+	public boolean crearRecursoEquipo(MarcaEntity marca, ModeloEntity modelo, EstadoEntity estado, HistorialInventarioEntity historial, EquipoEntity equipo) throws DataAccessException {
 
-		List<String> resultList = getEntityManager().createNamedQuery("HQL_MODELO_COMPLETAR_NOMBRE")
-								  .setParameter("modeloNombre", modeloNombre + "%")
-								  .setParameter("marcaId", marcaId)
-								  .getResultList();
+		boolean creacion = false;
 
-		return resultList;
+		try {
+			tx = entityManager.getTransaction();
+			tx.begin();
+
+
+			if (marca.getId() == 0){
+				entityManager.persist(marca);
+			}
+
+			// Hacer lo necesario con la BD
+
+
+			tx.commit();
+			creacion = true;
+		}
+		catch (RuntimeException e) {
+			if ( tx != null && tx.isActive() )
+				tx.rollback();
+		}
+		finally {
+			entityManager.close();
+
+			return creacion;
+		}
+
 	}
+
 
 
 

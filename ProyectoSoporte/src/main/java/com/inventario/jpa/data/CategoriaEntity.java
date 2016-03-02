@@ -9,9 +9,13 @@ import java.util.List;
 
 @NamedQueries(value={
 
-@NamedQuery(name = "HQL_CATEGORIA_POR_TIPO",
-		query = "SELECT ca FROM CategoriaEntity ca " +
-				"WHERE ca.tipoCategoria = :tipoCategoria")
+	@NamedQuery(name = "HQL_CATEGORIA_POR_TIPO",
+			query = "SELECT ca FROM CategoriaEntity ca " +
+					"WHERE ca.tipoCategoria = :tipoCategoria"),
+
+	@NamedQuery(name = "HQL_CATEGORIA_POR_ID",
+			query = "SELECT ca FROM CategoriaEntity ca " +
+					"WHERE ca.id = :categoriaId")
 
 })
 
