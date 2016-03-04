@@ -100,25 +100,22 @@ public class CrearRecursoServicio {
 		boolean creacion = false;
 
 		try {
-			tx = entityManager.getTransaction();
-			tx.begin();
-
 
 			if (marca.getId() == 0){
-				entityManager.persist(marca);
+				getEntityManager().persist(marca);
 			}
 
 			// Hacer lo necesario con la BD
 
 
-			tx.commit();
 			creacion = true;
 		}
 		catch (RuntimeException e) {
 			if ( tx != null && tx.isActive() )
 				tx.rollback();
-		}
-		finally {
+		}catch (Exception ex){
+			throw ex;
+		}finally {
 			entityManager.close();
 
 			return creacion;

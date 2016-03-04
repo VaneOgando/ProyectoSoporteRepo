@@ -20,7 +20,8 @@ import java.util.List;
 
 public class MarcaEntity {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="MARCA_SEQ")
+	@SequenceGenerator(name="MARCA_SEQ", sequenceName="MARCA_SEQ", allocationSize=1)
 	@Column(name = "IDMARCA")
 	private long id;
 	@Column(name = "MARCA")
@@ -45,5 +46,11 @@ public class MarcaEntity {
 		this.nombre = nombre;
 	}
 
+	public List<ModeloEntity> getModelos() {
+		return modelos;
+	}
 
+	public void setModelos(List<ModeloEntity> modelos) {
+		this.modelos = modelos;
+	}
 }
