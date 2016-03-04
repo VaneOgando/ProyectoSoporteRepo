@@ -21,7 +21,8 @@ import java.util.List;
 
 public class CategoriaEntity {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CATEGORIA_SEQ")
+	@SequenceGenerator(name="CATEGORIA_SEQ", sequenceName="CATEGORIA_SEQ", allocationSize = 1)
 	@Column(name = "IDCATEGORIA")
 	private long id;
 	@Column(name = "CATEGORIA")

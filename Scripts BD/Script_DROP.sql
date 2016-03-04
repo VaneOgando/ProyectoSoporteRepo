@@ -1,14 +1,3 @@
-/*DROP TRIGGERS*/
-
-DROP TRIGGER accesorio_tri;
-DROP TRIGGER categoria_tri;
-DROP TRIGGER documento_tri;
-DROP TRIGGER estado_tri;
-DROP TRIGGER histInv_tri;
-DROP TRIGGER marca_tri;
-DROP TRIGGER modelo_tri;
-
-
 /*DROP SECUENCIAS*/
 
 DROP SEQUENCE accesorio_seq;

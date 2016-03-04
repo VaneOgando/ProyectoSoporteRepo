@@ -22,7 +22,8 @@ import java.util.Set;
 
 public class EstadoEntity {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ESTADO_SEQ")
+	@SequenceGenerator(name="ESTADO_SEQ", sequenceName="ESTADO_SEQ", allocationSize = 1)
 	@Column(name = "IDESTADO")
 	private long id;
 	@Column(name = "ESTADO")

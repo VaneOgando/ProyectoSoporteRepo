@@ -4,7 +4,6 @@ import com.inventario.jpa.data.*;
 import com.inventario.spring.service.CrearRecursoServicio;
 
 import com.inventario.util.constante.Constantes;
-import com.inventario.primefaces.beans.InicioSesionBean;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -28,6 +27,7 @@ public class CrearRecursoBean {
 	private String opcion = "0";
 	private String observacion;
 	private String incidencia;
+	private Boolean creacion;
 
 	private Date fechaActual = new Date();
 
@@ -97,8 +97,6 @@ public class CrearRecursoBean {
 
 	public String crearRecurso(){
 
-		Boolean creacion;
-
 		//Armar equipo
 		if(opcion.equals("0")){
 
@@ -107,22 +105,31 @@ public class CrearRecursoBean {
 			}
 
 			estado = crearRecursoServicio.obtenerEstado(Constantes.D_ID_ESTADO);
-			equipo.setEstado(estado);
-
 			crearHistorial();
-			historial.setEquipo(equipo);
+
+			if (crearRecursoServicio.obtenerModeloPorNombre(modelo.getNombre(), marca.getId()) != null){
+				setModelo(crearRecursoServicio.obtenerModeloPorNombre(modelo.getNombre(), marca.getId()));
+			}else{
+				modelo.setId(0);
+			}
 
 			creacion = crearRecursoServicio.crearRecursoEquipo(marca, modelo, estado, historial, equipo);
-
 		}
 
-		return "";
+
+		if (creacion == true){
+
+			return "consultarInventario";
+		}else{
+			return "";
+		}
+
 	}
 
 	public void crearHistorial(){
 
 		historial.setFechaGestion(fechaActual);
-		historial.setResponsableSoporte("12345678");
+		historial.setResponsableSoporte("12345678");  //USUARIO DE LA SESSION
 		historial.setCategoria(crearRecursoServicio.obtenerCategoriaHistorial(Constantes.D_CAT_HISTORIAL_CREACION));
 		historial.setIdIncidencia(incidencia);
 
@@ -202,6 +209,14 @@ public class CrearRecursoBean {
 		this.incidencia = incidencia;
 	}
 
+	public Boolean getCreacion() {
+		return creacion;
+	}
+
+	public void setCreacion(Boolean creacion) {
+		this.creacion = creacion;
+	}
+
 	public Date getFechaActual() {
 		return fechaActual;
 	}
@@ -273,5 +288,6 @@ public class CrearRecursoBean {
 	public void setHistorial(HistorialInventarioEntity historial) {
 		this.historial = historial;
 	}
+
 }
 

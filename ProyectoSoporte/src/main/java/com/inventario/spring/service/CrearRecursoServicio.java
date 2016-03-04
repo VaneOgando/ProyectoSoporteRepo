@@ -95,37 +95,62 @@ public class CrearRecursoServicio {
 	}
 
 	@Transactional
+	public ModeloEntity obtenerModeloPorNombre(String modeloNombre, Long marcaId) throws DataAccessException {
+
+		List<ModeloEntity> resultList = getEntityManager().createNamedQuery("HQL_MODELO_OBTENER_ID")
+				.setParameter("modeloNombre", modeloNombre)
+				.setParameter("marcaId", marcaId)
+				.getResultList();
+
+		if (resultList.size() < 1 ){
+			return null;
+		}else{
+			return resultList.get(0);
+		}
+
+	}
+
+	@Transactional
 	public boolean crearRecursoEquipo(MarcaEntity marca, ModeloEntity modelo, EstadoEntity estado, HistorialInventarioEntity historial, EquipoEntity equipo) throws DataAccessException {
 
 		boolean creacion = false;
 
 		try {
-			tx = entityManager.getTransaction();
-			tx.begin();
 
-
-			if (marca.getId() == 0){
+			if (marca.getId() == 0){ //Marca no existe
 				entityManager.persist(marca);
 			}
 
-			// Hacer lo necesario con la BD
+			modelo.setMarca(marca);
 
+			if(modelo.getId() == 0){//modelo no existe
+				entityManager.persist(modelo);
+			}
 
-			tx.commit();
+			equipo.setEstado(estado);
+			equipo.setModelo(modelo);
+
+			entityManager.persist(equipo);
+
+			historial.setEquipo(equipo);
+
+			entityManager.persist(historial);
+
 			creacion = true;
 		}
 		catch (RuntimeException e) {
-			if ( tx != null && tx.isActive() )
-				tx.rollback();
+
+			//Manejar excepciones
+			creacion = false;
+		}catch(Exception e){
+			creacion = false;
 		}
 		finally {
 			entityManager.close();
-
 			return creacion;
 		}
 
 	}
-
 
 
 

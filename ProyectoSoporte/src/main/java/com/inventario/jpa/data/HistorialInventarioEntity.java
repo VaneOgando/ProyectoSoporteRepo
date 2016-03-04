@@ -35,9 +35,10 @@ import java.util.Date;
 
 public class HistorialInventarioEntity {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "HISTINV_SEQ")
+	@SequenceGenerator(name="HISTINV_SEQ", sequenceName="HISTINV_SEQ", allocationSize = 1)
 	@Column(name = "IDHISTORIALINV")
-	private String id;
+	private long id;
 	@Column(name = "FECHAGESTION")
 	@Temporal(TemporalType.DATE)
 	private Date fechaGestion;
@@ -65,11 +66,11 @@ public class HistorialInventarioEntity {
 
 	/*GET AND SET*/
 
-	public String getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

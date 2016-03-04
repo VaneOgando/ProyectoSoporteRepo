@@ -19,14 +19,15 @@
 	</navigation-rule>
 
 	<navigation-rule>
-		<from-view-id>/consultarInventario.xhtml</from-view-id>
+		<from-view-id>/crearRecurso.xhtml</from-view-id>
 		<navigation-case>
-			<from-action>#{consultarInventarioBean.detalleRecurso}</from-action>
-			<from-outcome>equipo</from-outcome>
-			<to-view-id>/detalleEquipo.xhtml</to-view-id>
+			<from-action>#{crearRecursoBean.crearRecurso}</from-action>
+			<from-outcome>consultarInventario</from-outcome>
+			<to-view-id>/consultarInventario.xhtml</to-view-id>
 			<redirect/>
 		</navigation-case>
 	</navigation-rule>
+
 
 
 </faces-config>

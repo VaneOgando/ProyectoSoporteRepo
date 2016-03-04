@@ -25,7 +25,8 @@ import java.util.List;
 
 public class AccesorioEntity {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ACCESORIO_SEQ")
+	@SequenceGenerator(name="ACCESORIO_SEQ", sequenceName="ACCESORIO_SEQ", allocationSize = 1)
 	@Column(name = "IDACCESORIO")
 	private String id;
 	@Column(name = "NUMSERIE")
