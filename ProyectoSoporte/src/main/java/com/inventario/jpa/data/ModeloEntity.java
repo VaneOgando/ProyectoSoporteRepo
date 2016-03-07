@@ -10,11 +10,11 @@ import java.util.List;
 @NamedQueries(value={
 
 		@NamedQuery(name = "HQL_MODELO_POR_MARCA",
-				query = "SELECT mo FROM ModeloEntity mo JOIN mo.marca ma WHERE  ma.id = :marcaId"),
+				query = "SELECT mo FROM ModeloEntity mo JOIN mo.marca ma WHERE  ma.id = :idMarca"),
 
-		@NamedQuery(name = "HQL_MODELO_OBTENER_ID",
+		@NamedQuery(name = "HQL_MODELO_POR_NOMBRE",
 				query = "SELECT mo FROM ModeloEntity mo JOIN mo.marca ma " +
-						"WHERE mo.nombre = :modeloNombre AND ma.id = :marcaId"),
+						"WHERE upper(mo.nombre) = upper(:nombreModelo) AND ma.id = :idMarca"),
 
 })
 
@@ -23,7 +23,7 @@ public class ModeloEntity {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MODELO_SEQ")
 	@SequenceGenerator(name="MODELO_SEQ", sequenceName="MODELO_SEQ", allocationSize = 1)
 	@Column(name = "IDMODELO")
-	private long id;
+	private int id;
 	@Column(name = "MODELO")
 	private String nombre;
 
@@ -39,11 +39,11 @@ public class ModeloEntity {
 
 	/*GET AND SET*/
 
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

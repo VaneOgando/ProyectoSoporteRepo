@@ -42,10 +42,10 @@ public class ConsultarInventarioServicio {
 	}
 
 	@Transactional
-	public MarcaEntity obtenerMarcaPorNombre(String marcaNombre) throws DataAccessException {
+	public MarcaEntity obtenerMarcaPorNombre(String nombreMarca) throws DataAccessException {
 
-		List<MarcaEntity> resultList = getEntityManager().createNamedQuery("HQL_MARCA_OBTENER_ID")
-				.setParameter("marcaNombre", marcaNombre)
+		List<MarcaEntity> resultList = getEntityManager().createNamedQuery("HQL_MARCA_POR_NOMBRE")
+				.setParameter("nombreMarca", nombreMarca)
 				.getResultList();
 
 		if (resultList.size() < 1 ){
@@ -60,7 +60,7 @@ public class ConsultarInventarioServicio {
 	public List<ModeloEntity> cargarModelos(MarcaEntity marca) throws DataAccessException {
 
 		List<ModeloEntity> resultList = getEntityManager().createNamedQuery("HQL_MODELO_POR_MARCA")
-										.setParameter("marcaId", marca.getId())
+										.setParameter("idMarca", marca.getId())
 										.getResultList();
 
 		return resultList;
@@ -80,9 +80,9 @@ public class ConsultarInventarioServicio {
 	public List<Object> filtrarEquipos(EstadoEntity estado, MarcaEntity marca, ModeloEntity modelo) throws DataAccessException {
 
 		List<Object> resultList = getEntityManager().createNamedQuery("HQL_EQUIPO")
-				.setParameter("estadoId", estado.getId())
-				.setParameter("modeloId", modelo.getId())
-				.setParameter("marcaId", marca.getId())
+				.setParameter("idEstado", estado.getId())
+				.setParameter("idModelo", modelo.getId())
+				.setParameter("idMarca", marca.getId())
 				.getResultList();
 
 		return resultList;
@@ -92,10 +92,10 @@ public class ConsultarInventarioServicio {
 	public List<Object> filtrarAccesorios(EstadoEntity estado, MarcaEntity marca, ModeloEntity modelo, CategoriaEntity categoria) throws DataAccessException {
 
 		List<Object> resultList = getEntityManager().createNamedQuery("HQL_ACCESORIO")
-				.setParameter("estadoId", estado.getId())
-				.setParameter("modeloId", modelo.getId())
-				.setParameter("marcaId", marca.getId())
-				.setParameter("categoriaId", categoria.getId())
+				.setParameter("idEstado", estado.getId())
+				.setParameter("idModelo", modelo.getId())
+				.setParameter("idMarca", marca.getId())
+				.setParameter("idCategoria", categoria.getId())
 				.getResultList();
 
 		return resultList;

@@ -54,7 +54,8 @@
 						<h:outputLabel value="Características:"/>
 					</p:column>
 					<p:column styleClass="panelColumnaDer">
-						<h:outputLabel value="#{detalleAccesorioBean.accesorio.caracteristicas}"/>
+						<h:outputLabel value="#{detalleAccesorioBean.accesorio.caracteristicas}" rendered="#{detalleAccesorioBean.accesorio.caracteristicas != null}"/>
+						<h:outputText value="N/A" rendered="#{detalleAccesorioBean.accesorio.caracteristicas == null}" />
 					</p:column>
 				</p:row>
 

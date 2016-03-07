@@ -12,10 +12,10 @@ import java.util.List;
 
 		@NamedQuery(name = "HQL_ACCESORIO",
 				query = "SELECT a FROM AccesorioEntity a JOIN a.estado es JOIN a.modelo mo JOIN mo.marca ma JOIN a.categoria ca " +
-						"WHERE (:estadoId is null or :estadoId = '0' or es.id = :estadoId) " +
-						"AND (:modeloId is null or :modeloId = '0' or mo.id = :modeloId)" +
-						"AND (:marcaId is null or :marcaId = '0' or ma.id = :marcaId)" +
-						"AND (:categoriaId is null or :categoriaId = '0' or ca.id = :categoriaId)"),
+						"WHERE (:idEstado is null or :idEstado = '0' or es.id = :idEstado) " +
+						"AND (:idModelo is null or :idModelo = '0' or mo.id = :idModelo)" +
+						"AND (:idMarca is null or :idMarca = '0' or ma.id = :idMarca)" +
+						"AND (:idCategoria is null or :idCategoria = '0' or ca.id = :idCategoria)"),
 
 		@NamedQuery(name = "HQL_ACCESORIO_POR_ID",
 				query = "SELECT a FROM AccesorioEntity a JOIN a.estado es JOIN a.modelo mo JOIN mo.marca ma JOIN a.categoria ca " +
@@ -28,7 +28,7 @@ public class AccesorioEntity {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ACCESORIO_SEQ")
 	@SequenceGenerator(name="ACCESORIO_SEQ", sequenceName="ACCESORIO_SEQ", allocationSize = 1)
 	@Column(name = "IDACCESORIO")
-	private String id;
+	private int id;
 	@Column(name = "NUMSERIE")
 	private String numSerie;
 	@Column(name = "ACCESORIO")
@@ -57,11 +57,11 @@ public class AccesorioEntity {
 
 	/*GET AND SET*/
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -121,6 +121,7 @@ public class AccesorioEntity {
 		this.categoria = categoria;
 	}
 
+
 	public List<HistorialInventarioEntity> getHistoriales() {
 		return historiales;
 	}
@@ -128,4 +129,5 @@ public class AccesorioEntity {
 	public void setHistoriales(List<HistorialInventarioEntity> historiales) {
 		this.historiales = historiales;
 	}
+
 }

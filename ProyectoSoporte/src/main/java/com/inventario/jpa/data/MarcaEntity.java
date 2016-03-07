@@ -12,34 +12,32 @@ import java.util.List;
 		@NamedQuery(name = "HQL_MARCA",
 				query = "SELECT m FROM MarcaEntity m"),
 
-		@NamedQuery(name = "HQL_MARCA_OBTENER_ID",
+		@NamedQuery(name = "HQL_MARCA_POR_NOMBRE",
 		query = "SELECT m FROM MarcaEntity m " +
-				"WHERE m.nombre = :marcaNombre"),
+				"WHERE upper(m.nombre)  = upper(:nombreMarca)"),
 
 })
 
 public class MarcaEntity {
 	@Id
-<<<<<<< HEAD
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MARCA_SEQ")
 	@SequenceGenerator(name="MARCA_SEQ", sequenceName="MARCA_SEQ", allocationSize = 1)
-=======
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="MARCA_SEQ")
-	@SequenceGenerator(name="MARCA_SEQ", sequenceName="MARCA_SEQ", allocationSize=1)
->>>>>>> origin/master
 	@Column(name = "IDMARCA")
-	private long id;
+	private int id;
 	@Column(name = "MARCA")
 	private String nombre;
 
 	@OneToMany(mappedBy = "marca")
 	private List<ModeloEntity> modelos;
 
-	public long getId() {
+
+	/*GET AND SET*/
+
+	public int getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -51,8 +49,6 @@ public class MarcaEntity {
 		this.nombre = nombre;
 	}
 
-<<<<<<< HEAD
-=======
 	public List<ModeloEntity> getModelos() {
 		return modelos;
 	}
@@ -60,5 +56,4 @@ public class MarcaEntity {
 	public void setModelos(List<ModeloEntity> modelos) {
 		this.modelos = modelos;
 	}
->>>>>>> origin/master
 }

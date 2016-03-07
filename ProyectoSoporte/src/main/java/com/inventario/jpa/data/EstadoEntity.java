@@ -16,7 +16,7 @@ import java.util.Set;
 
 		@NamedQuery(name = "HQL_ESTADO_POR_ID",
 				query = "SELECT e FROM EstadoEntity e " +
-						"WHERE e.id = :estadoId")
+						"WHERE e.id = :idEstado")
 
 })
 
@@ -25,7 +25,7 @@ public class EstadoEntity {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ESTADO_SEQ")
 	@SequenceGenerator(name="ESTADO_SEQ", sequenceName="ESTADO_SEQ", allocationSize = 1)
 	@Column(name = "IDESTADO")
-	private long id;
+	private int id;
 	@Column(name = "ESTADO")
 	private String nombre;
 
@@ -38,11 +38,11 @@ public class EstadoEntity {
 
 	/*GET AND SET*/
 
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

@@ -1,9 +1,12 @@
 package com.inventario.spring.service;
 
 import com.inventario.jpa.data.*;
+import org.hibernate.HibernateException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
@@ -16,7 +19,6 @@ public class CrearRecursoServicio {
 
 	/*ATRIBUTO*/
 	protected EntityManager entityManager;
-	protected EntityTransaction tx = null;
 
 
 	/*METODOS*/
@@ -40,10 +42,10 @@ public class CrearRecursoServicio {
 	}
 
 	@Transactional
-	public MarcaEntity obtenerMarcaPorNombre(String marcaNombre) throws DataAccessException {
+	public MarcaEntity obtenerMarcaPorNombre(String nombreMarca) throws DataAccessException {
 
-		List<MarcaEntity> resultList = getEntityManager().createNamedQuery("HQL_MARCA_OBTENER_ID")
-				.setParameter("marcaNombre", marcaNombre)
+		List<MarcaEntity> resultList = getEntityManager().createNamedQuery("HQL_MARCA_POR_NOMBRE")
+				.setParameter("nombreMarca", nombreMarca)
 				.getResultList();
 
 		if (resultList.size() < 1 ){
@@ -58,7 +60,7 @@ public class CrearRecursoServicio {
 	public List<ModeloEntity> cargarModelos(MarcaEntity marca) throws DataAccessException {
 
 		List<ModeloEntity> resultList = getEntityManager().createNamedQuery("HQL_MODELO_POR_MARCA")
-				.setParameter("marcaId", marca.getId())
+				.setParameter("idMarca", marca.getId())
 				.getResultList();
 
 		return resultList;
@@ -68,7 +70,7 @@ public class CrearRecursoServicio {
 	public EstadoEntity obtenerEstado(int idEstadoDefecto) throws DataAccessException {
 
 		List<EstadoEntity> resultList = getEntityManager().createNamedQuery("HQL_ESTADO_POR_ID")
-										.setParameter("estadoId", Long.valueOf(idEstadoDefecto))
+										.setParameter("idEstado", idEstadoDefecto)
 										.getResultList();
 
 		if(resultList.size() < 1){
@@ -83,7 +85,7 @@ public class CrearRecursoServicio {
 	public CategoriaEntity obtenerCategoriaHistorial(int idCategoriaDefecto) throws DataAccessException {
 
 		List<CategoriaEntity> resultList = getEntityManager().createNamedQuery("HQL_CATEGORIA_POR_ID")
-				.setParameter("categoriaId", Long.valueOf(idCategoriaDefecto))
+				.setParameter("idCategoria", idCategoriaDefecto)
 				.getResultList();
 
 		if(resultList.size() < 1){
@@ -95,11 +97,11 @@ public class CrearRecursoServicio {
 	}
 
 	@Transactional
-	public ModeloEntity obtenerModeloPorNombre(String modeloNombre, Long marcaId) throws DataAccessException {
+	public ModeloEntity obtenerModeloPorNombre(String nombreModelo, int idMarca) throws DataAccessException {
 
-		List<ModeloEntity> resultList = getEntityManager().createNamedQuery("HQL_MODELO_OBTENER_ID")
-				.setParameter("modeloNombre", modeloNombre)
-				.setParameter("marcaId", marcaId)
+		List<ModeloEntity> resultList = getEntityManager().createNamedQuery("HQL_MODELO_POR_NOMBRE")
+				.setParameter("nombreModelo", nombreModelo)
+				.setParameter("idMarca", idMarca)
 				.getResultList();
 
 		if (resultList.size() < 1 ){
@@ -111,19 +113,30 @@ public class CrearRecursoServicio {
 	}
 
 	@Transactional
-	public boolean crearRecursoEquipo(MarcaEntity marca, ModeloEntity modelo, EstadoEntity estado, HistorialInventarioEntity historial, EquipoEntity equipo) throws DataAccessException {
+	public CategoriaEntity obtenerCategoriaPorNombre(String nombreCategoria, String tipoCategoria) throws DataAccessException {
+
+		List<CategoriaEntity> resultList = getEntityManager().createNamedQuery("HQL_CATEGORIA_POR_NOMBRE_Y_TIPO")
+				.setParameter("nombreCategoria", nombreCategoria)
+				.setParameter("tipoCategoria", tipoCategoria)
+				.getResultList();
+
+		if (resultList.size() < 1 ){
+			return null;
+		}else{
+			return resultList.get(0);
+		}
+
+	}
+
+	@Transactional
+	public boolean crearRecurso(MarcaEntity marca, ModeloEntity modelo, CategoriaEntity categoria, EstadoEntity estado, HistorialInventarioEntity historial, EquipoEntity equipo, AccesorioEntity accesorio, String opcion){
 
 		boolean creacion = false;
 
 		try {
 
-<<<<<<< HEAD
 			if (marca.getId() == 0){ //Marca no existe
 				entityManager.persist(marca);
-=======
-			if (marca.getId() == 0){
-				getEntityManager().persist(marca);
->>>>>>> origin/master
 			}
 
 			modelo.setMarca(marca);
@@ -132,33 +145,45 @@ public class CrearRecursoServicio {
 				entityManager.persist(modelo);
 			}
 
-			equipo.setEstado(estado);
-			equipo.setModelo(modelo);
+			if(opcion.equals("0")) {
 
-			entityManager.persist(equipo);
+				equipo.setEstado(estado);
+				equipo.setModelo(modelo);
+				entityManager.persist(equipo);
 
-			historial.setEquipo(equipo);
+				historial.setEquipo(equipo);
+
+			}else if(opcion.equals("1")){
+
+				if(categoria.getId() == 0){//categoria no existe
+					categoria.setTipoCategoria("accesorio");
+					entityManager.persist(categoria);
+				}
+
+				accesorio.setEstado(estado);
+				accesorio.setModelo(modelo);
+				accesorio.setCategoria(categoria);
+				entityManager.persist(accesorio);
+
+				historial.setAccesorio(accesorio);
+
+			}
 
 			entityManager.persist(historial);
 
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Recurso agregado satisfactoriamente"));
 			creacion = true;
-		}
-		catch (RuntimeException e) {
-<<<<<<< HEAD
-
-			//Manejar excepciones
+		}catch(DataAccessException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al agregar el recurso"));
+			creacion = false;
+		}catch (HibernateException e) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al agregar el recurso"));
 			creacion = false;
 		}catch(Exception e){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al agregar el recurso"));
 			creacion = false;
 		}
 		finally {
-=======
-			if ( tx != null && tx.isActive() )
-				tx.rollback();
-		}catch (Exception ex){
-			throw ex;
-		}finally {
->>>>>>> origin/master
 			entityManager.close();
 			return creacion;
 		}

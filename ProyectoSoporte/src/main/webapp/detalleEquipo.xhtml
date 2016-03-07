@@ -71,7 +71,8 @@
 						<h:outputLabel value="Características:"/>
 					</p:column>
 					<p:column styleClass="panelColumnaDer">
-						<h:outputLabel value="#{detalleEquipoBean.equipo.caracteristicas}"/>
+						<h:outputLabel value="#{detalleEquipoBean.equipo.caracteristicas}" rendered="#{detalleEquipoBean.equipo.caracteristicas != null}"/>
+						<h:outputText value="N/A" rendered="#{detalleEquipoBean.equipo.caracteristicas == null}" />
 					</p:column>
 				</p:row>
 

@@ -23,7 +23,7 @@ public class DetalleAccesorioServicio {
 
 	/*METODOS*/
 	@Transactional
-	 public AccesorioEntity obtenerAccesorio(String idAccesorio) throws DataAccessException {
+	 public AccesorioEntity obtenerAccesorio(int idAccesorio) throws DataAccessException {
 
 		List<AccesorioEntity> resultList = getEntityManager().createNamedQuery("HQL_ACCESORIO_POR_ID")
 														.setParameter("idAccesorio", idAccesorio)
@@ -37,7 +37,7 @@ public class DetalleAccesorioServicio {
 	}
 
 	@Transactional
-	public List<HistorialInventarioEntity> obtenerHistorialAccesorio(String idAccesorio) throws DataAccessException {
+	public List<HistorialInventarioEntity> obtenerHistorialAccesorio(int idAccesorio) throws DataAccessException {
 
 
 		List<HistorialInventarioEntity> resultList = getEntityManager().createNamedQuery("HQL_HISTORIAL_POR_ACCESORIO")
@@ -58,7 +58,7 @@ public class DetalleAccesorioServicio {
 	}
 
 	@Transactional
-	public String obtenerUsuarioAsignado(String idAccesorio) throws DataAccessException {
+	public String obtenerUsuarioAsignado(int idAccesorio) throws DataAccessException {
 
 		List<String> resultList = getEntityManager().createNamedQuery("HQL_HISTORIAL_USUARIO_ASIGNADO_ACCESORIO")
 							.setParameter("idAccesorio", idAccesorio)

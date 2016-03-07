@@ -11,8 +11,8 @@ import java.util.List;
 
 		@NamedQuery(name = "HQL_EQUIPO",
 				query = "SELECT e FROM EquipoEntity e JOIN e.estado es JOIN e.modelo mo JOIN mo.marca ma " +
-						"WHERE (:estadoId is null or :estadoId = '0' or es.id = :estadoId) AND (:modeloId is null or :modeloId = '0' or mo.id = :modeloId)" +
-						"AND (:marcaId is null or :marcaId = '0' or ma.id = :marcaId)"),
+						"WHERE (:idEstado is null or :idEstado = '0' or es.id = :idEstado) AND (:idModelo is null or :idModelo = '0' or mo.id = :idModelo)" +
+						"AND (:idMarca is null or :idMarca = '0' or ma.id = :idMarca)"),
 
 		@NamedQuery(name = "HQL_EQUIPO_POR_NUMSERIE",
 				query = "SELECT e FROM EquipoEntity e JOIN e.estado es JOIN e.modelo mo JOIN mo.marca ma " +

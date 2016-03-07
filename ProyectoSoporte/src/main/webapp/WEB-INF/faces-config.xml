@@ -26,8 +26,12 @@
 			<to-view-id>/consultarInventario.xhtml</to-view-id>
 			<redirect/>
 		</navigation-case>
+		<navigation-case>
+			<from-action>#{crearRecursoBean.crearRecurso}</from-action>
+			<from-outcome>crearRecurso</from-outcome>
+			<to-view-id>/crearRecurso.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
 	</navigation-rule>
-
-
 
 </faces-config>

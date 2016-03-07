@@ -15,7 +15,11 @@ import java.util.List;
 
 	@NamedQuery(name = "HQL_CATEGORIA_POR_ID",
 			query = "SELECT ca FROM CategoriaEntity ca " +
-					"WHERE ca.id = :categoriaId")
+					"WHERE ca.id = :idCategoria"),
+
+	@NamedQuery(name = "HQL_CATEGORIA_POR_NOMBRE_Y_TIPO",
+			query = "SELECT ca FROM CategoriaEntity ca " +
+					"WHERE upper(ca.nombre) = upper(:nombreCategoria) AND ca.tipoCategoria = :tipoCategoria")
 
 })
 
@@ -24,7 +28,7 @@ public class CategoriaEntity {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CATEGORIA_SEQ")
 	@SequenceGenerator(name="CATEGORIA_SEQ", sequenceName="CATEGORIA_SEQ", allocationSize = 1)
 	@Column(name = "IDCATEGORIA")
-	private long id;
+	private int id;
 	@Column(name = "CATEGORIA")
 	private String nombre;
 	@Column(name = "TIPOCATEGORIA")
@@ -40,11 +44,11 @@ public class CategoriaEntity {
 
 	/*GET AND SET*/
 
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

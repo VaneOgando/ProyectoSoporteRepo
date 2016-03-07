@@ -72,6 +72,7 @@ public class CrearRecursoBean {
 
 		if(!marca.getNombre().equals("")){
 
+			//Validar existencia de marca
 			if (crearRecursoServicio.obtenerMarcaPorNombre(marca.getNombre()) != null){
 
 				setMarca(crearRecursoServicio.obtenerMarcaPorNombre(marca.getNombre()));
@@ -97,31 +98,40 @@ public class CrearRecursoBean {
 
 	public String crearRecurso(){
 
-		//Armar equipo
-		if(opcion.equals("0")){
-
-			if (equipo.getFechaCompra() == null){
+		if(opcion.equals("0")) {
+			if (equipo.getFechaCompra() == null) {
 				equipo.setFechaCompra(fechaActual);
 			}
-
-			estado = crearRecursoServicio.obtenerEstado(Constantes.D_ID_ESTADO);
-			crearHistorial();
-
-			if (crearRecursoServicio.obtenerModeloPorNombre(modelo.getNombre(), marca.getId()) != null){
-				setModelo(crearRecursoServicio.obtenerModeloPorNombre(modelo.getNombre(), marca.getId()));
-			}else{
-				modelo.setId(0);
+		}else{
+			if (accesorio.getFechaCompra() == null) {
+				accesorio.setFechaCompra(fechaActual);
 			}
 
-			creacion = crearRecursoServicio.crearRecursoEquipo(marca, modelo, estado, historial, equipo);
+			//Validar existencia de categoria
+			if (crearRecursoServicio.obtenerCategoriaPorNombre(categoria.getNombre(), "accesorio") != null){
+				setCategoria(crearRecursoServicio.obtenerCategoriaPorNombre(categoria.getNombre(), "accesorio"));
+			}else{
+				categoria.setId(0);
+			}
+
 		}
 
+		estado = crearRecursoServicio.obtenerEstado(Constantes.D_ID_ESTADO);
+		crearHistorial();
+
+		//Validar existencia de modelo
+		if (crearRecursoServicio.obtenerModeloPorNombre(modelo.getNombre(), marca.getId()) != null){
+			setModelo(crearRecursoServicio.obtenerModeloPorNombre(modelo.getNombre(), marca.getId()));
+		}else{
+			modelo.setId(0);
+		}
+
+		creacion = crearRecursoServicio.crearRecurso(marca, modelo, categoria, estado, historial, equipo, accesorio, opcion);
 
 		if (creacion == true){
-
 			return "consultarInventario";
 		}else{
-			return "";
+			return "crearRecurso";
 		}
 
 	}
@@ -131,12 +141,19 @@ public class CrearRecursoBean {
 		historial.setFechaGestion(fechaActual);
 		historial.setResponsableSoporte("12345678");  //USUARIO DE LA SESSION
 		historial.setCategoria(crearRecursoServicio.obtenerCategoriaHistorial(Constantes.D_CAT_HISTORIAL_CREACION));
-		historial.setIdIncidencia(incidencia);
 
-		if(observacion != null){
+		if(!incidencia.equals(""))
+			historial.setIdIncidencia(incidencia);
+
+		if(!observacion.equals("")){
 			historial.setDescripcion(observacion);
 		}else{
-			historial.setDescripcion(Constantes.D_DESC_HISTORIAL_CREACION_EQ + equipo.getNombre());
+
+			if(opcion.equals("0")) {
+				historial.setDescripcion(Constantes.D_DESC_HISTORIAL_CREACION_EQ + equipo.getNombre());
+			}else{
+				historial.setDescripcion(Constantes.D_DESC_HISTORIAL_CREACION_ACC + accesorio.getNombre());
+			}
 		}
 
 	}

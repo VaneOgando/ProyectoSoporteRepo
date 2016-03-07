@@ -38,7 +38,7 @@ public class HistorialInventarioEntity {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "HISTINV_SEQ")
 	@SequenceGenerator(name="HISTINV_SEQ", sequenceName="HISTINV_SEQ", allocationSize = 1)
 	@Column(name = "IDHISTORIALINV")
-	private long id;
+	private int id;
 	@Column(name = "FECHAGESTION")
 	@Temporal(TemporalType.DATE)
 	private Date fechaGestion;
@@ -59,6 +59,7 @@ public class HistorialInventarioEntity {
 	@JoinColumn(name = "FKEQUIPO")
 	private EquipoEntity equipo;
 
+
 	@ManyToOne
 	@JoinColumn(name = "FKACCESORIO")
 	private AccesorioEntity accesorio;
@@ -66,11 +67,11 @@ public class HistorialInventarioEntity {
 
 	/*GET AND SET*/
 
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
