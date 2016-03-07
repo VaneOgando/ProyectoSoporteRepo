@@ -117,8 +117,13 @@ public class CrearRecursoServicio {
 
 		try {
 
+<<<<<<< HEAD
 			if (marca.getId() == 0){ //Marca no existe
 				entityManager.persist(marca);
+=======
+			if (marca.getId() == 0){
+				getEntityManager().persist(marca);
+>>>>>>> origin/master
 			}
 
 			modelo.setMarca(marca);
@@ -139,6 +144,7 @@ public class CrearRecursoServicio {
 			creacion = true;
 		}
 		catch (RuntimeException e) {
+<<<<<<< HEAD
 
 			//Manejar excepciones
 			creacion = false;
@@ -146,6 +152,13 @@ public class CrearRecursoServicio {
 			creacion = false;
 		}
 		finally {
+=======
+			if ( tx != null && tx.isActive() )
+				tx.rollback();
+		}catch (Exception ex){
+			throw ex;
+		}finally {
+>>>>>>> origin/master
 			entityManager.close();
 			return creacion;
 		}
