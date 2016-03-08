@@ -22,13 +22,13 @@
 		<from-view-id>/crearRecurso.xhtml</from-view-id>
 		<navigation-case>
 			<from-action>#{crearRecursoBean.crearRecurso}</from-action>
-			<from-outcome>consultarInventario</from-outcome>
+			<from-outcome>Exito</from-outcome>
 			<to-view-id>/consultarInventario.xhtml</to-view-id>
 			<redirect/>
 		</navigation-case>
 		<navigation-case>
 			<from-action>#{crearRecursoBean.crearRecurso}</from-action>
-			<from-outcome>crearRecurso</from-outcome>
+			<from-outcome>Error</from-outcome>
 			<to-view-id>/crearRecurso.xhtml</to-view-id>
 			<redirect/>
 		</navigation-case>

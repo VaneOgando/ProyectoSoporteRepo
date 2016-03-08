@@ -6,9 +6,11 @@ import com.inventario.spring.service.CrearRecursoServicio;
 import com.inventario.util.constante.Constantes;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +29,7 @@ public class CrearRecursoBean {
 	private String opcion = "0";
 	private String observacion;
 	private String incidencia;
-	private Boolean creacion;
+	private Boolean creacion = false;
 
 	private Date fechaActual = new Date();
 
@@ -98,40 +100,59 @@ public class CrearRecursoBean {
 
 	public String crearRecurso(){
 
-		if(opcion.equals("0")) {
-			if (equipo.getFechaCompra() == null) {
-				equipo.setFechaCompra(fechaActual);
+		try {
+
+			if (opcion.equals("0")) {
+				if (equipo.getFechaCompra() == null) {
+					equipo.setFechaCompra(fechaActual);
+				}
+			} else {
+				if (accesorio.getFechaCompra() == null) {
+					accesorio.setFechaCompra(fechaActual);
+				}
+
+				//Validar existencia de categoria
+				if (crearRecursoServicio.obtenerCategoriaPorNombre(categoria.getNombre(), "accesorio") != null) {
+					setCategoria(crearRecursoServicio.obtenerCategoriaPorNombre(categoria.getNombre(), "accesorio"));
+				} else {
+					categoria.setId(0);
+				}
+
 			}
-		}else{
-			if (accesorio.getFechaCompra() == null) {
-				accesorio.setFechaCompra(fechaActual);
+
+			estado = crearRecursoServicio.obtenerEstado(Constantes.D_ID_ESTADO);
+			crearHistorial();
+
+			//Validar existencia de modelo
+			if (crearRecursoServicio.obtenerModeloPorNombre(modelo.getNombre(), marca.getId()) != null) {
+				setModelo(crearRecursoServicio.obtenerModeloPorNombre(modelo.getNombre(), marca.getId()));
+			} else {
+				modelo.setId(0);
 			}
 
-			//Validar existencia de categoria
-			if (crearRecursoServicio.obtenerCategoriaPorNombre(categoria.getNombre(), "accesorio") != null){
-				setCategoria(crearRecursoServicio.obtenerCategoriaPorNombre(categoria.getNombre(), "accesorio"));
-			}else{
-				categoria.setId(0);
+			creacion = crearRecursoServicio.crearRecurso(marca, modelo, categoria, estado, historial, equipo, accesorio, opcion);
+
+			if (creacion == true) {
+
+				FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "EXITO! El recurso se ingreso satisfactoriamente", null));
+
+				return "Exito";
+
+			}else {
+				FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! No se pudo ingresar el recurso", null));
+				FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+
+				return "Error";
+
 			}
 
-		}
+		}catch (Exception e){
+			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! No se pudo ingresar el recurso", null));
+			FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
 
-		estado = crearRecursoServicio.obtenerEstado(Constantes.D_ID_ESTADO);
-		crearHistorial();
+			return "Error";
 
-		//Validar existencia de modelo
-		if (crearRecursoServicio.obtenerModeloPorNombre(modelo.getNombre(), marca.getId()) != null){
-			setModelo(crearRecursoServicio.obtenerModeloPorNombre(modelo.getNombre(), marca.getId()));
-		}else{
-			modelo.setId(0);
-		}
-
-		creacion = crearRecursoServicio.crearRecurso(marca, modelo, categoria, estado, historial, equipo, accesorio, opcion);
-
-		if (creacion == true){
-			return "consultarInventario";
-		}else{
-			return "crearRecurso";
 		}
 
 	}

@@ -28,6 +28,7 @@
 				<div id="Recursos" class="detalleBotonesGestion">
 
 					<p:panelGrid id="seleccionRecurso" styleClass="panelInventario" style="margin: 0 auto; font-size: small">
+
 						<p:row>
 							<p:column>
 								<p:selectOneButton id="SeleccionRecurso" value="#{crearRecursoBean.opcion}" style="height: 30px; font-size: small">
@@ -37,11 +38,13 @@
 								</p:selectOneButton>
 							</p:column>
 						</p:row>
+
 					</p:panelGrid>
 				</div>
 
 				<div id="Mensajes" class="mensajeCreacion">
-					<p:messages id="mensajes" autoUpdate="true" closable="true"/>
+					<p:messages id="mensajesError" autoUpdate="true" closable="true" globalOnly="true"/>
+					<p:messages id="mensajesValidacion" autoUpdate="true" closable="true" />
 				</div>
 
 				<div id="Detalle" class="detalleCreacion">

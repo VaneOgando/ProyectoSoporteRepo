@@ -3,6 +3,7 @@ package com.inventario.spring.service;
 import com.inventario.jpa.data.*;
 import org.hibernate.HibernateException;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 import javax.faces.application.FacesMessage;
@@ -10,6 +11,7 @@ import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
+import javax.persistence.RollbackException;
 import javax.transaction.Transactional;
 import java.net.CacheRequest;
 import java.util.List;
@@ -129,7 +131,7 @@ public class CrearRecursoServicio {
 	}
 
 	@Transactional
-	public boolean crearRecurso(MarcaEntity marca, ModeloEntity modelo, CategoriaEntity categoria, EstadoEntity estado, HistorialInventarioEntity historial, EquipoEntity equipo, AccesorioEntity accesorio, String opcion){
+	public boolean crearRecurso(MarcaEntity marca, ModeloEntity modelo, CategoriaEntity categoria, EstadoEntity estado, HistorialInventarioEntity historial, EquipoEntity equipo, AccesorioEntity accesorio, String opcion) throws DataAccessException{
 
 		boolean creacion = false;
 
@@ -171,25 +173,19 @@ public class CrearRecursoServicio {
 
 			entityManager.persist(historial);
 
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Recurso agregado satisfactoriamente"));
 			creacion = true;
-		}catch(DataAccessException e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al agregar el recurso"));
-			creacion = false;
-		}catch (HibernateException e) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al agregar el recurso"));
-			creacion = false;
+
 		}catch(Exception e){
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Error al agregar el recurso"));
 			creacion = false;
-		}
-		finally {
+			throw e;
+		}finally {
+
 			entityManager.close();
 			return creacion;
+
 		}
 
 	}
-
 
 
 	/*GET & SET*/
