@@ -25,7 +25,7 @@
           <element id="library" level="project" name="Maven: org.jboss:jandex:1.1.0.Final" />
           <element id="library" level="project" name="Maven: org.hibernate:hibernate-entitymanager:4.3.6.Final" />
           <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.1.31" />
-          <element id="library" level="project" name="Maven: com.oracle:ojdbc6:12" />
+          <element id="library" level="project" name="Maven: com.oracle:oracle:10.2.0.2.0" />
           <element id="library" level="project" name="Maven: org.springframework:spring-orm:4.0.3.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-beans:4.0.3.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-core:4.0.3.RELEASE" />
@@ -38,13 +38,10 @@
           <element id="library" level="project" name="Maven: aopalliance:aopalliance:1.0" />
           <element id="library" level="project" name="Maven: org.springframework:spring-expression:4.0.3.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-web:4.0.3.RELEASE" />
-          <element id="library" level="project" name="Maven: org.eclipse.persistence:eclipselink:2.5.0-RC1" />
-          <element id="library" level="project" name="Maven: org.eclipse.persistence:javax.persistence:2.1.0-RC1" />
-          <element id="library" level="project" name="Maven: org.eclipse.persistence:commonj.sdo:2.1.1" />
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="C:\Users\vanessa.rodriguez\IdeaProjects\ProyectoSoporte\target/MANIFEST.MF" />
+        <element id="file-copy" path="C:\Users\vanessa.rodriguez\IdeaProjects\ProyectoSoporteRepo\ProyectoSoporte\target/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="ProyectoSoporte/web/Web" />
     </root>

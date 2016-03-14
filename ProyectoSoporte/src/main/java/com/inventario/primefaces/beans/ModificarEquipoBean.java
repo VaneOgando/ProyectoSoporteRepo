@@ -4,6 +4,7 @@ import com.inventario.jpa.data.*;
 import com.inventario.spring.service.DetalleEquipoServicio;
 import com.inventario.spring.service.ModificarEquipoServicio;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -24,31 +25,41 @@ public class ModificarEquipoBean {
 
 	private String observacion;
 	private String incidencia;
+
 	private Boolean modificacion = false;
+	private Boolean primeraVez = false;
 
 	private Date fechaActual = new Date();
 
-	private List<MarcaEntity> marcas;
+	private List<MarcaEntity> marcas = new ArrayList<MarcaEntity>();
 	private MarcaEntity marca = new MarcaEntity();
 
-	private List<ModeloEntity> modelos;
+	private List<ModeloEntity> modelos  = new ArrayList<ModeloEntity>();
 	private ModeloEntity modelo = new ModeloEntity();
 
 
 	/*METODOS*/
+
 	public void cargarEquipo() {
 
-		equipo 	  = modificarEquipoServicio.obtenerEquipo(equipo.getNumSerie());
+		//Evento prerenderview
+		if (primeraVez == false) {
+			equipo = modificarEquipoServicio.obtenerEquipo(equipo.getNumSerie());
 
-		marcas 	  = modificarEquipoServicio.cargarMarcas();
-		marca     = equipo.getModelo().getMarca();
+			marcas = modificarEquipoServicio.cargarMarcas();
+			marca = equipo.getModelo().getMarca();
 
-		modelos   = modificarEquipoServicio.cargarModelos(equipo.getModelo().getMarca());
-		modelo    = equipo.getModelo();
+			modelos = modificarEquipoServicio.cargarModelos(equipo.getModelo().getMarca());
+			modelo = equipo.getModelo();
+
+			primeraVez = true;
+		}
 
 	}
 
 	public void cargarModelos() {
+
+		modelo = new ModeloEntity();
 
 		if(!marca.getNombre().equals("")){
 
@@ -67,11 +78,14 @@ public class ModificarEquipoBean {
 			modelos = new ArrayList<ModeloEntity>();
 		}
 
-		modelo = new ModeloEntity();
-
-
 	}
 
+
+	public String modificarEquipo(){
+
+
+		return "";
+	}
 
 
 	/*GET & SET*/

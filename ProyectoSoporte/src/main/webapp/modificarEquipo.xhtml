@@ -23,7 +23,7 @@
 				
 				<div id="Mensajes" class="mensajeModificacion">
 					<p:messages id="mensajesError" autoUpdate="true" closable="true" globalOnly="true"/>
-					<p:messages id="mensajesValidacion" autoUpdate="true" closable="true" />
+					<p:messages id="mensajesValidacion" closable="true" />
 				</div>
 
 				<div id="Detalle" class="detalleModificacion">
@@ -70,7 +70,7 @@
 										<f:selectItems value="#{modificarEquipoBean.marcas}" var="marca"
 													   itemLabel="#{marca.nombre}" itemValue="#{marca.id}"/>
 										<f:validateLength maximum="30"/>
-										<p:ajax event="valueChange" listener="#{modificarEquipoBean.cargarModelos}" update=":modificarRecurso:modeloEquipo"/>
+										<p:ajax event="change" listener="#{modificarEquipoBean.cargarModelos()}" update=":modificarRecurso:modeloEquipo"/>
 									</p:selectOneMenu>
 									<p:outputLabel value="*" styleClass="requerido"/>
 								</p:column>
@@ -179,7 +179,7 @@
 												 validatorMessage="En número de incidencia debe contener únicamente números y no sobrepasar los 7 caracteres">
 										<f:validateRegex pattern="\d{1,7}"/>
 									</p:inputText>
-									<p:button icon="ui-icon-search" style="font-size: small"/>
+									<p:button icon="ui-icon-search" style="font-size: small" onclick=""/>
 								</p:column>
 							</p:row>
 

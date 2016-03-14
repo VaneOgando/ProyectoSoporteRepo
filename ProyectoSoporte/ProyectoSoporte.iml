@@ -65,8 +65,5 @@
     <orderEntry type="library" name="Maven: aopalliance:aopalliance:1.0" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-expression:4.0.3.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-web:4.0.3.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.eclipse.persistence:eclipselink:2.5.0-RC1" level="project" />
-    <orderEntry type="library" name="Maven: org.eclipse.persistence:javax.persistence:2.1.0-RC1" level="project" />
-    <orderEntry type="library" name="Maven: org.eclipse.persistence:commonj.sdo:2.1.1" level="project" />
   </component>
 </module>
