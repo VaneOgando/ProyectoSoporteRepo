@@ -41,7 +41,7 @@ body {
 }
 
 
-/*CLASES*/
+/*CLASES GLOBALES*/
 .requerido{
     color: red;
     padding-left: 5px;
@@ -63,6 +63,7 @@ body {
 .botonesPanel .ui-panelgrid-cell{
     padding: 3px; !important;
 }
+
 
 /*DETALLE RECURSO*/
 .contenedorDetalle{
@@ -131,6 +132,12 @@ body {
     width: 203px; !important;
 }
 
+.crearBotonesGestion{
+    display: table-row;
+    margin-top: 3%;
+    border: none;
+}
+
 .colIzqCreacion{
     width: 200px;
     text-align: right;
@@ -155,5 +162,68 @@ body {
 }
 
 .calPrimeCreacion .ui-datepicker-trigger{
+    font-size: small; !important;
+}
+
+
+
+
+/*MODIFICAR RECURSO*/
+
+.contenedorModificacion{
+
+    overflow: hidden;
+    margin: 2% auto;
+    display: table;
+    width: 100%;
+}
+
+.mensajeModificacion{
+    margin: 0 auto;
+    width: 75%;
+    text-align: center;
+}
+
+.detalleModificacion{
+
+    position: relative;
+    margin: 3% auto;
+
+}
+
+.anchoCompModificacion{
+    width: 203px; !important;
+}
+
+.modificarBotonesGestion{
+    display: table-row;
+    margin-top: 3%;
+    border: none;
+}
+
+.colIzqModificacion{
+    width: 200px;
+    text-align: right;
+    font-weight: bold;
+}
+
+.colDerModificacion{
+    width: 250px;
+    font-size: medium;
+}
+
+.autoPrimeModificacion .ui-autocomplete-input{
+    width: 203px; !important;
+}
+
+.autoPrimeModificacion .ui-autocomplete-dropdown {
+    font-size: small; !important;
+}
+
+.calPrimeModificacion .ui-inputfield{
+    width: 203px; !important;
+}
+
+.calPrimeModificacion .ui-datepicker-trigger{
     font-size: small; !important;
 }

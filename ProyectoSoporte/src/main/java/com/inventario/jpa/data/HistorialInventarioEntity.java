@@ -17,7 +17,7 @@ import java.util.Date;
 		@NamedQuery(name = "HQL_HISTORIAL_USUARIO_ASIGNADO_EQUIPO",
 				query = "SELECT h.usuarioAsignado FROM HistorialInventarioEntity h JOIN h.equipo e JOIN h.categoria ca " +
 						"WHERE e.numSerie = :numSerie AND ca.tipoCategoria = 'historial' " +
-						"AND ca.nombre = 'Asignación' AND rownum = 1 " +
+						"AND ca.nombre = 'Asignacion' AND rownum = 1 " +
 						"ORDER BY h.id DESC"),
 
 		@NamedQuery(name = "HQL_HISTORIAL_POR_ACCESORIO",
@@ -28,7 +28,7 @@ import java.util.Date;
 		@NamedQuery(name = "HQL_HISTORIAL_USUARIO_ASIGNADO_ACCESORIO",
 				query = "SELECT h.usuarioAsignado FROM HistorialInventarioEntity h JOIN h.accesorio a JOIN h.categoria ca " +
 						"WHERE a.id = :idAccesorio AND ca.tipoCategoria = 'historial' " +
-						"AND ca.nombre = 'Asignación' AND rownum = 1 " +
+						"AND ca.nombre = 'Asignacion' AND rownum = 1 " +
 						"ORDER BY h.id DESC")
 
 })

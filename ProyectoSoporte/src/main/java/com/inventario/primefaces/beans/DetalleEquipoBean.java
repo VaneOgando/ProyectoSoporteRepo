@@ -42,6 +42,12 @@ public class DetalleEquipoBean {
 
 	}
 
+	public String modificarEquipo(){
+
+		return "modificarEquipo.xhtml?faces-redirect=true&numSerie=" + equipo.getNumSerie();
+
+	}
+
 
 	/*GET & SET*/
 	public DetalleEquipoServicio getDetalleEquipoServicio() {
