@@ -98,13 +98,13 @@ public class ModificarEquipoServicio {
 	}
 
 	@Transactional
-	public boolean modificarEquipo(MarcaEntity marca, ModeloEntity modelo, CategoriaEntity categoria, EstadoEntity estado, HistorialInventarioEntity historial, EquipoEntity equipo, AccesorioEntity accesorio, String opcion) throws DataAccessException{
+	public boolean modificarEquipo(MarcaEntity marca, ModeloEntity modelo, HistorialInventarioEntity historial, EquipoEntity equipo) throws DataAccessException{
 
-		boolean creacion = false;
+		boolean modificacion = false;
 
 		try {
 
-			if (marca.getId() == 0){ //Marca no existe
+			if (marca.getId() == 0) { //Marca no existe
 				entityManager.persist(marca);
 			}
 
@@ -114,41 +114,23 @@ public class ModificarEquipoServicio {
 				entityManager.persist(modelo);
 			}
 
-			if(opcion.equals("0")) {
+			equipo.setModelo(modelo);
 
-				equipo.setEstado(estado);
-				equipo.setModelo(modelo);
-				entityManager.persist(equipo);
+			entityManager.merge(equipo);
 
-				historial.setEquipo(equipo);
-
-			}else if(opcion.equals("1")){
-
-				if(categoria.getId() == 0){//categoria no existe
-					categoria.setTipoCategoria("accesorio");
-					entityManager.persist(categoria);
-				}
-
-				accesorio.setEstado(estado);
-				accesorio.setModelo(modelo);
-				accesorio.setCategoria(categoria);
-				entityManager.persist(accesorio);
-
-				historial.setAccesorio(accesorio);
-
-			}
+			historial.setEquipo(equipo);
 
 			entityManager.persist(historial);
 
-			creacion = true;
+			modificacion = true;
 
 		}catch(Exception e){
-			creacion = false;
+			modificacion = false;
 			throw e;
 		}finally {
 
 			entityManager.close();
-			return creacion;
+			return modificacion;
 
 		}
 

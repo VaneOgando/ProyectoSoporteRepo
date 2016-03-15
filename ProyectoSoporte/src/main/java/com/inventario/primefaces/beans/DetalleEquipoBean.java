@@ -7,6 +7,7 @@ import org.primefaces.context.RequestContext;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.*;
+import javax.faces.context.FacesContext;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +45,9 @@ public class DetalleEquipoBean {
 
 	public String modificarEquipo(){
 
+//		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("numSerie", equipo.getNumSerie());
+		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("numSerie", equipo.getNumSerie());
+//		return "modificarEquipo.xhtml?faces-redirect=true";
 		return "modificarEquipo.xhtml?faces-redirect=true&numSerie=" + equipo.getNumSerie();
 
 	}

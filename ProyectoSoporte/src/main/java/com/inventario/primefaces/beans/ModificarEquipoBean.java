@@ -3,11 +3,15 @@ package com.inventario.primefaces.beans;
 import com.inventario.jpa.data.*;
 import com.inventario.spring.service.DetalleEquipoServicio;
 import com.inventario.spring.service.ModificarEquipoServicio;
+import com.inventario.util.constante.Constantes;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,13 +25,12 @@ public class ModificarEquipoBean {
 	private ModificarEquipoServicio modificarEquipoServicio;
 
 	private EquipoEntity equipo = new EquipoEntity();
-	private HistorialInventarioEntity historial;
+	private HistorialInventarioEntity historial = new HistorialInventarioEntity();
 
 	private String observacion;
 	private String incidencia;
 
 	private Boolean modificacion = false;
-	private Boolean primeraVez = false;
 
 	private Date fechaActual = new Date();
 
@@ -43,18 +46,18 @@ public class ModificarEquipoBean {
 	public void cargarEquipo() {
 
 		//Evento prerenderview
-		if (primeraVez == false) {
-			equipo = modificarEquipoServicio.obtenerEquipo(equipo.getNumSerie());
+		if (!FacesContext.getCurrentInstance().isPostback()) {
 
-			marcas = modificarEquipoServicio.cargarMarcas();
-			marca = equipo.getModelo().getMarca();
+		//String numSerie =  (String) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("numSerie");
+		equipo = modificarEquipoServicio.obtenerEquipo(equipo.getNumSerie());
 
-			modelos = modificarEquipoServicio.cargarModelos(equipo.getModelo().getMarca());
-			modelo = equipo.getModelo();
+		marcas = modificarEquipoServicio.cargarMarcas();
+		marca = equipo.getModelo().getMarca();
 
-			primeraVez = true;
+		modelos = modificarEquipoServicio.cargarModelos(equipo.getModelo().getMarca());
+		modelo = equipo.getModelo();
+
 		}
-
 	}
 
 	public void cargarModelos() {
@@ -83,8 +86,58 @@ public class ModificarEquipoBean {
 
 	public String modificarEquipo(){
 
+		try {
+			/*
+			if (equipo.getFechaCompra() == null) {
+				equipo.setFechaCompra(fechaActual);
+			}*/
 
-		return "";
+			crearHistorial();
+
+			//Validar existencia de modelo
+			if (modificarEquipoServicio.obtenerModeloPorNombre(modelo.getNombre(), marca.getId()) != null) {
+				setModelo(modificarEquipoServicio.obtenerModeloPorNombre(modelo.getNombre(), marca.getId()));
+			} else {
+				modelo.setId(0);
+			}
+
+			modificacion = modificarEquipoServicio.modificarEquipo(marca, modelo, historial, equipo);
+
+			if (modificacion == true) {
+
+				FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "EXITO! El recurso se modifico satisfactoriamente", null));
+
+				return "Exito";
+
+			}else {
+				FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! No se pudo modificar el recurso", null));
+				FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+
+				return "";
+
+			}
+
+		}catch (Exception e){
+			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! No se pudo modificar el recurso", null));
+			FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+
+			return "";
+
+		}
+
+	}
+
+	public void crearHistorial(){
+
+		historial.setFechaGestion(fechaActual);
+		historial.setResponsableSoporte("12345678");  //USUARIO DE LA SESSION
+		historial.setDescripcion(observacion);
+		historial.setCategoria(modificarEquipoServicio.obtenerCategoriaHistorial(Constantes.D_CAT_HISTORIAL_MODIFICACION));
+
+		if(!incidencia.equals(""))
+			historial.setIdIncidencia(incidencia);
+
 	}
 
 

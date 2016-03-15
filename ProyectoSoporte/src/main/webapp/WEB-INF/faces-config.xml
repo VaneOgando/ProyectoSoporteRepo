@@ -34,4 +34,16 @@
 		</navigation-case>
 	</navigation-rule>
 
+	<navigation-rule>
+		<from-view-id>/modificarEquipo.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{modificarEquipoBean.modificarEquipo}</from-action>
+			<from-outcome>Exito</from-outcome>
+			<to-view-id>/consultarInventario.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+
+	</navigation-rule>
+
+
 </faces-config>
