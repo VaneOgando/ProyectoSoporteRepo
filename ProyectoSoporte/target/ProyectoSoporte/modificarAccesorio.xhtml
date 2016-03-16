@@ -11,7 +11,7 @@
 
 		<h:form id="modificarRecurso">
 			<div id="TituloRecurso">
-				<h1 style="text-align: center" > Modificar equipo </h1>
+				<h1 style="text-align: center" > Modificar accesorio </h1>
 			</div>
 
 			<div class="contenedorModificacion">
@@ -31,9 +31,7 @@
 								</p:column>
 
 								<p:column styleClass="colDerModificacion">
-									<p:inputText styleClass="anchoCompModificacion" value="#{modificarEquipoBean.equipo.numSerie}"
-													disabled="true" readonly="true">
-									</p:inputText>
+									<p:inputText styleClass="anchoCompModificacion" value="#{modificarAccesorioBean.accesorio.numSerie}" />
 								</p:column>
 							</p:row>
 
@@ -42,7 +40,7 @@
 									<p:outputLabel value="Nombre:"/>
 								</p:column>
 								<p:column styleClass="colDerModificacion">
-									<p:inputText styleClass="anchoCompModificacion" value="#{modificarEquipoBean.equipo.nombre}"
+									<p:inputText styleClass="anchoCompModificacion" value="#{modificarAccesorioBean.accesorio.nombre}"
 												 required="true" requiredMessage="Por favor indique un nombre"
 												 validatorMessage="El nombre no puede sobrepasar los 30 caracteres">
 										<f:validateLength maximum="30" />
@@ -56,13 +54,13 @@
 									<p:outputLabel value="Marca:"/>
 								</p:column>
 								<p:column styleClass="colDerModificacion">
-									<p:selectOneMenu value="#{modificarEquipoBean.marca.nombre}" editable="true" style="width: 203px"
+									<p:selectOneMenu value="#{modificarAccesorioBean.marca.nombre}" editable="true" style="width: 203px"
 													required="true" requiredMessage="Por favor indique una marca"
 													validatorMessage="La marca no puede sobrepasar los 30 caracteres">
-										<f:selectItems value="#{modificarEquipoBean.marcas}" var="marca"
+										<f:selectItems value="#{modificarAccesorioBean.marcas}" var="marca"
 													   itemLabel="#{marca.nombre}" itemValue="#{marca.id}"/>
 										<f:validateLength maximum="30"/>
-										<p:ajax event="valueChange" listener="#{modificarEquipoBean.cargarModelos}" update=":modificarRecurso:modeloEquipo" />
+										<p:ajax event="valueChange" listener="#{modificarAccesorioBean.cargarModelos}" update=":modificarRecurso:modeloAccesorio" />
 									</p:selectOneMenu>
 									<p:outputLabel value="*" styleClass="requerido"/>
 								</p:column>
@@ -73,10 +71,10 @@
 									<p:outputLabel value="Modelo:"/>
 								</p:column>
 								<p:column styleClass="colDerModificacion">
-									<p:selectOneMenu id="modeloEquipo" value="#{modificarEquipoBean.modelo.nombre}" editable="true" style="width:203px;"
+									<p:selectOneMenu id="modeloAccesorio" value="#{modificarAccesorioBean.modelo.nombre}" editable="true" style="width:203px;"
 													 required="true" requiredMessage="Por favor indique un modelo"
 													 validatorMessage="El modelo no puede sobrepasar los 30 caracteres">
-										<f:selectItems value="#{modificarEquipoBean.modelos}" var="modelo"
+										<f:selectItems value="#{modificarAccesorioBean.modelos}" var="modelo"
 													   itemLabel="#{modelo.nombre}" itemValue="#{modelo.id}"/>
 										<f:validateLength maximum="30"/>
 										</p:selectOneMenu>
@@ -85,57 +83,17 @@
 							</p:row>
 
 							<p:row>
-								<p:column styleClass="colIzqModificacion">
-									<p:outputLabel value="Procesador:"/>
+								<p:column styleClass="colIzqCreacion">
+									<p:outputLabel value="Categoría:"/>
 								</p:column>
-								<p:column styleClass="colDerModificacion">
-									<p:inputText styleClass="anchoCompModificacion" value="#{modificarEquipoBean.equipo.procesador}"
-												 required="true" requiredMessage="Por favor indique un procesador"
-												 validatorMessage="El procesador no puede sobrepasar los 30 caracteres">
-										<f:validateLength maximum="30" />
-									</p:inputText>
-									<p:outputLabel value="*" styleClass="requerido"/>
-								</p:column>
-							</p:row>
-
-							<p:row>
-								<p:column styleClass="colIzqModificacion">
-									<p:outputLabel value="Memoria Ram:"/>
-								</p:column>
-								<p:column styleClass="colDerModificacion">
-									<p:inputText styleClass="anchoCompModificacion" value="#{modificarEquipoBean.equipo.memoriaRam}"
-												 required="true" requiredMessage="Por favor indique la memoria ram"
-												 validatorMessage="La memoria ram no puede sobrepasar los 30 caracteres">
-										<f:validateLength maximum="30" />
-									</p:inputText>
-									<p:outputLabel value="*" styleClass="requerido"/>
-								</p:column>
-							</p:row>
-
-							<p:row>
-								<p:column styleClass="colIzqModificacion">
-									<p:outputLabel value="Disco Duro:"/>
-								</p:column>
-								<p:column styleClass="colDerModificacion">
-									<p:inputText styleClass="anchoCompModificacion" value="#{modificarEquipoBean.equipo.discoDuro}"
-												 required="true" requiredMessage="Por favor indique el disco duro"
-												 validatorMessage="El disco duro no puede sobrepasar los 30 caracteres">
-										<f:validateLength maximum="30" />
-									</p:inputText>
-									<p:outputLabel value="*" styleClass="requerido"/>
-								</p:column>
-							</p:row>
-
-							<p:row>
-								<p:column styleClass="colIzqModificacion">
-									<p:outputLabel value="Sistema Operativo:"/>
-								</p:column>
-								<p:column styleClass="colDerModificacion">
-									<p:inputText styleClass="anchoCompModificacion" value="#{modificarEquipoBean.equipo.sistOperativo}"
-												 required="true" requiredMessage="Por favor indique el sistema operativo"
-												 validatorMessage="El sistema operativo no puede sobrepasar los 30 caracteres">
-										<f:validateLength maximum="30" />
-									</p:inputText>
+								<p:column styleClass="colDerCreacion">
+									<p:selectOneMenu value="#{modificarAccesorioBean.categoria.nombre}" editable="true" style="width:203px;"
+													 required="true" requiredMessage="Por favor indique una categoría"
+													 validatorMessage="La categoría no puede sobrepasar los 30 caracteres">
+										<f:selectItems value="#{modificarAccesorioBean.categorias}" var="categoria"
+													   itemLabel="#{categoria.nombre}" itemValue="#{categoria.id}"/>
+										<f:validateLength maximum="30"/>
+									</p:selectOneMenu>
 									<p:outputLabel value="*" styleClass="requerido"/>
 								</p:column>
 							</p:row>
@@ -145,10 +103,10 @@
 									<p:outputLabel value="Caracteristicas:"/>
 								</p:column>
 								<p:column styleClass="colDerModificacion">
-									<p:inputTextarea value="#{modificarEquipoBean.equipo.caracteristicas}" rows="3" cols="22" autoResize="false"
-													 counter="caractCaractE" maxlength="100" counterTemplate="{0} caracteres restantes."
+									<p:inputTextarea value="#{modificarAccesorioBean.accesorio.caracteristicas}" rows="3" cols="22" autoResize="false"
+													 counter="caractCaractA" maxlength="100" counterTemplate="{0} caracteres restantes."
 													 style="margin-right: 46px" />
-									<p:outputLabel id="caractCaractE" style="font-size: x-small"/>
+									<p:outputLabel id="caractCaractA" style="font-size: x-small"/>
 								</p:column>
 							</p:row>
 
@@ -157,8 +115,8 @@
 									<p:outputLabel value="Fecha de adquisición:" />
 								</p:column>
 								<p:column styleClass="colDerModificacion">
-									<p:calendar value="#{modificarEquipoBean.equipo.fechaCompra}" showOn="button" styleClass="labelCalendario inputCalendario inputPanelModificacion calPrimeModificacion"
-												pattern="dd/MM/yyyy" maxdate="#{modificarEquipoBean.fechaActual}" readonly="true" />
+									<p:calendar value="#{modificarAccesorioBean.accesorio.fechaCompra}" showOn="button" styleClass="labelCalendario inputCalendario inputPanelModificacion calPrimeModificacion"
+												pattern="dd/MM/yyyy" maxdate="#{modificarAccesorioBean.fechaActual}" readonly="true" />
 								</p:column>
 							</p:row>
 
@@ -167,7 +125,7 @@
 									<p:outputLabel value="Incidencia:"/>
 								</p:column>
 								<p:column styleClass="colDerModificacion">
-									<p:inputText styleClass="anchoCompModificacion" value="#{modificarEquipoBean.incidencia}"
+									<p:inputText styleClass="anchoCompModificacion" value="#{modificarAccesorioBean.incidencia}"
 												 validatorMessage="En número de incidencia debe contener únicamente números y no sobrepasar los 7 caracteres">
 										<f:validateRegex pattern="\d{1,7}"/>
 									</p:inputText>
@@ -180,11 +138,11 @@
 									<p:outputLabel value="Observación:"/>
 								</p:column>
 								<p:column styleClass="colDerModificacion">
-									<p:inputTextarea value="#{modificarEquipoBean.observacion}" rows="3" cols="22" autoResize="false"
-													 counter="observ_caractEquipo" maxlength="100" counterTemplate="{0} caracteres restantes."
+									<p:inputTextarea value="#{modificarAccesorioBean.observacion}" rows="3" cols="22" autoResize="false"
+													 counter="observ_caractAcc" maxlength="100" counterTemplate="{0} caracteres restantes."
 													 style="margin-right: 46px"
-													 required="true" requiredMessage="Por favor indique el motivo de la modificacion"/>
-										<p:outputLabel id="observ_caractEquipo" style="font-size: x-small"/>
+													 required="true" requiredMessage="Por favor indique el motivo de la modificación"/>
+										<p:outputLabel id="observ_caractAcc" style="font-size: x-small"/>
 										<p:outputLabel value="*" styleClass="requerido"/>
 								</p:column>
 							</p:row>
@@ -198,7 +156,7 @@
 				<p:panelGrid id="botones" styleClass="panelInventario botonesPanel" style="margin: 0 auto; font-size: small">
 					<p:row>
 						<p:column>
-							<h:commandButton id="modificar" value="Modificar" process="modificarRecurso" action="#{modificarEquipoBean.bt_modificar}" />
+							<h:commandButton id="modificar" value="Modificar" process="modificarRecurso" action="#{modificarAccesorioBean.bt_modificar}" />
 						</p:column>
 						<p:column>
 							<h:commandButton id="cancelar" value="Cancelar" action="#{modificarEquipoBean.bt_cancelar}"/>

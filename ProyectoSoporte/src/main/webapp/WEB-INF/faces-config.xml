@@ -37,12 +37,17 @@
 	<navigation-rule>
 		<from-view-id>/modificarEquipo.xhtml</from-view-id>
 		<navigation-case>
-			<from-action>#{modificarEquipoBean.modificarEquipo}</from-action>
+			<from-action>#{modificarEquipoBean.bt_modificar}</from-action>
 			<from-outcome>Exito</from-outcome>
 			<to-view-id>/consultarInventario.xhtml</to-view-id>
 			<redirect/>
 		</navigation-case>
-
+		<navigation-case>
+			<from-action>#{modificarEquipoBean.bt_cancelar}</from-action>
+			<from-outcome>Cancelar</from-outcome>
+			<to-view-id>/consultarInventario.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
 	</navigation-rule>
 
 

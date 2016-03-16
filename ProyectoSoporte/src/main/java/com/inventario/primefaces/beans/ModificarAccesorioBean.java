@@ -1,8 +1,7 @@
 package com.inventario.primefaces.beans;
 
 import com.inventario.jpa.data.*;
-import com.inventario.spring.service.DetalleEquipoServicio;
-import com.inventario.spring.service.ModificarEquipoServicio;
+import com.inventario.spring.service.ModificarAccesorioServicio;
 import com.inventario.util.constante.Constantes;
 
 import javax.annotation.PostConstruct;
@@ -11,21 +10,19 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @ManagedBean
 @ViewScoped
-public class ModificarEquipoBean {
+public class ModificarAccesorioBean {
 
 	/*ATRIBUTOS*/
-	@ManagedProperty("#{modificarEquipoServicio}")
-	private ModificarEquipoServicio modificarEquipoServicio;
+	@ManagedProperty("#{modificarAccesorioServicio}")
+	private ModificarAccesorioServicio modificarAccesorioServicio;
 
-	private EquipoEntity equipo = new EquipoEntity();
+	private AccesorioEntity accesorio = new AccesorioEntity();
 	private HistorialInventarioEntity historial = new HistorialInventarioEntity();
 
 	private String observacion;
@@ -41,22 +38,29 @@ public class ModificarEquipoBean {
 	private List<ModeloEntity> modelos  = new ArrayList<ModeloEntity>();
 	private ModeloEntity modelo = new ModeloEntity();
 
+	private List<CategoriaEntity> categorias  = new ArrayList<CategoriaEntity>();
+	private CategoriaEntity categoria = new CategoriaEntity();
+
+
 
 	/*METODOS*/
 
 	@PostConstruct
-	public void cargarEquipo() {
+	public void cargarAccesorio() {
 
 		//Obtener parametro
-		equipo.setNumSerie(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("numSerie"));
+		accesorio.setId(Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id")));
 
-		equipo = modificarEquipoServicio.obtenerEquipo(equipo.getNumSerie());
+		accesorio = modificarAccesorioServicio.obtenerAccesorio(accesorio.getId());
 
-		marcas = modificarEquipoServicio.cargarMarcas();
-		marca = equipo.getModelo().getMarca();
+		marcas = modificarAccesorioServicio.cargarMarcas();
+		marca = accesorio.getModelo().getMarca();
 
-		modelos = modificarEquipoServicio.cargarModelos(equipo.getModelo().getMarca());
-		modelo = equipo.getModelo();
+		modelos = modificarAccesorioServicio.cargarModelos(accesorio.getModelo().getMarca());
+		modelo = accesorio.getModelo();
+
+		categorias = modificarAccesorioServicio.cargarCategorias("accesorio");
+		categoria = accesorio.getCategoria();
 
 	}
 
@@ -67,10 +71,10 @@ public class ModificarEquipoBean {
 		if(!marca.getNombre().equals("")){
 
 			//Validar existencia de marca
-			if (modificarEquipoServicio.obtenerMarcaPorNombre(marca.getNombre()) != null){
+			if (modificarAccesorioServicio.obtenerMarcaPorNombre(marca.getNombre()) != null){
 
-				setMarca(modificarEquipoServicio.obtenerMarcaPorNombre(marca.getNombre()));
-				modelos = modificarEquipoServicio.cargarModelos(getMarca());
+				setMarca(modificarAccesorioServicio.obtenerMarcaPorNombre(marca.getNombre()));
+				modelos = modificarAccesorioServicio.cargarModelos(getMarca());
 
 			}else{
 				marca.setId(0);
@@ -91,13 +95,20 @@ public class ModificarEquipoBean {
 			crearHistorial();
 
 			//Validar existencia de modelo
-			if (modificarEquipoServicio.obtenerModeloPorNombre(modelo.getNombre(), marca.getId()) != null) {
-				setModelo(modificarEquipoServicio.obtenerModeloPorNombre(modelo.getNombre(), marca.getId()));
+			if (modificarAccesorioServicio.obtenerModeloPorNombre(modelo.getNombre(), marca.getId()) != null) {
+				setModelo(modificarAccesorioServicio.obtenerModeloPorNombre(modelo.getNombre(), marca.getId()));
 			} else {
 				modelo.setId(0);
 			}
 
-			modificacion = modificarEquipoServicio.modificarEquipo(marca, modelo, historial, equipo);
+			//Validar existencia de categoria
+			if (modificarAccesorioServicio.obtenerCategoriaPorNombre(categoria.getNombre(), "accesorio") != null) {
+				setCategoria(modificarAccesorioServicio.obtenerCategoriaPorNombre(categoria.getNombre(), "accesorio"));
+			} else {
+				categoria.setId(0);
+			}
+
+			modificacion = modificarAccesorioServicio.modificarAccesorio(marca, modelo, categoria, historial, accesorio);
 
 			if (modificacion == true) {
 
@@ -129,7 +140,7 @@ public class ModificarEquipoBean {
 		historial.setFechaGestion(fechaActual);
 		historial.setResponsableSoporte("12345678");  //USUARIO DE LA SESSION
 		historial.setDescripcion(observacion);
-		historial.setCategoria(modificarEquipoServicio.obtenerCategoriaHistorial(Constantes.D_CAT_HISTORIAL_MODIFICACION));
+		historial.setCategoria(modificarAccesorioServicio.obtenerCategoriaHistorial(Constantes.D_CAT_HISTORIAL_MODIFICACION));
 
 		if(!incidencia.equals(""))
 			historial.setIdIncidencia(incidencia);
@@ -145,20 +156,20 @@ public class ModificarEquipoBean {
 
 	/*GET & SET*/
 
-	public ModificarEquipoServicio getModificarEquipoServicio() {
-		return modificarEquipoServicio;
+	public ModificarAccesorioServicio getModificarAccesorioServicio() {
+		return modificarAccesorioServicio;
 	}
 
-	public void setModificarEquipoServicio(ModificarEquipoServicio modificarEquipoServicio) {
-		this.modificarEquipoServicio = modificarEquipoServicio;
+	public void setModificarAccesorioServicio(ModificarAccesorioServicio modificarAccesorioServicio) {
+		this.modificarAccesorioServicio = modificarAccesorioServicio;
 	}
 
-	public EquipoEntity getEquipo() {
-		return equipo;
+	public AccesorioEntity getAccesorio() {
+		return accesorio;
 	}
 
-	public void setEquipo(EquipoEntity equipo) {
-		this.equipo = equipo;
+	public void setAccesorio(AccesorioEntity accesorio) {
+		this.accesorio = accesorio;
 	}
 
 	public HistorialInventarioEntity getHistorial() {
@@ -231,6 +242,22 @@ public class ModificarEquipoBean {
 
 	public void setModelo(ModeloEntity modelo) {
 		this.modelo = modelo;
+	}
+
+	public List<CategoriaEntity> getCategorias() {
+		return categorias;
+	}
+
+	public void setCategorias(List<CategoriaEntity> categorias) {
+		this.categorias = categorias;
+	}
+
+	public CategoriaEntity getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(CategoriaEntity categoria) {
+		this.categoria = categoria;
 	}
 }
 

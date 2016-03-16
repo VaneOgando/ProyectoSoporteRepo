@@ -139,7 +139,9 @@
 			<p:panelGrid id="botones" styleClass="panelInventario botonesPanel" style="margin: 0 auto; font-size: small">
 				<p:row>
 					<p:column>
-						<p:commandButton id="modificar" value="Modificar" action="#{detalleEquipoBean.modificarEquipo}" />
+						<p:commandButton id="modificar" value="Modificar" action="#{detalleEquipoBean.modificarEquipo}" >
+							<f:param name="numSerie" value="#{detalleEquipoBean.equipo.numSerie}" />
+						</p:commandButton>
 					</p:column>
 					<p:column>
 						<p:commandButton id="cambioEstado" value="Cambiar estado" />

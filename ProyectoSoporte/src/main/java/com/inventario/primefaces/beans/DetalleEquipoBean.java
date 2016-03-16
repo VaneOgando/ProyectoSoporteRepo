@@ -45,13 +45,16 @@ public class DetalleEquipoBean {
 
 	public String modificarEquipo(){
 
-//		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("numSerie", equipo.getNumSerie());
-		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("numSerie", equipo.getNumSerie());
-//		return "modificarEquipo.xhtml?faces-redirect=true";
+		return "modificarEquipo.xhtml";
+	}
+
+	/*
+	public String modificarEquipo(){
+
 		return "modificarEquipo.xhtml?faces-redirect=true&numSerie=" + equipo.getNumSerie();
 
 	}
-
+	*/
 
 	/*GET & SET*/
 	public DetalleEquipoServicio getDetalleEquipoServicio() {

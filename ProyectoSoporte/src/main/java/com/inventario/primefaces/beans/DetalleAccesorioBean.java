@@ -51,6 +51,11 @@ public class DetalleAccesorioBean {
 
 	}
 
+	public String modificarAccesorio(){
+
+		return "modificarAccesorio.xhtml";
+	}
+
 	/*GET & SET*/
 	public DetalleAccesorioServicio getDetalleAccesorioServicio() {
 		return detalleAccesorioServicio;
