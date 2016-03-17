@@ -149,9 +149,7 @@ public class ModificarAccesorioBean {
 
 	public String bt_cancelar(){
 
-		FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "PRUEBAA", null));
-
-		return "Cancelar";
+		return "";
 	}
 
 	/*GET & SET*/

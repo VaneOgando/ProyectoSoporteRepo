@@ -42,9 +42,13 @@
 			<to-view-id>/consultarInventario.xhtml</to-view-id>
 			<redirect/>
 		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/modificarAccesorio.xhtml</from-view-id>
 		<navigation-case>
-			<from-action>#{modificarEquipoBean.bt_cancelar}</from-action>
-			<from-outcome>Cancelar</from-outcome>
+			<from-action>#{modificarAccesorioBean.bt_modificar}</from-action>
+			<from-outcome>Exito</from-outcome>
 			<to-view-id>/consultarInventario.xhtml</to-view-id>
 			<redirect/>
 		</navigation-case>

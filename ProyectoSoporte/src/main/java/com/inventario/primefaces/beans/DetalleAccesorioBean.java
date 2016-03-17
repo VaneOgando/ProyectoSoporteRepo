@@ -8,9 +8,11 @@ import com.inventario.spring.service.DetalleAccesorioServicio;
 import com.inventario.spring.service.DetalleEquipoServicio;
 import org.primefaces.context.RequestContext;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,6 +38,7 @@ public class DetalleAccesorioBean {
 
 
 	/*METODOS*/
+	@PostConstruct
 	public void cargarDetalleAccesorio() {
 
 		itemsBuscados = null;

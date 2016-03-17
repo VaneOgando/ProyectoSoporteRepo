@@ -159,7 +159,9 @@
 							<h:commandButton id="modificar" value="Modificar" process="modificarRecurso" action="#{modificarAccesorioBean.bt_modificar}" />
 						</p:column>
 						<p:column>
-							<h:commandButton id="cancelar" value="Cancelar" action="#{modificarEquipoBean.bt_cancelar}"/>
+							<h:commandButton id="cancelar" value="Cancelar" action="#{modificarEquipoBean.bt_cancelar}">
+								<f:param name="id" value="#{modificarAccesorioBean.accesorio.id}" />
+							</h:commandButton>
 						</p:column>
 					</p:row>
 				</p:panelGrid>
