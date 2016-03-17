@@ -98,7 +98,7 @@ public class CrearRecursoBean {
 		return results;
 	}
 
-	public String crearRecurso(){
+	public String bt_crearRecurso(){
 
 		try {
 
@@ -195,6 +195,11 @@ public class CrearRecursoBean {
 
 		estado 	   = new EstadoEntity();
 		historial  = new HistorialInventarioEntity();
+	}
+
+	public String bt_cancelar(){
+
+		return "Cancelar";
 	}
 
 

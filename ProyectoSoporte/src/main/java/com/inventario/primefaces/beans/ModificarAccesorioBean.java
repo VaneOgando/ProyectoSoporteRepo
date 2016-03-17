@@ -149,11 +149,11 @@ public class ModificarAccesorioBean {
 
 	public String bt_cancelar(){
 
-		return "";
+		return "detalleAccesorio.xhtml?faces-redirect=true&id=" + accesorio.getId();
 	}
 
-	/*GET & SET*/
 
+	/*GET & SET*/
 	public ModificarAccesorioServicio getModificarAccesorioServicio() {
 		return modificarAccesorioServicio;
 	}

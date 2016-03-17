@@ -32,6 +32,12 @@
 			<to-view-id>/crearRecurso.xhtml</to-view-id>
 			<redirect/>
 		</navigation-case>
+		<navigation-case>
+			<from-action>#{crearRecursoBean.bt_cancelar}</from-action>
+			<from-outcome>Cancelar</from-outcome>
+			<to-view-id>/consultarInventario.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
@@ -53,6 +59,5 @@
 			<redirect/>
 		</navigation-case>
 	</navigation-rule>
-
 
 </faces-config>

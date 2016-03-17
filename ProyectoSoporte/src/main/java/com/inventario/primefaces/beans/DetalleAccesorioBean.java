@@ -38,7 +38,6 @@ public class DetalleAccesorioBean {
 
 
 	/*METODOS*/
-	@PostConstruct
 	public void cargarDetalleAccesorio() {
 
 		itemsBuscados = null;

@@ -6,6 +6,7 @@ import com.inventario.spring.service.DetalleEquipoServicio;
 import org.primefaces.context.RequestContext;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.*;
 import javax.faces.context.FacesContext;
 import java.util.ArrayList;
@@ -43,9 +44,30 @@ public class DetalleEquipoBean {
 
 	}
 
-	public String modificarEquipo(){
+	public String bt_modificarEquipo(){
 
 		return "modificarEquipo.xhtml";
+	}
+
+	public void bt_eliminarEquipo(){
+
+		//validar que no este asignado - mensaje de q esta asignado y hay q devolverlo
+		//Asignado no elimina
+		if (!equipo.getEstado().getNombre().equals("Asignado")){
+
+
+		}else{
+
+			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR! Este recurso se encuentra asignado, por favor realizar su respectiva devolución", null));
+
+		}
+
+		//Eliminarlo
+				//Cambiar si estado a dañado
+				//Crear historial
+
+		//bloquear todos los botones
+
 	}
 
 	/*

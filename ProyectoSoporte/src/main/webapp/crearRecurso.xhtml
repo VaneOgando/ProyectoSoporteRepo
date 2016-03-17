@@ -355,16 +355,19 @@
 				<p:panelGrid id="botones" styleClass="panelInventario botonesPanel" style="margin: 0 auto; font-size: small">
 					<p:row>
 						<p:column>
-							<h:commandButton id="crear" value="Crear" process="crearRecurso" action="#{crearRecursoBean.crearRecurso}" />
+							<h:commandButton id="crear" value="Crear" process="crearRecurso"
+											 onclick="if (! confirm('Seguro desea crear?')) return false" action="#{crearRecursoBean.bt_crearRecurso}" />
 						</p:column>
 						<p:column>
-							<h:commandButton id="cancelar" value="Cancelar" />
+							<h:commandButton id="cancelar" value="Cancelar" immediate="true"
+											 onclick="if (! confirm('Seguro desea cancelar?')) return false"  action="#{crearRecursoBean.bt_cancelar}" />
 						</p:column>
 					</p:row>
 				</p:panelGrid>
 			</div>
 		</div>
 	</h:form>
+
 	</ui:define>
 
 </ui:composition>

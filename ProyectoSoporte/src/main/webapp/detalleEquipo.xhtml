@@ -17,142 +17,148 @@
 		<h1 style="text-align: center"> Detalle del equipo #{detalleEquipoBean.equipo.nombre}</h1>
 
 		<div class="contenedorDetalle">
-		<div class="detalleDiv">
 
-			<p:panelGrid styleClass="font panelInventario">
+			<div id="Mensajes" class="mensajeDetalle">
+				<p:messages id="mensajesError" autoUpdate="true" closable="true" />
+			</div>
 
-				<p:row>
-					<p:column styleClass="panelColumnaIzq">
-						<h:outputLabel value="Num de Serie:"/>
-					</p:column>
-					<p:column styleClass="panelColumnaDer">
-						<h:outputLabel value="#{detalleEquipoBean.equipo.numSerie}"/>
-					</p:column>
-				</p:row>
+			<div class="detalleDiv">
 
-				<p:row>
-					<p:column styleClass="panelColumnaIzq">
-						<h:outputLabel value="Procesador:"/>
-					</p:column>
-					<p:column styleClass="panelColumnaDer">
-						<h:outputLabel value="#{detalleEquipoBean.equipo.procesador}"/>
-					</p:column>
-				</p:row>
+				<p:panelGrid styleClass="font panelInventario">
 
-				<p:row>
-					<p:column styleClass="panelColumnaIzq">
-						<h:outputLabel value="Memoria Ram:"/>
-					</p:column>
-					<p:column styleClass="panelColumnaDer">
-						<h:outputLabel value="#{detalleEquipoBean.equipo.memoriaRam}"/>
-					</p:column>
-				</p:row>
+					<p:row>
+						<p:column styleClass="panelColumnaIzq">
+							<h:outputLabel value="Num de Serie:"/>
+						</p:column>
+						<p:column styleClass="panelColumnaDer">
+							<h:outputLabel value="#{detalleEquipoBean.equipo.numSerie}"/>
+						</p:column>
+					</p:row>
 
-				<p:row>
-					<p:column styleClass="panelColumnaIzq">
-						<h:outputLabel value="Disco Duro:"/>
-					</p:column>
-					<p:column styleClass="panelColumnaDer">
-						<h:outputLabel value="#{detalleEquipoBean.equipo.discoDuro}"/>
-					</p:column>
-				</p:row>
+					<p:row>
+						<p:column styleClass="panelColumnaIzq">
+							<h:outputLabel value="Procesador:"/>
+						</p:column>
+						<p:column styleClass="panelColumnaDer">
+							<h:outputLabel value="#{detalleEquipoBean.equipo.procesador}"/>
+						</p:column>
+					</p:row>
 
-				<p:row>
-					<p:column styleClass="panelColumnaIzq">
-						<h:outputLabel value="Sistema Operativo:"/>
-					</p:column>
-					<p:column styleClass="panelColumnaDer">
-						<h:outputLabel value="#{detalleEquipoBean.equipo.sistOperativo}"/>
-					</p:column>
-				</p:row>
+					<p:row>
+						<p:column styleClass="panelColumnaIzq">
+							<h:outputLabel value="Memoria Ram:"/>
+						</p:column>
+						<p:column styleClass="panelColumnaDer">
+							<h:outputLabel value="#{detalleEquipoBean.equipo.memoriaRam}"/>
+						</p:column>
+					</p:row>
 
-				<p:row>
-					<p:column styleClass="panelColumnaIzq">
-						<h:outputLabel value="Características:"/>
-					</p:column>
-					<p:column styleClass="panelColumnaDer">
-						<h:outputLabel value="#{detalleEquipoBean.equipo.caracteristicas}" rendered="#{detalleEquipoBean.equipo.caracteristicas != null}"/>
-						<h:outputText value="N/A" rendered="#{detalleEquipoBean.equipo.caracteristicas == null}" />
-					</p:column>
-				</p:row>
+					<p:row>
+						<p:column styleClass="panelColumnaIzq">
+							<h:outputLabel value="Disco Duro:"/>
+						</p:column>
+						<p:column styleClass="panelColumnaDer">
+							<h:outputLabel value="#{detalleEquipoBean.equipo.discoDuro}"/>
+						</p:column>
+					</p:row>
 
-				<p:row>
-					<p:column styleClass="panelColumnaIzq">
-						<h:outputLabel value="Fecha de adquisición:"/>
-					</p:column>
-					<p:column styleClass="panelColumnaDer">
-						<h:outputLabel value="#{detalleEquipoBean.equipo.fechaCompra}">
-							<f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
-						</h:outputLabel>
-					</p:column>
-				</p:row>
+					<p:row>
+						<p:column styleClass="panelColumnaIzq">
+							<h:outputLabel value="Sistema Operativo:"/>
+						</p:column>
+						<p:column styleClass="panelColumnaDer">
+							<h:outputLabel value="#{detalleEquipoBean.equipo.sistOperativo}"/>
+						</p:column>
+					</p:row>
 
-			</p:panelGrid>
+					<p:row>
+						<p:column styleClass="panelColumnaIzq">
+							<h:outputLabel value="Características:"/>
+						</p:column>
+						<p:column styleClass="panelColumnaDer">
+							<h:outputLabel value="#{detalleEquipoBean.equipo.caracteristicas}" rendered="#{detalleEquipoBean.equipo.caracteristicas != null}"/>
+							<h:outputText value="N/A" rendered="#{detalleEquipoBean.equipo.caracteristicas == null}" />
+						</p:column>
+					</p:row>
 
-		</div>
+					<p:row>
+						<p:column styleClass="panelColumnaIzq">
+							<h:outputLabel value="Fecha de adquisición:"/>
+						</p:column>
+						<p:column styleClass="panelColumnaDer">
+							<h:outputLabel value="#{detalleEquipoBean.equipo.fechaCompra}">
+								<f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+							</h:outputLabel>
+						</p:column>
+					</p:row>
 
-		<div class="detalleDiv">
-			<p:panelGrid styleClass="font panelInventario">
+				</p:panelGrid>
 
-				<p:row>
-					<p:column styleClass="panelColumnaIzq">
-						<h:outputLabel value="Marca:"/>
-					</p:column>
-					<p:column styleClass="panelColumnaDer">
-						<h:outputLabel value="#{detalleEquipoBean.equipo.modelo.marca.nombre}"/>
-					</p:column>
-				</p:row>
+			</div>
 
-				<p:row>
-					<p:column styleClass="panelColumnaIzq">
-						<h:outputLabel value="Modelo:"/>
-					</p:column>
-					<p:column styleClass="panelColumnaDer">
-						<h:outputLabel value="#{detalleEquipoBean.equipo.modelo.nombre}"/>
-					</p:column>
-				</p:row>
+			<div class="detalleDiv">
+				<p:panelGrid styleClass="font panelInventario">
 
-				<p:row>
-					<p:column styleClass="panelColumnaIzq">
-						<h:outputLabel value="Estado:" />
-					</p:column>
-					<p:column styleClass="panelColumnaDer">
-						<h:outputLabel value="#{detalleEquipoBean.equipo.estado.nombre}"/>
-					</p:column>
-				</p:row>
+					<p:row>
+						<p:column styleClass="panelColumnaIzq">
+							<h:outputLabel value="Marca:"/>
+						</p:column>
+						<p:column styleClass="panelColumnaDer">
+							<h:outputLabel value="#{detalleEquipoBean.equipo.modelo.marca.nombre}"/>
+						</p:column>
+					</p:row>
 
-				<p:row>
-					<p:column styleClass="panelColumnaIzq">
-						<h:outputLabel value="Usuario:" rendered="#{detalleEquipoBean.equipo.estado.nombre == 'Asignado'}"/>
-					</p:column>
-					<p:column styleClass="panelColumnaDer">
-						<h:outputLabel value="#{detalleEquipoBean.usuario}" rendered="#{detalleEquipoBean.equipo.estado.nombre == 'Asignado'}"/>
-					</p:column>
-				</p:row>
+					<p:row>
+						<p:column styleClass="panelColumnaIzq">
+							<h:outputLabel value="Modelo:"/>
+						</p:column>
+						<p:column styleClass="panelColumnaDer">
+							<h:outputLabel value="#{detalleEquipoBean.equipo.modelo.nombre}"/>
+						</p:column>
+					</p:row>
 
-			</p:panelGrid>
+					<p:row>
+						<p:column styleClass="panelColumnaIzq">
+							<h:outputLabel value="Estado:" />
+						</p:column>
+						<p:column styleClass="panelColumnaDer">
+							<h:outputLabel value="#{detalleEquipoBean.equipo.estado.nombre}"/>
+						</p:column>
+					</p:row>
 
-		</div>
+					<p:row>
+						<p:column styleClass="panelColumnaIzq">
+							<h:outputLabel value="Usuario:" rendered="#{detalleEquipoBean.equipo.estado.nombre == 'Asignado'}"/>
+						</p:column>
+						<p:column styleClass="panelColumnaDer">
+							<h:outputLabel value="#{detalleEquipoBean.usuario}" rendered="#{detalleEquipoBean.equipo.estado.nombre == 'Asignado'}"/>
+						</p:column>
+					</p:row>
 
-		<div id="botonesGestion" class="detalleBotonesGestion">
+				</p:panelGrid>
 
-			<p:panelGrid id="botones" styleClass="panelInventario botonesPanel" style="margin: 0 auto; font-size: small">
-				<p:row>
-					<p:column>
-						<p:commandButton id="modificar" value="Modificar" action="#{detalleEquipoBean.modificarEquipo}" >
-							<f:param name="numSerie" value="#{detalleEquipoBean.equipo.numSerie}" />
-						</p:commandButton>
-					</p:column>
-					<p:column>
-						<p:commandButton id="cambioEstado" value="Cambiar estado" />
-					</p:column>
-					<p:column>
-						<p:commandButton id="eliminar" value="Eliminar" />
-					</p:column>
-				</p:row>
-			</p:panelGrid>
+			</div>
 
-		</div>
+			<div id="botonesGestion" class="detalleBotonesGestion">
+
+				<p:panelGrid id="botones" styleClass="panelInventario botonesPanel" style="margin: 0 auto; font-size: small">
+					<p:row>
+						<p:column>
+							<p:commandButton id="modificar" value="Modificar" action="#{detalleEquipoBean.bt_modificarEquipo}" >
+								<f:param name="numSerie" value="#{detalleEquipoBean.equipo.numSerie}" />
+							</p:commandButton>
+						</p:column>
+						<p:column>
+							<p:commandButton id="cambioEstado" value="Cambiar estado" />
+						</p:column>
+						<p:column>
+							<p:commandButton id="eliminar" value="Eliminar" onclick="if (! confirm('Seguro desea eliminar?')) return false"
+											 action="#{detalleEquipoBean.bt_eliminarEquipo}" update=":datatable:Historial"/>
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+
+			</div>
 
 		</div>
 

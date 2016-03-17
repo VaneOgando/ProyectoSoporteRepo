@@ -198,10 +198,12 @@
 				<p:panelGrid id="botones" styleClass="panelInventario botonesPanel" style="margin: 0 auto; font-size: small">
 					<p:row>
 						<p:column>
-							<h:commandButton id="modificar" value="Modificar" process="modificarRecurso" action="#{modificarEquipoBean.bt_modificar}" />
+							<h:commandButton id="modificar" value="Modificar" process="modificarRecurso"
+											 onclick="if (! confirm('Seguro desea modificar?')) return false" action="#{modificarEquipoBean.bt_modificar}" />
 						</p:column>
 						<p:column>
-							<h:commandButton id="cancelar" value="Cancelar" action="#{modificarEquipoBean.bt_cancelar}"/>
+							<h:commandButton id="cancelar" value="Cancelar" immediate="true"
+											 onclick="if (! confirm('Seguro desea cancelar?')) return false" action="#{modificarEquipoBean.bt_cancelar}"/>
 						</p:column>
 					</p:row>
 				</p:panelGrid>

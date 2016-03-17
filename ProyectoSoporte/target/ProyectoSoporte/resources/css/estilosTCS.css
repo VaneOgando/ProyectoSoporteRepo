@@ -74,6 +74,12 @@ body {
     display: table;
 }
 
+.mensajeDetalle{
+    margin: 0 auto;
+    width: 75%;
+    text-align: center;
+}
+
 .detalleDiv{
 
     position: relative;
@@ -227,3 +233,4 @@ body {
 .calPrimeModificacion .ui-datepicker-trigger{
     font-size: small; !important;
 }
+

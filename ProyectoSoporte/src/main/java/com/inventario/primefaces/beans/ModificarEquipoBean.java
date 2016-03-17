@@ -138,9 +138,7 @@ public class ModificarEquipoBean {
 
 	public String bt_cancelar(){
 
-		FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "PRUEBAA", null));
-
-		return "Cancelar";
+		return "detalleEquipo.xhtml?faces-redirect=true&numSerie=" + equipo.getNumSerie();
 	}
 
 	/*GET & SET*/
