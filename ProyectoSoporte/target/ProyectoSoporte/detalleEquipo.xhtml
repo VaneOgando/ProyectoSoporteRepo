@@ -152,7 +152,7 @@
 							<p:commandButton id="cambioEstado" value="Cambiar estado" />
 						</p:column>
 						<p:column>
-							<p:commandButton id="eliminar" value="Eliminar" onclick="if (! confirm('Seguro desea eliminar?')) return false"
+							<p:commandButton id="eliminar" value="Eliminar"  immediate="true" onclick="if (! confirm('Seguro desea eliminar?')) return false"
 											 action="#{detalleEquipoBean.bt_eliminarEquipo}" update=":datatable:Historial"/>
 						</p:column>
 					</p:row>

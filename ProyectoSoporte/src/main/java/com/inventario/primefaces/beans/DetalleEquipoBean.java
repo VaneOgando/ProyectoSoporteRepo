@@ -3,6 +3,7 @@ package com.inventario.primefaces.beans;
 import com.inventario.jpa.data.*;
 import com.inventario.spring.service.ConsultarInventarioServicio;
 import com.inventario.spring.service.DetalleEquipoServicio;
+import com.inventario.util.constante.Constantes;
 import org.primefaces.context.RequestContext;
 
 import javax.annotation.PostConstruct;
@@ -10,6 +11,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.*;
 import javax.faces.context.FacesContext;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @ManagedBean
@@ -22,11 +24,18 @@ public class DetalleEquipoBean {
 
 	private EquipoEntity equipo = new EquipoEntity();
 
-	private List<CategoriaEntity> categorias = new ArrayList<CategoriaEntity>();
+	private EstadoEntity estadoEliminado = new EstadoEntity();
+	private HistorialInventarioEntity historialEliminado = new HistorialInventarioEntity();
+
 	private List<HistorialInventarioEntity> historial = new ArrayList<HistorialInventarioEntity>();
 	private List<HistorialInventarioEntity> itemsBuscados;
 
 	private String usuario = null;
+
+	private String observacion;
+	private String incidencia;
+	private Date fechaActual = new Date();
+	private Boolean eliminado = false;
 
 	/*METODOS*/
 	public void cargarDetalleEquipo() {
@@ -35,7 +44,6 @@ public class DetalleEquipoBean {
 
 		equipo 	  = detalleEquipoServicio.obtenerEquipo(equipo.getNumSerie());
 		historial = detalleEquipoServicio.obtenerHistorialEquipo(equipo.getNumSerie());
-		categorias = detalleEquipoServicio.obtenerCategoriaHistorial("historial");
 
 		//Equipo posee usuario
 		if (equipo.getEstado().getNombre().equals("Asignado")){
@@ -49,34 +57,62 @@ public class DetalleEquipoBean {
 		return "modificarEquipo.xhtml";
 	}
 
-	public void bt_eliminarEquipo(){
+	public String bt_eliminarEquipo(){
 
-		//validar que no este asignado - mensaje de q esta asignado y hay q devolverlo
-		//Asignado no elimina
+		//Validacion de estado permitido
 		if (!equipo.getEstado().getNombre().equals("Asignado")){
 
+			try{
+
+				//POP UP PARA INGRESAR OBSERVACION E INCIDENCIA
+
+				estadoEliminado = detalleEquipoServicio.obtenerEstado(Constantes.D_ID_ESTADO_ELIMINADO);
+				crearHistorialEliminar();
+
+				eliminado = detalleEquipoServicio.eliminarEquipo(equipo, estadoEliminado, historialEliminado);
+
+				if (eliminado == true) {
+
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "EXITO! El recurso se elimino satisfactoriamente", null));
+
+					return "Exito";
+
+				}else {
+					FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! No se pudo eliminar el recurso", null));
+
+					return "";
+
+				}
+
+			}catch (Exception e) {
+				FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! No se pudo eliminar el recurso", null));
+
+				return "";
+			}
 
 		}else{
 
 			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR! Este recurso se encuentra asignado, por favor realizar su respectiva devolución", null));
 
+			return "";
 		}
 
-		//Eliminarlo
-				//Cambiar si estado a dañado
-				//Crear historial
+	}
 
-		//bloquear todos los botones
+	public void crearHistorialEliminar(){
+
+		observacion = "Mensaje de prueba, eliminacion de equipo";
+
+		historialEliminado.setFechaGestion(fechaActual);
+		historialEliminado.setDescripcion(observacion);
+		historialEliminado.setResponsableSoporte("12345678");  //USUARIO DE LA SESSION
+		historialEliminado.setCategoria(detalleEquipoServicio.obtenerCategoriaHistorial(Constantes.D_CAT_HISTORIAL_ELIMINACION));
+
+		if(!incidencia.equals(""))
+			historialEliminado.setIdIncidencia(incidencia);
 
 	}
 
-	/*
-	public String modificarEquipo(){
-
-		return "modificarEquipo.xhtml?faces-redirect=true&numSerie=" + equipo.getNumSerie();
-
-	}
-	*/
 
 	/*GET & SET*/
 	public DetalleEquipoServicio getDetalleEquipoServicio() {
@@ -99,14 +135,6 @@ public class DetalleEquipoBean {
 		return historial;
 	}
 
-	public List<CategoriaEntity> getCategorias() {
-		return categorias;
-	}
-
-	public void setCategorias(List<CategoriaEntity> categorias) {
-		this.categorias = categorias;
-	}
-
 	public void setHistorial(List<HistorialInventarioEntity> historial) {
 		this.historial = historial;
 	}
@@ -127,5 +155,52 @@ public class DetalleEquipoBean {
 		this.usuario = usuario;
 	}
 
+	public EstadoEntity getEstadoEliminado() {
+		return estadoEliminado;
+	}
+
+	public void setEstadoEliminado(EstadoEntity estadoEliminado) {
+		this.estadoEliminado = estadoEliminado;
+	}
+
+	public Boolean getEliminado() {
+		return eliminado;
+	}
+
+	public void setEliminado(Boolean eliminado) {
+		this.eliminado = eliminado;
+	}
+
+	public HistorialInventarioEntity getHistorialEliminado() {
+		return historialEliminado;
+	}
+
+	public void setHistorialEliminado(HistorialInventarioEntity historialEliminado) {
+		this.historialEliminado = historialEliminado;
+	}
+
+	public String getObservacion() {
+		return observacion;
+	}
+
+	public void setObservacion(String observacion) {
+		this.observacion = observacion;
+	}
+
+	public String getIncidencia() {
+		return incidencia;
+	}
+
+	public void setIncidencia(String incidencia) {
+		this.incidencia = incidencia;
+	}
+
+	public Date getFechaActual() {
+		return fechaActual;
+	}
+
+	public void setFechaActual(Date fechaActual) {
+		this.fechaActual = fechaActual;
+	}
 }
 

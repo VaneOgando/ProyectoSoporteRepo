@@ -120,7 +120,7 @@ public class CrearRecursoBean {
 
 			}
 
-			estado = crearRecursoServicio.obtenerEstado(Constantes.D_ID_ESTADO);
+			estado = crearRecursoServicio.obtenerEstado(Constantes.D_ID_ESTADO_CREACION);
 			crearHistorial();
 
 			//Validar existencia de modelo

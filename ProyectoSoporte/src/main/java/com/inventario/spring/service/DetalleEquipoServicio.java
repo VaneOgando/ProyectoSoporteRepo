@@ -42,15 +42,6 @@ public class DetalleEquipoServicio {
 	}
 
 	@Transactional
-	public List<CategoriaEntity> obtenerCategoriaHistorial(String tipoCategoria) throws DataAccessException {
-
-		List<CategoriaEntity> resultList = getEntityManager().createNamedQuery("HQL_CATEGORIA_POR_TIPO")
-											.setParameter("tipoCategoria", tipoCategoria)
-											.getResultList();
-		return resultList;
-	}
-
-	@Transactional
 	public String obtenerUsuarioAsignado(String numSerie) throws DataAccessException {
 
 		List<String> resultList = getEntityManager().createNamedQuery("HQL_HISTORIAL_USUARIO_ASIGNADO_EQUIPO")
@@ -61,6 +52,63 @@ public class DetalleEquipoServicio {
 			return null;
 		}else{
 			return resultList.get(0).toString();
+		}
+
+	}
+
+	@Transactional
+	public EstadoEntity obtenerEstado(int idEstado) throws DataAccessException {
+
+		List<EstadoEntity> resultList = getEntityManager().createNamedQuery("HQL_ESTADO_POR_ID")
+										.setParameter("idEstado", idEstado)
+										.getResultList();
+
+		if(resultList.size() < 1){
+			return null;
+		}else{
+			return resultList.get(0);
+		}
+
+	}
+
+	@Transactional
+	public CategoriaEntity obtenerCategoriaHistorial(int idCategoria) throws DataAccessException {
+
+		List<CategoriaEntity> resultList = getEntityManager().createNamedQuery("HQL_CATEGORIA_POR_ID")
+				.setParameter("idCategoria", idCategoria)
+				.getResultList();
+
+		if(resultList.size() < 1){
+			return null;
+		}else{
+			return resultList.get(0);
+		}
+
+	}
+
+	@Transactional
+	public boolean eliminarEquipo(EquipoEntity equipo, EstadoEntity estado, HistorialInventarioEntity historial) throws DataAccessException {
+
+		boolean eliminacion = false;
+
+		try{
+
+			equipo.setEstado(estado);
+			entityManager.merge(equipo);
+
+			historial.setEquipo(equipo);
+			entityManager.persist(historial);
+
+			eliminacion = true;
+
+		}catch(Exception e){
+			eliminacion = false;
+			throw e;
+		}finally {
+
+			entityManager.close();
+			return eliminacion;
+
 		}
 
 	}
