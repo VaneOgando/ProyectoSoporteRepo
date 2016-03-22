@@ -19,7 +19,7 @@
 		<div class="contenedorDetalle">
 
 			<div id="Mensajes" class="mensajeDetalle">
-				<p:messages id="mensajesError" autoUpdate="true" closable="true" />
+				<p:messages id="mensajesError" closable="true" />
 			</div>
 
 			<div class="detalleDiv">
@@ -144,16 +144,16 @@
 				<p:panelGrid id="botones" styleClass="panelInventario botonesPanel" style="margin: 0 auto; font-size: small">
 					<p:row>
 						<p:column>
-							<p:commandButton id="modificar" value="Modificar" action="#{detalleEquipoBean.bt_modificarEquipo}" >
+							<p:commandButton id="modificar" value="Modificar" immediate="true" action="#{detalleEquipoBean.bt_modificarEquipo}" update="mensajesError" >
 								<f:param name="numSerie" value="#{detalleEquipoBean.equipo.numSerie}" />
 							</p:commandButton>
 						</p:column>
 						<p:column>
-							<p:commandButton id="cambioEstado" value="Cambiar estado" />
+							<p:commandButton id="cambiarEstado" value="Cambiar estado" immediate="true" action="#{detalleEquipoBean.bt_cambiarEstado}" update="mensajesError" />
 						</p:column>
 						<p:column>
-							<p:commandButton id="eliminar" value="Eliminar"  immediate="true" onclick="if (! confirm('Seguro desea eliminar?')) return false"
-											 action="#{detalleEquipoBean.bt_eliminarEquipo}" update=":datatable:Historial"/>
+							<p:commandButton id="eliminar" value="Eliminar" immediate="true" action="#{detalleEquipoBean.validarEstado}"
+									   update="mensajesError dialogoEliminar" />
 						</p:column>
 					</p:row>
 				</p:panelGrid>
@@ -162,8 +162,58 @@
 
 		</div>
 
+		<div id="detalleDialogoEliminar">
+			<p:dialog id="dialogoEliminar" header="Por favor ingrese" widgetVar="dialogoEliminar" closable="false" resizable="false" modal="true" >
+				<h:form id="dialogo" >
+					<p:messages id="mensajesDialog" for="observacion" closable="true" autoUpdate="true" />
+
+					<p:panelGrid styleClass="panelInventario" >
+
+						<p:row>
+							<p:column styleClass="panelColumnaIzq">
+								<p:outputLabel value="Incidencia:"/>
+							</p:column>
+							<p:column styleClass="panelColumnaDer">
+								<p:inputText styleClass="anchoCompModificacion" value="#{detalleEquipoBean.incidencia}"
+											 validatorMessage="En número de incidencia debe contener únicamente números y no sobrepasar los 7 caracteres">
+									<f:validateRegex pattern="\d{1,7}"/>
+								</p:inputText>
+								<p:button icon="ui-icon-search" style="font-size: small" onclick=""/>
+							</p:column>
+						</p:row>
+
+						<p:row>
+							<p:column styleClass="panelColumnaIzq">
+								<p:outputLabel value="Observación:"/>
+							</p:column>
+							<p:column styleClass="panelColumnaDer">
+								<p:inputTextarea id="observacion" value="#{detalleEquipoBean.observacion}" rows="3" cols="22" autoResize="false"
+												 counter="observ_caractEquipo" maxlength="100" counterTemplate="{0} caracteres restantes."
+												 style="margin-right: 46px"
+												 required="true" requiredMessage="Por favor indique el motivo de la modificacion"/>
+								<p:outputLabel id="observ_caractEquipo" style="font-size: x-small"/>
+								<p:outputLabel value="*" styleClass="requerido"/>
+							</p:column>
+						</p:row>
+
+						<p:row>
+							<p:column style="text-align: right; font-size: small">
+								<p:commandButton value="Eliminar" action="#{detalleEquipoBean.bt_eliminarEquipo}" />
+							</p:column>
+
+							<p:column style="text-align: left; font-size: small">
+								<p:commandButton value="Cancelar" immediate="true" onclick="PF('dialogoEliminar').hide()" />
+							</p:column>
+						</p:row>
+
+					</p:panelGrid>
+
+				</h:form>
+			</p:dialog>
+		</div>
+
 		<div>
-			<h:form id="datatable">
+			<h:form id="datatable" >
 				<p:dataTable id="Historial" var="item" value="#{detalleEquipoBean.historial}"
 							 rows="15" paginator="true" rowsPerPageTemplate="10,15,25,50,100"
 							 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"

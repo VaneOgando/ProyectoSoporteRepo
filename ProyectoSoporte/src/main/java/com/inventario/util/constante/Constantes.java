@@ -4,8 +4,9 @@ public class Constantes {
 
     /*CONSTANTES*/
     public static final int D_ID_ESTADO_CREACION = 1;
-    public static final int D_ID_ESTADO_ELIMINADO = 3
-            ;
+    public static final int D_ID_ESTADO_ASIGNACION = 2;
+    public static final int D_ID_ESTADO_ELIMINADO = 3;
+
     public static final int D_CAT_HISTORIAL_CREACION = 5;
     public static final int D_CAT_HISTORIAL_MODIFICACION = 6;
     public static final int D_CAT_HISTORIAL_ELIMINACION = 7;

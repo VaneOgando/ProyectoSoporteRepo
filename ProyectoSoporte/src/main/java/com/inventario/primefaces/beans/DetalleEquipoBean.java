@@ -31,9 +31,9 @@ public class DetalleEquipoBean {
 	private List<HistorialInventarioEntity> itemsBuscados;
 
 	private String usuario = null;
-
 	private String observacion;
 	private String incidencia;
+
 	private Date fechaActual = new Date();
 	private Boolean eliminado = false;
 
@@ -54,54 +54,77 @@ public class DetalleEquipoBean {
 
 	public String bt_modificarEquipo(){
 
-		return "modificarEquipo.xhtml";
-	}
+		if (equipo.getEstado().getId() == Constantes.D_ID_ESTADO_ELIMINADO){
 
-	public String bt_eliminarEquipo(){
-
-		//Validacion de estado permitido
-		if (!equipo.getEstado().getNombre().equals("Asignado")){
-
-			try{
-
-				//POP UP PARA INGRESAR OBSERVACION E INCIDENCIA
-
-				estadoEliminado = detalleEquipoServicio.obtenerEstado(Constantes.D_ID_ESTADO_ELIMINADO);
-				crearHistorialEliminar();
-
-				eliminado = detalleEquipoServicio.eliminarEquipo(equipo, estadoEliminado, historialEliminado);
-
-				if (eliminado == true) {
-
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "EXITO! El recurso se elimino satisfactoriamente", null));
-
-					return "Exito";
-
-				}else {
-					FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! No se pudo eliminar el recurso", null));
-
-					return "";
-
-				}
-
-			}catch (Exception e) {
-				FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! No se pudo eliminar el recurso", null));
-
-				return "";
-			}
+			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! Este recurso se encuentra fuera del inventario", null));
+			return "";
 
 		}else{
+			return "modificarEquipo.xhtml";
+		}
 
-			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR! Este recurso se encuentra asignado, por favor realizar su respectiva devolución", null));
+	}
 
+	public String bt_cambiarEstado(){
+
+		if (equipo.getEstado().getId() == Constantes.D_ID_ESTADO_ELIMINADO){
+
+			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! Este recurso se encuentra fuera del inventario", null));
+			return "";
+
+		}else{
 			return "";
 		}
 
 	}
 
-	public void crearHistorialEliminar(){
+	public void validarEstado(){
 
-		observacion = "Mensaje de prueba, eliminacion de equipo";
+		if (equipo.getEstado().getId() == Constantes.D_ID_ESTADO_ELIMINADO) {
+			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! Este recurso se encuentra fuera del inventario", null));
+		}else if (equipo.getEstado().getId() == Constantes.D_ID_ESTADO_ASIGNACION) {
+			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR! Este recurso se encuentra asignado, por favor realizar su respectiva devoluciï¿½n", null));
+
+		} else {
+			RequestContext.getCurrentInstance().execute("(confirm('Seguro desea eliminar?')) ? PF('dialogoEliminar').show() : false");
+		}
+
+	}
+
+	public String bt_eliminarEquipo(){
+
+		try {
+
+			estadoEliminado = detalleEquipoServicio.obtenerEstado(Constantes.D_ID_ESTADO_ELIMINADO);
+			crearHistorialEliminar();
+
+			eliminado = detalleEquipoServicio.eliminarEquipo(equipo, estadoEliminado, historialEliminado);
+
+				if (eliminado == true) {
+
+					FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "EXITO! El recurso se elimino satisfactoriamente", null));
+
+					return "Exito";
+
+				} else {
+					FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! No se pudo eliminar el recurso", null));
+					RequestContext.getCurrentInstance().execute("PF('dialogoEliminar').hide()");
+					RequestContext.getCurrentInstance().update("mensajesError");
+					return "";
+
+				}
+
+			} catch (Exception e) {
+				FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! No se pudo eliminar el recurso", null));
+				RequestContext.getCurrentInstance().execute("PF('dialogoEliminar').hide()");
+				RequestContext.getCurrentInstance().update("mensajesError");
+				return "";
+			}
+
+	}
+
+	public void crearHistorialEliminar(){
 
 		historialEliminado.setFechaGestion(fechaActual);
 		historialEliminado.setDescripcion(observacion);
@@ -202,5 +225,7 @@ public class DetalleEquipoBean {
 	public void setFechaActual(Date fechaActual) {
 		this.fechaActual = fechaActual;
 	}
+
+
 }
 

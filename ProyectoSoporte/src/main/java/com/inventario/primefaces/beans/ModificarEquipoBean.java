@@ -4,6 +4,7 @@ import com.inventario.jpa.data.*;
 import com.inventario.spring.service.DetalleEquipoServicio;
 import com.inventario.spring.service.ModificarEquipoServicio;
 import com.inventario.util.constante.Constantes;
+import org.primefaces.context.RequestContext;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -52,7 +53,7 @@ public class ModificarEquipoBean {
 
 		equipo = modificarEquipoServicio.obtenerEquipo(equipo.getNumSerie());
 
-		marcas = modificarEquipoServicio.cargarMarcas();
+			marcas = modificarEquipoServicio.cargarMarcas();
 		marca = equipo.getModelo().getMarca();
 
 		modelos = modificarEquipoServicio.cargarModelos(equipo.getModelo().getMarca());
@@ -108,7 +109,7 @@ public class ModificarEquipoBean {
 
 			}else {
 				FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! No se pudo modificar el recurso", null));
-				FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+				RequestContext.getCurrentInstance().update("mensajesError");
 
 				return "";
 
@@ -116,7 +117,7 @@ public class ModificarEquipoBean {
 
 		}catch (Exception e){
 			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! No se pudo modificar el recurso", null));
-			FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+			RequestContext.getCurrentInstance().update("mensajesError");
 
 			return "";
 

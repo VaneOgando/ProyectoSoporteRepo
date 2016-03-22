@@ -4,6 +4,7 @@ import com.inventario.jpa.data.*;
 import com.inventario.spring.service.CrearRecursoServicio;
 
 import com.inventario.util.constante.Constantes;
+import org.primefaces.context.RequestContext;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -141,17 +142,19 @@ public class CrearRecursoBean {
 
 			}else {
 				FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! No se pudo ingresar el recurso", null));
-				FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+				RequestContext.getCurrentInstance().update("mensajesError");
 
-				return "Error";
+				inicializarListas();
+				return "";
 
 			}
 
 		}catch (Exception e){
 			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! No se pudo ingresar el recurso", null));
-			FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+			RequestContext.getCurrentInstance().update("mensajesError");
 
-			return "Error";
+			inicializarListas();
+			return "";
 
 		}
 

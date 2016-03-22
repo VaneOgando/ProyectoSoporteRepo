@@ -21,13 +21,13 @@
 	<navigation-rule>
 		<from-view-id>/crearRecurso.xhtml</from-view-id>
 		<navigation-case>
-			<from-action>#{crearRecursoBean.crearRecurso}</from-action>
+			<from-action>#{crearRecursoBean.bt_crearRecurso}</from-action>
 			<from-outcome>Exito</from-outcome>
 			<to-view-id>/consultarInventario.xhtml</to-view-id>
 			<redirect/>
 		</navigation-case>
 		<navigation-case>
-			<from-action>#{crearRecursoBean.crearRecurso}</from-action>
+			<from-action>#{crearRecursoBean.bt_crearRecurso}</from-action>
 			<from-outcome>Error</from-outcome>
 			<to-view-id>/crearRecurso.xhtml</to-view-id>
 			<redirect/>
@@ -70,4 +70,13 @@
 		</navigation-case>
 	</navigation-rule>
 
+	<navigation-rule>
+		<from-view-id>/detalleAccesorio.xhtml</from-view-id>
+		<navigation-case>
+			<from-action>#{detalleAccesorioBean.bt_eliminarAccesorio}</from-action>
+			<from-outcome>Exito</from-outcome>
+			<to-view-id>/consultarInventario.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+	</navigation-rule>
 </faces-config>

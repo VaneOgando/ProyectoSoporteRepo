@@ -1,9 +1,6 @@
 package com.inventario.spring.service;
 
-import com.inventario.jpa.data.AccesorioEntity;
-import com.inventario.jpa.data.CategoriaEntity;
-import com.inventario.jpa.data.EquipoEntity;
-import com.inventario.jpa.data.HistorialInventarioEntity;
+import com.inventario.jpa.data.*;
 import com.inventario.util.constante.Constantes;
 import org.hibernate.Criteria;
 import org.springframework.dao.DataAccessException;
@@ -48,16 +45,6 @@ public class DetalleAccesorioServicio {
 	}
 
 	@Transactional
-	public List<CategoriaEntity> obtenerCategoriaHistorial(String tipoCategoria) throws DataAccessException {
-
-		List<CategoriaEntity> resultList = getEntityManager().createNamedQuery("HQL_CATEGORIA_POR_TIPO")
-											.setParameter("tipoCategoria", tipoCategoria)
-											.getResultList();
-
-		return resultList;
-	}
-
-	@Transactional
 	public String obtenerUsuarioAsignado(int idAccesorio) throws DataAccessException {
 
 		List<String> resultList = getEntityManager().createNamedQuery("HQL_HISTORIAL_USUARIO_ASIGNADO_ACCESORIO")
@@ -68,6 +55,63 @@ public class DetalleAccesorioServicio {
 			return null;
 		}else{
 			return resultList.get(0).toString();
+		}
+
+	}
+
+	@Transactional
+	public EstadoEntity obtenerEstado(int idEstado) throws DataAccessException {
+
+		List<EstadoEntity> resultList = getEntityManager().createNamedQuery("HQL_ESTADO_POR_ID")
+				.setParameter("idEstado", idEstado)
+				.getResultList();
+
+		if(resultList.size() < 1){
+			return null;
+		}else{
+			return resultList.get(0);
+		}
+
+	}
+
+	@Transactional
+	public CategoriaEntity obtenerCategoriaHistorial(int idCategoria) throws DataAccessException {
+
+		List<CategoriaEntity> resultList = getEntityManager().createNamedQuery("HQL_CATEGORIA_POR_ID")
+				.setParameter("idCategoria", idCategoria)
+				.getResultList();
+
+		if(resultList.size() < 1){
+			return null;
+		}else{
+			return resultList.get(0);
+		}
+
+	}
+
+	@Transactional
+	public boolean eliminarAccesorio(AccesorioEntity accesorio, EstadoEntity estado, HistorialInventarioEntity historial) throws DataAccessException {
+
+		boolean eliminacion = false;
+
+		try{
+
+			accesorio.setEstado(estado);
+			entityManager.merge(accesorio);
+
+			historial.setAccesorio(accesorio);
+			entityManager.persist(historial);
+
+			eliminacion = true;
+
+		}catch(Exception e){
+			eliminacion = false;
+			throw e;
+		}finally {
+
+			entityManager.close();
+			return eliminacion;
+
 		}
 
 	}
