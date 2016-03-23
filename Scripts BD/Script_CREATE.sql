@@ -5,7 +5,7 @@ CREATE TABLE ACCESORIO(
 	idAccesorio 	INT 		NOT NULL,
 	numSerie		VARCHAR(22),
 	accesorio		VARCHAR(30)	NOT NULL,
-	caracteristicas	VARCHAR(100),
+	caracteristicas	VARCHAR(150),
 	fechaCompra		DATE		NOT NULL,
 	
 	CONSTRAINT accesorio_pk PRIMARY KEY (idAccesorio)
@@ -37,7 +37,7 @@ CREATE TABLE EQUIPO(
 	memoriaRam		VARCHAR(30)	NOT NULL,
 	discoDuro		VARCHAR(30)	NOT NULL,
 	sistOperativo	VARCHAR(30)	NOT NULL,
-	caracteristicas	VARCHAR(100),
+	caracteristicas	VARCHAR(150),
 	fechaCompra		DATE		NOT NULL,
 	
 	CONSTRAINT equipo_pk PRIMARY KEY (numSerie)
@@ -47,6 +47,7 @@ CREATE TABLE ESTADO(
 
 	idEstado	INT			NOT NULL,
 	estado		VARCHAR(30)	NOT NULL,
+	cambiarA	CHAR(1)		NOT NULL,
 	
 	CONSTRAINT estado_pk PRIMARY KEY (idEstado)
 );
@@ -55,7 +56,7 @@ CREATE TABLE HISTORIALINVENTARIO(
 
 	idHistorialInv	INT				NOT NULL,
 	fechaGestion	DATE			NOT NULL,
-	descripcion		VARCHAR(100)	NOT NULL,
+	descripcion		VARCHAR(300)	NOT NULL,
 	idIncidencia	NUMBER(7),
 	respSoporte		NUMBER(8)		NOT NULL,
 	usuarioAsig		NUMBER(8), 

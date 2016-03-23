@@ -29,9 +29,10 @@ public class DetalleAccesorioBean {
 
 	private AccesorioEntity accesorio = new AccesorioEntity();
 
-	private EstadoEntity estadoEliminado = new EstadoEntity();
-	private HistorialInventarioEntity historialEliminado = new HistorialInventarioEntity();
+	private EstadoEntity estadoACambiar = new EstadoEntity();
+	private HistorialInventarioEntity historialCambioEstado = new HistorialInventarioEntity();
 
+	private List<EstadoEntity> estados = new ArrayList<EstadoEntity>();
 	private List<HistorialInventarioEntity> historial = new ArrayList<HistorialInventarioEntity>();
 	private List<HistorialInventarioEntity> itemsBuscados;
 
@@ -40,7 +41,10 @@ public class DetalleAccesorioBean {
 	private String incidencia;
 
 	private Date fechaActual = new Date();
-	private Boolean eliminado = false;
+
+	private Boolean cambiarEstado = false;
+	private Boolean asignado = false;
+	private Boolean disponible = false;
 
 
 	/*METODOS*/
@@ -51,9 +55,15 @@ public class DetalleAccesorioBean {
 		accesorio = detalleAccesorioServicio.obtenerAccesorio(accesorio.getId());
 		historial = detalleAccesorioServicio.obtenerHistorialAccesorio(accesorio.getId());
 
-		//Accesorio posee usuario
-		if (accesorio.getEstado().getNombre().equals("Asignado")){
+		//Accesorio asignado, posee usuario
+		if (accesorio.getEstado().getId() == Constantes.D_ID_ESTADO_ASIGNACION){
+			asignado = true;
 			usuario = detalleAccesorioServicio.obtenerUsuarioAsignado(accesorio.getId());
+		}
+
+		//Accesorio disponible para asignar
+		if (accesorio.getEstado().getId() == Constantes.D_ID_ESTADO_CREACION){
+			disponible = true;
 		}
 
 	}
@@ -71,18 +81,6 @@ public class DetalleAccesorioBean {
 
 	}
 
-	public String bt_cambiarEstado(){
-
-		if (accesorio.getEstado().getId() == Constantes.D_ID_ESTADO_ELIMINADO){
-
-			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! Este recurso se encuentra fuera del inventario", null));
-			return "";
-
-		}else{
-			return "";
-		}
-	}
-
 	public void validarEstado(){
 
 		if (accesorio.getEstado().getId() == Constantes.D_ID_ESTADO_ELIMINADO) {
@@ -91,55 +89,57 @@ public class DetalleAccesorioBean {
 			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR! Este recurso se encuentra asignado, por favor realizar su respectiva devoluci�n", null));
 
 		} else {
-			RequestContext.getCurrentInstance().execute("(confirm('Seguro desea eliminar?')) ? PF('dialogoEliminar').show() : false");
+			estados	= detalleAccesorioServicio.obtenerCambioEstado(accesorio.getEstado());
+			RequestContext.getCurrentInstance().execute("PF('dialogoCambioEstado').show()");
 		}
 
 	}
 
-	public String bt_eliminarAccesorio(){
+	public void bt_cambiarEstado(){
 
 		try {
 
-			estadoEliminado = detalleAccesorioServicio.obtenerEstado(Constantes.D_ID_ESTADO_ELIMINADO);
-			crearHistorialEliminar();
+			estadoACambiar = detalleAccesorioServicio.obtenerEstado(estadoACambiar.getId());
+			crearHistorialCambioEstado();
 
-			eliminado = detalleAccesorioServicio.eliminarAccesorio(accesorio, estadoEliminado, historialEliminado);
+			cambiarEstado = detalleAccesorioServicio.cambiarEstado(accesorio, estadoACambiar, historialCambioEstado);
 
-			if (eliminado == true) {
-
+			if (cambiarEstado == true) {
 				FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "EXITO! El recurso se elimino satisfactoriamente", null));
-
-				return "Exito";
+				FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_INFO, "EXITO! El estado se cambio satisfactoriamente", null));
+				FacesContext.getCurrentInstance().getExternalContext().redirect("detalleAccesorio.xhtml?id=" + accesorio.getId());
 
 			} else {
-				FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! No se pudo eliminar el recurso", null));
-				RequestContext.getCurrentInstance().execute("PF('dialogoEliminar').hide()");
-				RequestContext.getCurrentInstance().update("mensajesError");
-				return "";
-
+				FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! El estado no se pudo cambiar", null));
 			}
 
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! No se pudo eliminar el recurso", null));
-			RequestContext.getCurrentInstance().execute("PF('dialogoEliminar').hide()");
+			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! El estado no se pudo cambiar", null));
+		}finally {
+			RequestContext.getCurrentInstance().execute("PF('dialogoCambioEstado').hide()");
 			RequestContext.getCurrentInstance().update("mensajesError");
-			return "";
+
+		}
+	}
+
+
+	public void crearHistorialCambioEstado(){
+
+		historialCambioEstado.setFechaGestion(fechaActual);
+		historialCambioEstado.setDescripcion(observacion);
+		historialCambioEstado.setResponsableSoporte("12345678");  //USUARIO DE LA SESSION
+
+		if(!incidencia.equals(""))
+			historialCambioEstado.setIdIncidencia(incidencia);
+
+		if (estadoACambiar.getId() == Constantes.D_ID_ESTADO_ELIMINADO){
+			historialCambioEstado.setCategoria(detalleAccesorioServicio.obtenerCategoriaHistorial(Constantes.D_CAT_HISTORIAL_ELIMINACION));
+		}else {
+			historialCambioEstado.setCategoria(detalleAccesorioServicio.obtenerCategoriaHistorial(Constantes.D_CAT_HISTORIAL_CAMBIO_ESTADO));
 		}
 
 	}
 
-	public void crearHistorialEliminar(){
-
-		historialEliminado.setFechaGestion(fechaActual);
-		historialEliminado.setDescripcion(observacion);
-		historialEliminado.setResponsableSoporte("12345678");  //USUARIO DE LA SESSION
-		historialEliminado.setCategoria(detalleAccesorioServicio.obtenerCategoriaHistorial(Constantes.D_CAT_HISTORIAL_ELIMINACION));
-
-		if(!incidencia.equals(""))
-			historialEliminado.setIdIncidencia(incidencia);
-
-	}
 
 	/*GET & SET*/
 	public DetalleAccesorioServicio getDetalleAccesorioServicio() {
@@ -190,22 +190,6 @@ public class DetalleAccesorioBean {
 		this.usuario = usuario;
 	}
 
-	public EstadoEntity getEstadoEliminado() {
-		return estadoEliminado;
-	}
-
-	public void setEstadoEliminado(EstadoEntity estadoEliminado) {
-		this.estadoEliminado = estadoEliminado;
-	}
-
-	public HistorialInventarioEntity getHistorialEliminado() {
-		return historialEliminado;
-	}
-
-	public void setHistorialEliminado(HistorialInventarioEntity historialEliminado) {
-		this.historialEliminado = historialEliminado;
-	}
-
 	public String getObservacion() {
 		return observacion;
 	}
@@ -230,12 +214,52 @@ public class DetalleAccesorioBean {
 		this.fechaActual = fechaActual;
 	}
 
-	public Boolean getEliminado() {
-		return eliminado;
+	public EstadoEntity getEstadoACambiar() {
+		return estadoACambiar;
 	}
 
-	public void setEliminado(Boolean eliminado) {
-		this.eliminado = eliminado;
+	public void setEstadoACambiar(EstadoEntity estadoACambiar) {
+		this.estadoACambiar = estadoACambiar;
+	}
+
+	public HistorialInventarioEntity getHistorialCambioEstado() {
+		return historialCambioEstado;
+	}
+
+	public void setHistorialCambioEstado(HistorialInventarioEntity historialCambioEstado) {
+		this.historialCambioEstado = historialCambioEstado;
+	}
+
+	public List<EstadoEntity> getEstados() {
+		return estados;
+	}
+
+	public void setEstados(List<EstadoEntity> estados) {
+		this.estados = estados;
+	}
+
+	public Boolean getCambiarEstado() {
+		return cambiarEstado;
+	}
+
+	public void setCambiarEstado(Boolean cambiarEstado) {
+		this.cambiarEstado = cambiarEstado;
+	}
+
+	public Boolean getAsignado() {
+		return asignado;
+	}
+
+	public void setAsignado(Boolean asignado) {
+		this.asignado = asignado;
+	}
+
+	public Boolean getDisponible() {
+		return disponible;
+	}
+
+	public void setDisponible(Boolean disponible) {
+		this.disponible = disponible;
 	}
 }
 

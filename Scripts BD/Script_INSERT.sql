@@ -34,11 +34,10 @@ INSERT INTO MODELO VALUES (modelo_seq.nextval,'Xscroll', (SELECT idMarca from MA
 
 
 /*ESTADO*/
-INSERT INTO ESTADO VALUES (estado_seq.nextval, 'Disponible');
-INSERT INTO ESTADO VALUES (estado_seq.nextval, 'Asignado');
-INSERT INTO ESTADO VALUES (estado_seq.nextval, 'Dañado');
-INSERT INTO ESTADO VALUES (estado_seq.nextval, 'En reparacion');
-INSERT INTO ESTADO VALUES (estado_seq.nextval, 'Reservado');
+INSERT INTO ESTADO VALUES (estado_seq.nextval, 'Disponible', 'S');
+INSERT INTO ESTADO VALUES (estado_seq.nextval, 'Asignado', 'N');
+INSERT INTO ESTADO VALUES (estado_seq.nextval, 'Fuera de inventario', 'S');
+INSERT INTO ESTADO VALUES (estado_seq.nextval, 'En reparacion', 'S');
 
 
 /*CATEGORIA*/
@@ -49,18 +48,18 @@ INSERT INTO CATEGORIA VALUES (categoria_seq.nextval, 'Devolucion', 'historial');
 INSERT INTO CATEGORIA VALUES (categoria_seq.nextval, 'Creacion', 'historial');
 INSERT INTO CATEGORIA VALUES (categoria_seq.nextval, 'Modificacion', 'historial');
 INSERT INTO CATEGORIA VALUES (categoria_seq.nextval, 'Fuera de inventario', 'historial');
-INSERT INTO CATEGORIA VALUES (categoria_seq.nextval, 'Bloqueo', 'historial');
+INSERT INTO CATEGORIA VALUES (categoria_seq.nextval, 'Cambio de estado', 'historial');
 
 
 /*EQUIPO*/
 INSERT INTO EQUIPO VALUES ('2UA449P120', 'TP-250', 'Intel Core i5-5200U', '8GB', '1TB', 'Windows 7 Professional', 'Pantalla 12,5". 2 Puertos USB 3.0. Cámara de 720p', '07/21/2015', (SELECT idModelo FROM MODELO WHERE modelo = 'ThinkPad X250'), (SELECT idEstado FROM ESTADO WHERE estado = 'Disponible'));
 INSERT INTO EQUIPO VALUES ('1TO420IO10', 'Sat-C45', 'Intel Celeron 1037U', '4GB', '500 GB', 'Windows 8.1', 'Pantalla 14". 2 Puertos USB 2.0 y 1 HDMI. Cámara web y microfono integrado', '04/16/2015', (SELECT idModelo FROM MODELO WHERE modelo = 'Satellite C45-A4113WL'), (SELECT idEstado FROM ESTADO WHERE estado = 'Asignado'));
-INSERT INTO EQUIPO VALUES ('8MK318R497', 'HP-533-M', 'Intel Core i3 -2310M', '4GB', '500 GB', 'Windows 7 Profesional', 'Pantalla 13.3". 2 Puertos USB, HDMI y VGA. Unidad de CD. Cámara web y wifi', '01/09/2014', (SELECT idModelo FROM MODELO WHERE modelo = 'ProBook 5330M'), (SELECT idEstado FROM ESTADO WHERE estado = 'Dañado'));
+INSERT INTO EQUIPO VALUES ('8MK318R497', 'HP-533-M', 'Intel Core i3 -2310M', '4GB', '500 GB', 'Windows 7 Profesional', 'Pantalla 13.3". 2 Puertos USB, HDMI y VGA. Unidad de CD. Cámara web y wifi', '01/09/2014', (SELECT idModelo FROM MODELO WHERE modelo = 'ProBook 5330M'), (SELECT idEstado FROM ESTADO WHERE estado = 'Fuera de inventario'));
 
 
 /*ACCESORIO*/
 INSERT INTO ACCESORIO VALUES (accesorio_seq.nextval, NULL, 'Mouse optico Netscroll 120', 'Color negro. Puerto USB. Comoda adaptacion para ambas manos', '08/17/2015', (SELECT idEstado FROM ESTADO WHERE estado = 'Disponible'), (SELECT idCategoria FROM CATEGORIA WHERE categoria = 'Mouse' AND tipoCategoria = 'accesorio'), (SELECT idModelo FROM MODELO WHERE modelo = 'Netscroll 120') );
-INSERT INTO ACCESORIO VALUES (accesorio_seq.nextval, NULL, 'Mouse Alambrico Xscroll', 'Ratón óptico de alta precisión con rueda Buttons 3 Port PS/2', '09/18/2015', (SELECT idEstado FROM ESTADO WHERE estado = 'Dañado'), (SELECT idCategoria FROM CATEGORIA WHERE categoria = 'Mouse' AND tipoCategoria = 'accesorio'), (SELECT idModelo FROM MODELO WHERE modelo = 'Xscroll') );
+INSERT INTO ACCESORIO VALUES (accesorio_seq.nextval, NULL, 'Mouse Alambrico Xscroll', 'Ratón óptico de alta precisión con rueda Buttons 3 Port PS/2', '09/18/2015', (SELECT idEstado FROM ESTADO WHERE estado = 'Fuera de inventario'), (SELECT idCategoria FROM CATEGORIA WHERE categoria = 'Mouse' AND tipoCategoria = 'accesorio'), (SELECT idModelo FROM MODELO WHERE modelo = 'Xscroll') );
 
 /*HISTORIAL INVENTARIO*/
 INSERT INTO HISTORIALINVENTARIO VALUES (histInv_seq.nextval, '04/20/2015', 'Creacion del equipo Sat-C45', 0000065, 12345678, NULL, (SELECT idCategoria FROM CATEGORIA WHERE categoria = 'Creacion'), (SELECT numSerie FROM EQUIPO WHERE equipo = 'Sat-C45'), NULL );

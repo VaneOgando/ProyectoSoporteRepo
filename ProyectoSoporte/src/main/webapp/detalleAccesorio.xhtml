@@ -111,10 +111,10 @@
 
 					<p:row>
 						<p:column styleClass="panelColumnaIzq">
-							<h:outputLabel value="Usuario:" rendered="#{detalleAccesorioBean.accesorio.estado.nombre == 'Asignado'}"/>
+							<h:outputLabel value="Usuario:" rendered="#{detalleAccesorioBean.asignado}"/>
 						</p:column>
 						<p:column styleClass="panelColumnaDer">
-							<h:outputLabel value="#{detalleAccesorioBean.usuario}" rendered="#{detalleAccesorioBean.accesorio.estado.nombre == 'Asignado'}"/>
+							<h:outputLabel value="#{detalleAccesorioBean.usuario}" rendered="#{detalleAccesorioBean.asignado}"/>
 						</p:column>
 					</p:row>
 
@@ -132,11 +132,12 @@
 							</p:commandButton>
 						</p:column>
 						<p:column>
-							<p:commandButton id="cambiorEstado" value="Cambiar estado" immediate="true" action="#{detalleAccesorioBean.bt_cambiarEstado}"  update="mensajesError" />
+							<p:commandButton id="cambiarEstado" value="Cambiar estado" immediate="true" action="#{detalleAccesorioBean.validarEstado}"
+											 onclick="if (!confirm('esta seguro? esta accion puede ser ireversible')) return false" update="mensajesError dialogoCambioEstado" />
 						</p:column>
-						<p:column>
-							<p:commandButton id="eliminar" value="Eliminar" immediate="true" action="#{detalleAccesorioBean.validarEstado}"
-											 update="mensajesError dialogoEliminar" />
+						<p:column rendered="#{detalleAccesorioBean.asignado || detalleAccesorioBean.disponible}">
+							<p:commandButton id="asignar" value="Asignar" rendered="#{detalleAccesorioBean.disponible}" immediate="true"/>
+							<p:commandButton id="devolver" value="Devolver" rendered="#{detalleAccesorioBean.asignado}" immediate="true" />
 						</p:column>
 					</p:row>
 				</p:panelGrid>
@@ -145,12 +146,27 @@
 
 		</div>
 
-		<div id="detalleDialogoEliminar">
-			<p:dialog id="dialogoEliminar" header="Por favor ingrese" widgetVar="dialogoEliminar" closable="false" resizable="false" modal="true" >
+		<div id="detalleDialogoEstado">
+			<p:dialog id="dialogoCambioEstado" header="Por favor ingrese" widgetVar="dialogoCambioEstado" closable="false" resizable="false" modal="true" >
 				<h:form id="dialogo" >
-					<p:messages id="mensajesDialog" for="observacion" closable="true" autoUpdate="true" />
+					<p:messages  for="estado" closable="true" autoUpdate="true" />
+					<p:messages  for="observacion" closable="true" autoUpdate="true" />
 
 					<p:panelGrid styleClass="panelInventario" >
+
+						<p:row>
+							<p:column styleClass="panelColumnaIzq">
+								<p:outputLabel value="Estado:"/>
+							</p:column>
+							<p:column styleClass="panelColumnaDer">
+								<p:selectOneMenu id="estado" value="#{detalleAccesorioBean.estadoACambiar.id}" style="width:203px;"
+												 required="true" requiredMessage="Por favor indique un estado">
+									<f:selectItems value="#{detalleAccesorioBean.estados}" var="estado"
+												   itemLabel="#{estado.nombre}" itemValue="#{estado.id}"/>
+								</p:selectOneMenu>
+								<p:outputLabel value="*" styleClass="requerido"/>
+							</p:column>
+						</p:row>
 
 						<p:row>
 							<p:column styleClass="panelColumnaIzq">
@@ -172,8 +188,7 @@
 							<p:column styleClass="panelColumnaDer">
 								<p:inputTextarea id="observacion" value="#{detalleAccesorioBean.observacion}" rows="3" cols="22" autoResize="false"
 												 counter="observ_caractEquipo" maxlength="100" counterTemplate="{0} caracteres restantes."
-												 style="margin-right: 46px"
-												 required="true" requiredMessage="Por favor indique el motivo de la modificacion"/>
+												 style="margin-right: 46px" required="true" requiredMessage="Por favor indique el motivo del cambio de estado"/>
 								<p:outputLabel id="observ_caractEquipo" style="font-size: x-small"/>
 								<p:outputLabel value="*" styleClass="requerido"/>
 							</p:column>
@@ -181,11 +196,11 @@
 
 						<p:row>
 							<p:column style="text-align: right; font-size: small">
-								<p:commandButton value="Eliminar" action="#{detalleAccesorioBean.bt_eliminarAccesorio}" />
+								<p:commandButton value="Aceptar" action="#{detalleAccesorioBean.bt_cambiarEstado}" />
 							</p:column>
 
 							<p:column style="text-align: left; font-size: small">
-								<p:commandButton value="Cancelar" immediate="true" onclick="PF('dialogoEliminar').hide()" />
+								<p:commandButton value="Cancelar" immediate="true" onclick="PF('dialogoCambioEstado').hide()" />
 							</p:column>
 						</p:row>
 

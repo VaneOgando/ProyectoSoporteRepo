@@ -24,9 +24,10 @@ public class DetalleEquipoBean {
 
 	private EquipoEntity equipo = new EquipoEntity();
 
-	private EstadoEntity estadoEliminado = new EstadoEntity();
-	private HistorialInventarioEntity historialEliminado = new HistorialInventarioEntity();
+	private EstadoEntity estadoACambiar = new EstadoEntity();
+	private HistorialInventarioEntity historialCambioEstado = new HistorialInventarioEntity();
 
+	private List<EstadoEntity> estados = new ArrayList<EstadoEntity>();
 	private List<HistorialInventarioEntity> historial = new ArrayList<HistorialInventarioEntity>();
 	private List<HistorialInventarioEntity> itemsBuscados;
 
@@ -35,7 +36,11 @@ public class DetalleEquipoBean {
 	private String incidencia;
 
 	private Date fechaActual = new Date();
-	private Boolean eliminado = false;
+
+	private Boolean cambiarEstado = false;
+	private Boolean asignado = false;
+	private Boolean disponible = false;
+
 
 	/*METODOS*/
 	public void cargarDetalleEquipo() {
@@ -45,9 +50,15 @@ public class DetalleEquipoBean {
 		equipo 	  = detalleEquipoServicio.obtenerEquipo(equipo.getNumSerie());
 		historial = detalleEquipoServicio.obtenerHistorialEquipo(equipo.getNumSerie());
 
-		//Equipo posee usuario
-		if (equipo.getEstado().getNombre().equals("Asignado")){
+		//Equipo asignado, posee usuario
+		if (equipo.getEstado().getId() == Constantes.D_ID_ESTADO_ASIGNACION){
+			asignado = true;
 			usuario = detalleEquipoServicio.obtenerUsuarioAsignado(equipo.getNumSerie());
+		}
+
+		//Equipo disponible para asignar
+		if (equipo.getEstado().getId() == Constantes.D_ID_ESTADO_CREACION){
+			disponible = true;
 		}
 
 	}
@@ -65,74 +76,71 @@ public class DetalleEquipoBean {
 
 	}
 
-	public String bt_cambiarEstado(){
-
-		if (equipo.getEstado().getId() == Constantes.D_ID_ESTADO_ELIMINADO){
-
-			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! Este recurso se encuentra fuera del inventario", null));
-			return "";
-
-		}else{
-			return "";
-		}
-
-	}
-
 	public void validarEstado(){
 
 		if (equipo.getEstado().getId() == Constantes.D_ID_ESTADO_ELIMINADO) {
 			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! Este recurso se encuentra fuera del inventario", null));
 		}else if (equipo.getEstado().getId() == Constantes.D_ID_ESTADO_ASIGNACION) {
-			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR! Este recurso se encuentra asignado, por favor realizar su respectiva devoluci�n", null));
+			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR! Este recurso se encuentra asignado, por favor realizar su respectiva devolución", null));
 
 		} else {
-			RequestContext.getCurrentInstance().execute("(confirm('Seguro desea eliminar?')) ? PF('dialogoEliminar').show() : false");
+			estados	= detalleEquipoServicio.obtenerCambioEstado(equipo.getEstado());
+			RequestContext.getCurrentInstance().execute("PF('dialogoCambioEstado').show()");
 		}
 
 	}
 
-	public String bt_eliminarEquipo(){
+	public void bt_cambiarEstado(){
 
 		try {
 
-			estadoEliminado = detalleEquipoServicio.obtenerEstado(Constantes.D_ID_ESTADO_ELIMINADO);
-			crearHistorialEliminar();
+			estadoACambiar = detalleEquipoServicio.obtenerEstado(estadoACambiar.getId());
+			crearHistorialCambioEstado();
 
-			eliminado = detalleEquipoServicio.eliminarEquipo(equipo, estadoEliminado, historialEliminado);
+			cambiarEstado = detalleEquipoServicio.cambiarEstado(equipo, estadoACambiar, historialCambioEstado);
 
-				if (eliminado == true) {
+			if (cambiarEstado == true) {
+				FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+				FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_INFO, "EXITO! El estado se cambio satisfactoriamente", null));
+				FacesContext.getCurrentInstance().getExternalContext().redirect("detalleEquipo.xhtml?numSerie=" + equipo.getNumSerie());
 
-					FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "EXITO! El recurso se elimino satisfactoriamente", null));
-
-					return "Exito";
-
-				} else {
-					FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! No se pudo eliminar el recurso", null));
-					RequestContext.getCurrentInstance().execute("PF('dialogoEliminar').hide()");
-					RequestContext.getCurrentInstance().update("mensajesError");
-					return "";
-
-				}
-
-			} catch (Exception e) {
-				FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! No se pudo eliminar el recurso", null));
-				RequestContext.getCurrentInstance().execute("PF('dialogoEliminar').hide()");
-				RequestContext.getCurrentInstance().update("mensajesError");
-				return "";
+			} else {
+				FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! El estado no se pudo cambiar", null));
 			}
+
+		} catch (Exception e) {
+			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! El estado no se pudo cambiar", null));
+		}finally {
+			RequestContext.getCurrentInstance().execute("PF('dialogoCambioEstado').hide()");
+			RequestContext.getCurrentInstance().update("mensajesError");
+
+		}
 
 	}
 
-	public void crearHistorialEliminar(){
+	public void confirmarEliminacion(){
 
-		historialEliminado.setFechaGestion(fechaActual);
-		historialEliminado.setDescripcion(observacion);
-		historialEliminado.setResponsableSoporte("12345678");  //USUARIO DE LA SESSION
-		historialEliminado.setCategoria(detalleEquipoServicio.obtenerCategoriaHistorial(Constantes.D_CAT_HISTORIAL_ELIMINACION));
+		boolean eliminar = false;
+		if (estadoACambiar.getId() == Constantes.D_ID_ESTADO_ELIMINADO){
+
+			RequestContext.getCurrentInstance().execute("if (confirm('seguro?') return true; )");
+		}
+	}
+
+	public void crearHistorialCambioEstado(){
+
+		historialCambioEstado.setFechaGestion(fechaActual);
+		historialCambioEstado.setDescripcion(observacion);
+		historialCambioEstado.setResponsableSoporte("12345678");  //USUARIO DE LA SESSION
 
 		if(!incidencia.equals(""))
-			historialEliminado.setIdIncidencia(incidencia);
+			historialCambioEstado.setIdIncidencia(incidencia);
+
+		if (estadoACambiar.getId() == Constantes.D_ID_ESTADO_ELIMINADO){
+			historialCambioEstado.setCategoria(detalleEquipoServicio.obtenerCategoriaHistorial(Constantes.D_CAT_HISTORIAL_ELIMINACION));
+		}else {
+			historialCambioEstado.setCategoria(detalleEquipoServicio.obtenerCategoriaHistorial(Constantes.D_CAT_HISTORIAL_CAMBIO_ESTADO));
+		}
 
 	}
 
@@ -178,28 +186,12 @@ public class DetalleEquipoBean {
 		this.usuario = usuario;
 	}
 
-	public EstadoEntity getEstadoEliminado() {
-		return estadoEliminado;
+	public List<EstadoEntity> getEstados() {
+		return estados;
 	}
 
-	public void setEstadoEliminado(EstadoEntity estadoEliminado) {
-		this.estadoEliminado = estadoEliminado;
-	}
-
-	public Boolean getEliminado() {
-		return eliminado;
-	}
-
-	public void setEliminado(Boolean eliminado) {
-		this.eliminado = eliminado;
-	}
-
-	public HistorialInventarioEntity getHistorialEliminado() {
-		return historialEliminado;
-	}
-
-	public void setHistorialEliminado(HistorialInventarioEntity historialEliminado) {
-		this.historialEliminado = historialEliminado;
+	public void setEstados(List<EstadoEntity> estados) {
+		this.estados = estados;
 	}
 
 	public String getObservacion() {
@@ -226,6 +218,44 @@ public class DetalleEquipoBean {
 		this.fechaActual = fechaActual;
 	}
 
+	public EstadoEntity getEstadoACambiar() {
+		return estadoACambiar;
+	}
 
+	public void setEstadoACambiar(EstadoEntity estadoACambiar) {
+		this.estadoACambiar = estadoACambiar;
+	}
+
+	public HistorialInventarioEntity getHistorialCambioEstado() {
+		return historialCambioEstado;
+	}
+
+	public void setHistorialCambioEstado(HistorialInventarioEntity historialCambioEstado) {
+		this.historialCambioEstado = historialCambioEstado;
+	}
+
+	public Boolean getCambiarEstado() {
+		return cambiarEstado;
+	}
+
+	public void setCambiarEstado(Boolean cambiarEstado) {
+		this.cambiarEstado = cambiarEstado;
+	}
+
+	public Boolean getAsignado() {
+		return asignado;
+	}
+
+	public void setAsignado(Boolean asignado) {
+		this.asignado = asignado;
+	}
+
+	public Boolean getDisponible() {
+		return disponible;
+	}
+
+	public void setDisponible(Boolean disponible) {
+		this.disponible = disponible;
+	}
 }
 

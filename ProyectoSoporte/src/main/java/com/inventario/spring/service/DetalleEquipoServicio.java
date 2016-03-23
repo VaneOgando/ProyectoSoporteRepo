@@ -42,6 +42,16 @@ public class DetalleEquipoServicio {
 	}
 
 	@Transactional
+	public List<EstadoEntity> obtenerCambioEstado(EstadoEntity estadoActual) throws DataAccessException {
+
+		List<EstadoEntity> resultList = getEntityManager().createNamedQuery("HQL_ESTADO_A_CAMBIAR")
+				.setParameter("idEstadoActual", estadoActual.getId())
+				.getResultList();
+
+		return resultList;
+	}
+
+	@Transactional
 	public String obtenerUsuarioAsignado(String numSerie) throws DataAccessException {
 
 		List<String> resultList = getEntityManager().createNamedQuery("HQL_HISTORIAL_USUARIO_ASIGNADO_EQUIPO")
@@ -60,8 +70,8 @@ public class DetalleEquipoServicio {
 	public EstadoEntity obtenerEstado(int idEstado) throws DataAccessException {
 
 		List<EstadoEntity> resultList = getEntityManager().createNamedQuery("HQL_ESTADO_POR_ID")
-										.setParameter("idEstado", idEstado)
-										.getResultList();
+				.setParameter("idEstado", idEstado)
+				.getResultList();
 
 		if(resultList.size() < 1){
 			return null;
@@ -87,9 +97,9 @@ public class DetalleEquipoServicio {
 	}
 
 	@Transactional
-	public boolean eliminarEquipo(EquipoEntity equipo, EstadoEntity estado, HistorialInventarioEntity historial) throws DataAccessException {
+	public boolean cambiarEstado(EquipoEntity equipo, EstadoEntity estado, HistorialInventarioEntity historial) throws DataAccessException {
 
-		boolean eliminacion = false;
+		boolean cambiarEstado = false;
 
 		try{
 
@@ -99,15 +109,15 @@ public class DetalleEquipoServicio {
 			historial.setEquipo(equipo);
 			entityManager.persist(historial);
 
-			eliminacion = true;
+			cambiarEstado = true;
 
 		}catch(Exception e){
-			eliminacion = false;
+			cambiarEstado = false;
 			throw e;
 		}finally {
 
 			entityManager.close();
-			return eliminacion;
+			return cambiarEstado;
 
 		}
 
