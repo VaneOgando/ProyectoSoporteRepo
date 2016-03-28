@@ -41,14 +41,15 @@ INSERT INTO ESTADO VALUES (estado_seq.nextval, 'En reparacion', 'S');
 
 
 /*CATEGORIA*/
-INSERT INTO CATEGORIA VALUES (categoria_seq.nextval, 'Mouse', 'accesorio');
-INSERT INTO CATEGORIA VALUES (categoria_seq.nextval, 'Impresora', 'accesorio');
 INSERT INTO CATEGORIA VALUES (categoria_seq.nextval, 'Asignacion', 'historial');
 INSERT INTO CATEGORIA VALUES (categoria_seq.nextval, 'Devolucion', 'historial');
 INSERT INTO CATEGORIA VALUES (categoria_seq.nextval, 'Creacion', 'historial');
 INSERT INTO CATEGORIA VALUES (categoria_seq.nextval, 'Modificacion', 'historial');
 INSERT INTO CATEGORIA VALUES (categoria_seq.nextval, 'Fuera de inventario', 'historial');
 INSERT INTO CATEGORIA VALUES (categoria_seq.nextval, 'Cambio de estado', 'historial');
+
+INSERT INTO CATEGORIA VALUES (categoria_seq.nextval, 'Mouse', 'accesorio');
+INSERT INTO CATEGORIA VALUES (categoria_seq.nextval, 'Impresora', 'accesorio');
 
 
 /*EQUIPO*/
