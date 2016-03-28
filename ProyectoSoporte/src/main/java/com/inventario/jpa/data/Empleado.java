@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class Empleado {
 	@Id
 	@Column(name="EMPNO")
-	private long id;
+	private String id;
 	@Column(name="ENAME")
 	private String nombre;
 	@Column(name="HIREDATE")
@@ -18,11 +18,20 @@ public class Empleado {
 	@Column(name="SAL")
 	private double salario;
 
-	public long getId() {
+	public Empleado(){
+
+	}
+
+	public Empleado(String id, String nombre) {
+		this.id = id;
+		this.nombre = nombre;
+	}
+
+	public String getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

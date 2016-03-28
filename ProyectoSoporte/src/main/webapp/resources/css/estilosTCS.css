@@ -65,6 +65,7 @@ body {
 }
 
 
+
 /*DETALLE RECURSO*/
 .contenedorDetalle{
 
@@ -234,3 +235,82 @@ body {
     font-size: small; !important;
 }
 
+
+
+
+
+/*GESTION RECURSO*/
+.contenedorGestion{
+
+    overflow: hidden;
+    margin: 2% auto;
+    display: table;
+    width: 100%;
+}
+
+.mensajeGestion{
+    margin: 0 auto;
+    width: 75%;
+    text-align: center;
+}
+
+.mensajeDialogoGestion{
+    margin: 0 auto;
+    width: 100%;
+    text-align: center;
+}
+
+
+.detalleGestion{
+    position: relative;
+    margin: 3% auto;
+}
+
+.anchoCompGestion{
+    width: 220px; !important;
+}
+
+.anchoCompManyMenu{
+    width: 215px; !important;
+    height: 90px;
+    float: left;
+}
+
+.botonGestionMas{
+    margin-top: 5%;
+    margin-bottom: 2.5%;
+}
+
+.botonGestionMenos{;
+    margin-top: 2.5%;
+    margin-bottom: 6%;
+}
+
+.botonesGestionRecurso{
+    display: table-row;
+    margin-top: 3%;
+    border: none;
+}
+
+.colIzqGestion{
+    width: 80px;
+    text-align: right;
+    font-weight: bold;
+}
+
+.colDerGestion{
+    width: 280px;
+    font-size: medium;
+}
+
+.btDialgAceptar{
+    text-align: right;
+    font-size: small;
+    width: 50%;
+}
+
+.btDialgCancelar{
+    text-align: left;
+    font-size: small;
+    width: 50%;
+}

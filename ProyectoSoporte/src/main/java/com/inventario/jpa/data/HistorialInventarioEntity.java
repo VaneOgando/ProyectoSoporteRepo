@@ -31,6 +31,7 @@ import java.util.Date;
 						"AND ca.nombre = 'Asignacion' AND rownum = 1 " +
 						"ORDER BY h.id DESC")
 
+
 })
 
 public class HistorialInventarioEntity {

@@ -18,7 +18,8 @@ import java.util.List;
 				query = "SELECT e FROM EquipoEntity e JOIN e.estado es JOIN e.modelo mo JOIN mo.marca ma " +
 						"WHERE e.numSerie = :numSerie")
 
-})
+
+		})
 
 public class EquipoEntity{
 	@Id
