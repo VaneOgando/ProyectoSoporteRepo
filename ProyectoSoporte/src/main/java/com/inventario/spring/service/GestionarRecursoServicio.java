@@ -3,6 +3,7 @@ package com.inventario.spring.service;
 import com.inventario.jpa.data.*;
 import com.inventario.util.constante.Constantes;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.metadata.PostgresTableMetaDataProvider;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -109,28 +110,80 @@ public class GestionarRecursoServicio {
 
 	}
 
-
-
-
-
-
-
-
-
-
-
-
 	@Transactional
-	public List<ModeloEntity> cargarModelos(MarcaEntity marca) throws DataAccessException {
+	public CategoriaEntity obtenerCategoria(int idCategoria) throws DataAccessException {
 
-		List<ModeloEntity> resultList = getEntityManager().createNamedQuery("HQL_MODELO_POR_MARCA")
-										.setParameter("idMarca", marca.getId())
+		List<CategoriaEntity> resultList = getEntityManager().createNamedQuery("HQL_CATEGORIA_POR_ID")
+										.setParameter("idCategoria", idCategoria)
 										.getResultList();
 
-		return resultList;
+		if(resultList.size() < 1){
+			return null;
+		}else{
+			return resultList.get(0);
+		}
+
+	}
+
+	@Transactional
+	public EstadoEntity obtenerEstado(int idEstado) throws DataAccessException {
+
+		List<EstadoEntity> resultList = getEntityManager().createNamedQuery("HQL_ESTADO_POR_ID")
+				.setParameter("idEstado", idEstado)
+				.getResultList();
+
+		if(resultList.size() < 1){
+			return null;
+		}else{
+			return resultList.get(0);
+		}
+
 	}
 
 
+	@Transactional
+	public boolean gestionarRecurso(HistorialInventarioEntity historial,EquipoEntity equipo, List<AccesorioEntity> accesorios, EstadoEntity estado) throws DataAccessException {
+
+		boolean gestion = false;
+
+		try {
+
+			if (equipo != null) {
+
+				equipo.setEstado(estado);
+				entityManager.merge(equipo);
+
+				historial.setEquipo(equipo);
+				entityManager.merge(historial);  //persist rastrea futuros cambios setEquipo(null)
+
+				historial.setEquipo(null);
+			}
+
+			for (AccesorioEntity accesorio : accesorios){
+
+				accesorio.setEstado(estado);
+				entityManager.merge(accesorio);
+
+				historial.setAccesorio( accesorio);
+				entityManager.merge(historial);
+
+				historial.setAccesorio(null);
+
+			}
+
+			gestion = true;
+
+		}catch(Exception e){
+			gestion = false;
+			throw e;
+		}finally {
+
+			entityManager.close();
+			return gestion;
+
+		}
+
+	}
 
 
 

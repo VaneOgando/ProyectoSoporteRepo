@@ -29,6 +29,8 @@ public class GestionarRecursoBean {
 	private GestionarRecursoServicio gestionarRecursoServicio;
 
 	private HistorialInventarioEntity historial;
+	private EquipoEntity equipo;
+	private EstadoEntity estado;
 	private Date fechaActual = new Date();
 
 	private String opcionGestion;
@@ -59,14 +61,12 @@ public class GestionarRecursoBean {
 			opcionGestion = "A";
 		}
 
-
-
 	}
 
 	public void bt_limpiarGestion(){
 
 		historial = new HistorialInventarioEntity();
-
+		equipo = new EquipoEntity();
 		accesoriosGestion = new ArrayList<AccesorioEntity>();
 		accesoriosSeleccion = new ArrayList<String>();
 
@@ -214,7 +214,7 @@ public class GestionarRecursoBean {
 
 				if (opcionGestion.equals("D")){
 
-					historial.setEquipo(null);
+					equipo = new EquipoEntity();
 					accesoriosGestion = new ArrayList<AccesorioEntity>();
 					accesoriosSeleccion = new ArrayList<String>();
 				}
@@ -222,10 +222,11 @@ public class GestionarRecursoBean {
 				historial.setUsuarioAsignado( ((Empleado) itemSeleccionado).getId());
 
 			}else if (opcionDatatable.equals("E")){
-				historial.setEquipo( (EquipoEntity) itemSeleccionado);
+
+				equipo = (EquipoEntity) itemSeleccionado;
 
 				if (opcionGestion.equals("D")){
-					historial.setUsuarioAsignado(gestionarRecursoServicio.buscarUsuarioAsignadoE(historial.getEquipo()));
+					historial.setUsuarioAsignado(gestionarRecursoServicio.buscarUsuarioAsignadoE( equipo ));
 				}
 
 			}else if(opcionDatatable.equals("A")){
@@ -252,6 +253,62 @@ public class GestionarRecursoBean {
 
 	}
 
+	public String bt_gestionarRecurso(){
+
+		try {
+			//Validar seleccion de recurso
+			if ( equipo.getNumSerie() == null && accesoriosGestion.size() == 0 ) {
+				FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR! Por favor seleccione un recurso a gestionar", null));
+				RequestContext.getCurrentInstance().update("mensajesError");
+			} else {
+
+				historial.setFechaGestion(fechaActual);
+				historial.setResponsableSoporte("12345678");  //USUARIO DE SESION
+
+				if (opcionGestion.equals("A")){
+					historial.setCategoria( gestionarRecursoServicio.obtenerCategoria(Constantes.D_CAT_HISTORIAL_ASIGNACION) );
+					estado = gestionarRecursoServicio.obtenerEstado( Constantes.D_ID_ESTADO_ASIGNACION );
+				}else{
+					historial.setCategoria( gestionarRecursoServicio.obtenerCategoria(Constantes.D_CAT_HISTORIAL_DEVOLUCION) );
+					estado = gestionarRecursoServicio.obtenerEstado( Constantes.D_ID_ESTADO_CREACION );
+				}
+
+				gestion = gestionarRecursoServicio.gestionarRecurso(historial, equipo, accesoriosGestion, estado);
+
+				if (gestion == true) {
+
+					FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
+					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "EXITO! El/los recurso(s) se gestionaron satisfactoriamente", null));
+
+					return "Exito";
+
+				}else {
+					FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! No se pudo gestionar el/los recurso(s)", null));
+					RequestContext.getCurrentInstance().update("mensajesError");
+
+					bt_limpiarGestion();
+
+				}
+
+				return "";
+			}
+
+		}catch (Exception e){
+			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! No se pudo gestionar el/los recurso(s)", null));
+			RequestContext.getCurrentInstance().update("mensajesError");
+
+			bt_limpiarGestion();
+			return "";
+		}
+
+		return "";
+	}
+
+
+	public String bt_cancelar(){
+
+		return "Cancelar";
+	}
 
 	/*GET & SET*/
 
@@ -269,6 +326,22 @@ public class GestionarRecursoBean {
 
 	public void setHistorial(HistorialInventarioEntity historial) {
 		this.historial = historial;
+	}
+
+	public EquipoEntity getEquipo() {
+		return equipo;
+	}
+
+	public void setEquipo(EquipoEntity equipo) {
+		this.equipo = equipo;
+	}
+
+	public EstadoEntity getEstado() {
+		return estado;
+	}
+
+	public void setEstado(EstadoEntity estado) {
+		this.estado = estado;
 	}
 
 	public String getOpcionGestion() {

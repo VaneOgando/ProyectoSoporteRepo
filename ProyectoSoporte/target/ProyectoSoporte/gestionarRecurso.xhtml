@@ -49,7 +49,7 @@
 
 							<p:column styleClass="colDerGestion">
 								<p:inputText id="usuario" styleClass="anchoCompGestion" value="#{gestionarRecursoBean.historial.usuarioAsignado}"
-											 required="true" requiredMessage="Por favor indique un usuario"  readonly="true" />
+											 required="#{!empty param['aceptar']}" requiredMessage="Por favor indique un usuario"  readonly="#{facesContext.renderResponse}" />
 								<p:commandButton icon="ui-icon-search" style="font-size: small" immediate="true"
 										action="#{gestionarRecursoBean.buscarUsuarios}"/>
 								<p:outputLabel value="*" styleClass="requerido"/>
@@ -62,7 +62,7 @@
 							</p:column>
 							<p:column styleClass="colDerGestion">
 								<p:inputText id="equipo" styleClass="anchoCompGestion" readonly="true"
-											 value="#{gestionarRecursoBean.historial.equipo.numSerie}" />
+											 value="#{gestionarRecursoBean.equipo.numSerie}" />
 								<p:commandButton icon="ui-icon-search" style="font-size: small" immediate="true"
 												 action="#{gestionarRecursoBean.buscarEquipos}" />
 							</p:column>
@@ -78,8 +78,9 @@
 								</p:selectManyMenu>
 								<p:commandButton icon="ui-icon-plus" styleClass="botonGestionMas" style="font-size: small" immediate="true"
 												 action="#{gestionarRecursoBean.agregarAccesorios}"/>
-								<p:commandButton icon="ui-icon-minus" styleClass="botonGestionMenos" style="font-size: small" inmediate="true" autoSubmit="true"
-												 action="#{gestionarRecursoBean.eliminarAccesorios}" ajax="false" update="gestionarRecurso:accesorios"/>
+								<p:commandButton icon="ui-icon-minus" styleClass="botonGestionMenos" style="font-size: small"  process="@this accesorios"
+										action="#{gestionarRecursoBean.eliminarAccesorios}" update="gestionarRecurso:accesorios">
+								</p:commandButton>
 							</p:column>
 						</p:row>
 
@@ -88,7 +89,7 @@
 								<p:outputLabel value="Incidencia:"/>
 							</p:column>
 							<p:column styleClass="colDerGestion">
-								<p:inputText id="incidencia" styleClass="anchoCompGestio" value="#{gestionarRecursoBean.historial.idIncidencia}"
+								<p:inputText id="incidencia" styleClass="anchoCompGestion" value="#{gestionarRecursoBean.historial.idIncidencia}"
 											 validatorMessage="En número de incidencia debe contener únicamente números y no sobrepasar los 7 caracteres">
 									<f:validateRegex pattern="\d{1,7}"/>
 								</p:inputText>
@@ -103,7 +104,7 @@
 							<p:column styleClass="colDerGestion">
 								<p:inputTextarea id="observacion" rows="4" cols="24" autoResize="false" counter="observ_caract" maxlength="300"
 												 counterTemplate="{0} caracteres restantes." style="margin-right: 46px"
-										required="true" requiredMessage="Por favor indique una observación"
+										required="#{!empty param['aceptar']}" requiredMessage="Por favor indique una observación"
 										value="#{gestionarRecursoBean.historial.descripcion}"/>
 								<p:outputLabel id="observ_caract" style="font-size: x-small"/>
 								<p:outputLabel value="*" styleClass="requerido"/>
@@ -119,14 +120,15 @@
 					<p:panelGrid id="botones" styleClass="panelInventario botonesPanel" style="margin: 0 auto; font-size: small">
 						<p:row>
 							<p:column>
-								<h:commandButton id="aceptat" value="Aceptar" process="gestionarRecurso"
+								<h:commandButton id="aceptar" value="Aceptar" process="gestionarRecurso"
 												 onclick="if (! confirm('Seguro desea gestionar?')) return false" action="#{gestionarRecursoBean.bt_gestionarRecurso}" />
 							</p:column>
 							<p:column>
-								<h:commandButton id="limpiar" value="Limpiar" immediate="true" action="#{gestionarRecursoBean.bt_limpiarGestion}" />
+								<h:commandButton id="limpiar" value="Limpiar" action="#{gestionarRecursoBean.bt_limpiarGestion}" />
 							</p:column>
 							<p:column>
-								<h:commandButton id="cancelar" value="Cancelar" immediate="true" action="#{gestionarRecursoBean.bt_cancelar}" />
+								<h:commandButton id="cancelar" value="Cancelar" immediate="true"
+												 onclick="if (! confirm('Seguro desea cancelar? Se perderan los cambios')) return false" action="#{gestionarRecursoBean.bt_cancelar}" />
 							</p:column>
 						</p:row>
 					</p:panelGrid>
