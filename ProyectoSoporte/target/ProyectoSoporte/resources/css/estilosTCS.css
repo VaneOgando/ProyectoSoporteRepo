@@ -64,6 +64,10 @@ body {
     padding: 3px; !important;
 }
 
+.datatable .ui-datatable-tablewrapper{
+    overflow: auto;
+}
+
 
 
 /*DETALLE RECURSO*/

@@ -3,7 +3,10 @@ package com.inventario.primefaces.beans;
 import com.inventario.jpa.data.*;
 import com.inventario.spring.service.GestionarRecursoServicio;
 import com.inventario.util.constante.Constantes;
+import jdk.nashorn.internal.ir.LiteralNode;
+import org.hibernate.mapping.Collection;
 import org.primefaces.context.RequestContext;
+import org.primefaces.util.ArrayUtils;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -13,6 +16,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -30,11 +34,10 @@ public class GestionarRecursoBean {
 	private String opcionGestion;
 	private String opcionDatatable;
 
-
 	private Boolean gestion = false;
 
 	private List<AccesorioEntity> accesoriosGestion;
-	private List<AccesorioEntity> accesoriosSeleccion;
+	private List<String> accesoriosSeleccion;
 
 	private List<Object> items = new ArrayList<Object>();
 	private List<Object> itemsBuscados = null;
@@ -65,7 +68,7 @@ public class GestionarRecursoBean {
 		historial = new HistorialInventarioEntity();
 
 		accesoriosGestion = new ArrayList<AccesorioEntity>();
-		accesoriosSeleccion = new ArrayList<AccesorioEntity>();
+		accesoriosSeleccion = new ArrayList<String>();
 
 	}
 
@@ -74,6 +77,7 @@ public class GestionarRecursoBean {
 		itemsBuscados = null;
 		itemSeleccionado = null;
 
+		RequestContext.getCurrentInstance().execute("PF('itemTabla').clearFilters()");
 		RequestContext.getCurrentInstance().update("datatable");
 		RequestContext.getCurrentInstance().execute("PF('dialogoRecursoGestion').show()");
 
@@ -85,7 +89,8 @@ public class GestionarRecursoBean {
 		opcionDatatable = "U";
 		items = new ArrayList<Object>();
 
-		items.add(new Empleado("20493491", "Vanessa"));
+		items.add(new Empleado("87654321", "Vanessa"));
+		items.add(new Empleado("11111111", "Vanessa2"));
 
 		desplegarDialogo();
 	}
@@ -99,11 +104,24 @@ public class GestionarRecursoBean {
 			items = gestionarRecursoServicio.buscarEquipos(Constantes.D_ID_ESTADO_CREACION);
 		}else{ //Equipos asignados
 
-			//No hay usuario especifico
-			if (historial.getUsuarioAsignado() == null){
-				items = gestionarRecursoServicio.buscarEquipos(Constantes.D_ID_ESTADO_ASIGNACION);
-			}else{
+			items = gestionarRecursoServicio.buscarEquipos(Constantes.D_ID_ESTADO_ASIGNACION);
 
+			//Usuario especifico
+			if (historial.getUsuarioAsignado() != null){
+
+				int i = 0;
+
+				while (i < items.size()){
+
+					String usuario = gestionarRecursoServicio.buscarUsuarioAsignadoE((EquipoEntity) items.get(i));
+
+					if(!historial.getUsuarioAsignado().equals(usuario)){
+						items.remove(i);
+						i--;
+					}
+
+					i++;
+				}
 			}
 
 		}
@@ -117,27 +135,80 @@ public class GestionarRecursoBean {
 		//Accesorios disponibles
 		if (opcionGestion.equals("A")){
 			items = gestionarRecursoServicio.buscarAccesorios(Constantes.D_ID_ESTADO_CREACION);
+
 		}else { //Accesorios asignados
 
-			//No hay usuario especifico
-			if (historial.getUsuarioAsignado() == null) {
-				items = gestionarRecursoServicio.buscarAccesorios(Constantes.D_ID_ESTADO_ASIGNACION);
-			} else {
+			items = gestionarRecursoServicio.buscarAccesorios(Constantes.D_ID_ESTADO_ASIGNACION);
 
+			//Usuario especifico
+			if (historial.getUsuarioAsignado() != null) {
+
+				int i = 0;
+
+				while (i < items.size()) {
+
+					String usuario = gestionarRecursoServicio.buscarUsuarioAsignadoA((AccesorioEntity) items.get(i));
+
+					if (!historial.getUsuarioAsignado().equals(usuario)) {
+						items.remove(i);
+						i--;
+					}
+
+					i++;
+				}
 			}
 		}
 
+		eliminarItemsGestionados();
 		desplegarDialogo();
+	}
+
+	public void eliminarItemsGestionados(){
+
+		int i = 0;
+		while (i < accesoriosGestion.size()) {
+
+			int j = 0;
+			while (j < items.size()){
+
+				if( ((AccesorioEntity) items.get(j)).getId() == accesoriosGestion.get(i).getId() ){
+					items.remove(j);
+
+					j = items.size();
+				}
+				j++;
+			}
+
+			i++;
+		}
+
+
 	}
 
 	public void eliminarAccesorios(){
 
-		accesoriosGestion.remove(accesoriosSeleccion.get(0));
+		int i = 0;
+		while (i < accesoriosSeleccion.size()) {
+
+			int j = 0;
+			while (j < accesoriosGestion.size()){
+
+				if(accesoriosGestion.get(j).getId() == Integer.parseInt( accesoriosSeleccion.get(i) )){
+					accesoriosGestion.remove(j);
+
+					j = accesoriosGestion.size();
+				}
+				j++;
+			}
+
+			i++;
+		}
+
 	}
 
 	public void bt_seleccionarRecurso(){
 
-		if (itemSeleccionado != null) {
+		if (itemSeleccionado != null ) {
 
 			if (opcionDatatable.equals("U")){
 
@@ -145,7 +216,7 @@ public class GestionarRecursoBean {
 
 					historial.setEquipo(null);
 					accesoriosGestion = new ArrayList<AccesorioEntity>();
-					accesoriosSeleccion = new ArrayList<AccesorioEntity>();
+					accesoriosSeleccion = new ArrayList<String>();
 				}
 
 				historial.setUsuarioAsignado( ((Empleado) itemSeleccionado).getId());
@@ -171,9 +242,12 @@ public class GestionarRecursoBean {
 			RequestContext.getCurrentInstance().execute("PF('dialogoRecursoGestion').hide()");
 
 		}else{
-			FacesContext.getCurrentInstance().addMessage("mensajesDialogo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR! Seleccione un item", null));
-			RequestContext.getCurrentInstance().update("datatable:mensajesDialogo");
-
+			if(items.size() > 0) {
+				FacesContext.getCurrentInstance().addMessage("mensajesDialogo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR! Seleccione un item", null));
+				RequestContext.getCurrentInstance().update("datatable:mensajesDialogo");
+			}else {
+				RequestContext.getCurrentInstance().execute("PF('dialogoRecursoGestion').hide()");
+			}
 		}
 
 	}
@@ -229,11 +303,11 @@ public class GestionarRecursoBean {
 		this.fechaActual = fechaActual;
 	}
 
-	public List<AccesorioEntity> getAccesoriosSeleccion() {
+	public List<String> getAccesoriosSeleccion() {
 		return accesoriosSeleccion;
 	}
 
-	public void setAccesoriosSeleccion(List<AccesorioEntity> accesoriosSeleccion) {
+	public void setAccesoriosSeleccion(List<String> accesoriosSeleccion) {
 		this.accesoriosSeleccion = accesoriosSeleccion;
 	}
 
@@ -268,7 +342,6 @@ public class GestionarRecursoBean {
 	public void setItemSeleccionado(Object itemSeleccionado) {
 		this.itemSeleccionado = itemSeleccionado;
 	}
-
 
 }
 

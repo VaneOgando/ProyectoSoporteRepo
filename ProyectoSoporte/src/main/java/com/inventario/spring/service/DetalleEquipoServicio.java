@@ -2,6 +2,7 @@ package com.inventario.spring.service;
 
 import com.inventario.jpa.data.*;
 import com.inventario.util.constante.Constantes;
+import com.sun.corba.se.spi.ior.ObjectKey;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
@@ -54,8 +55,9 @@ public class DetalleEquipoServicio {
 	@Transactional
 	public String obtenerUsuarioAsignado(String numSerie) throws DataAccessException {
 
-		List<String> resultList = getEntityManager().createNamedQuery("HQL_HISTORIAL_USUARIO_ASIGNADO_EQUIPO")
-							.setParameter("numSerie", numSerie)
+		List<Object> resultList = getEntityManager().createNamedQuery("SQL_HISTORIAL_USUARIO_ASIGNADO_EQUIPO")
+							.setParameter(1, numSerie)
+							.setParameter(2, Constantes.D_CAT_HISTORIAL_ASIGNACION)
 							.getResultList();
 
 		if(resultList.size() < 1){

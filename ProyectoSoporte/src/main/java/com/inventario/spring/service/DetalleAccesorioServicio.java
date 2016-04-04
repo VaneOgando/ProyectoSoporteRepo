@@ -57,8 +57,9 @@ public class DetalleAccesorioServicio {
 	@Transactional
 	public String obtenerUsuarioAsignado(int idAccesorio) throws DataAccessException {
 
-		List<String> resultList = getEntityManager().createNamedQuery("HQL_HISTORIAL_USUARIO_ASIGNADO_ACCESORIO")
-							.setParameter("idAccesorio", idAccesorio)
+		List<Object> resultList = getEntityManager().createNamedQuery("SQL_HISTORIAL_USUARIO_ASIGNADO_ACCESORIO")
+							.setParameter(1, idAccesorio)
+							.setParameter(2, Constantes.D_CAT_HISTORIAL_ASIGNACION)
 							.getResultList();
 
 		if(resultList.size() < 1){

@@ -7,7 +7,7 @@ import java.util.List;
 @Entity
 @Table(name="EQUIPO")
 
-@NamedQueries(value={
+@NamedQueries(value= {
 
 		@NamedQuery(name = "HQL_EQUIPO",
 				query = "SELECT e FROM EquipoEntity e JOIN e.estado es JOIN e.modelo mo JOIN mo.marca ma " +
@@ -19,7 +19,7 @@ import java.util.List;
 						"WHERE e.numSerie = :numSerie")
 
 
-		})
+})
 
 public class EquipoEntity{
 	@Id

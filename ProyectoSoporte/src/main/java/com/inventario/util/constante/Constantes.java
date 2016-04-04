@@ -8,6 +8,7 @@ public class Constantes {
     public static final int D_ID_ESTADO_ELIMINADO = 3;
 
     public static final int D_CAT_HISTORIAL_ASIGNACION = 1;
+
     public static final int D_CAT_HISTORIAL_DEVOLUCION = 2;
     public static final int D_CAT_HISTORIAL_CREACION = 3;
     public static final int D_CAT_HISTORIAL_MODIFICACION = 4;

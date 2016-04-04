@@ -14,23 +14,22 @@ import java.util.Date;
 						"WHERE e.numSerie = :numSerie AND ca.tipoCategoria = 'historial' " +
 						"ORDER BY h.id DESC"),
 
-		@NamedQuery(name = "HQL_HISTORIAL_USUARIO_ASIGNADO_EQUIPO",
-				query = "SELECT h.usuarioAsignado FROM HistorialInventarioEntity h JOIN h.equipo e JOIN h.categoria ca " +
-						"WHERE e.numSerie = :numSerie AND ca.tipoCategoria = 'historial' " +
-						"AND ca.nombre = 'Asignacion' AND rownum = 1 " +
-						"ORDER BY h.id DESC"),
-
 		@NamedQuery(name = "HQL_HISTORIAL_POR_ACCESORIO",
 				query = "SELECT h FROM HistorialInventarioEntity h JOIN h.accesorio a JOIN h.categoria ca " +
 						"WHERE a.id = :idAccesorio AND ca.tipoCategoria = 'historial' " +
-						"ORDER BY h.id DESC"),
-
-		@NamedQuery(name = "HQL_HISTORIAL_USUARIO_ASIGNADO_ACCESORIO",
-				query = "SELECT h.usuarioAsignado FROM HistorialInventarioEntity h JOIN h.accesorio a JOIN h.categoria ca " +
-						"WHERE a.id = :idAccesorio AND ca.tipoCategoria = 'historial' " +
-						"AND ca.nombre = 'Asignacion' AND rownum = 1 " +
 						"ORDER BY h.id DESC")
 
+
+})
+
+@NamedNativeQueries({
+		@NamedNativeQuery(name = "SQL_HISTORIAL_USUARIO_ASIGNADO_EQUIPO", query="Select usuario FROM (SELECT h.usuarioAsig as usuario FROM HistorialInventario h " +
+																									"WHERE h.fkequipo = ? AND h.FKCATEGORIA = ? ORDER BY h.IDHISTORIALINV DESC) " +
+																				"where rownum = 1"),
+
+		@NamedNativeQuery(name = "SQL_HISTORIAL_USUARIO_ASIGNADO_ACCESORIO", query="Select usuario FROM (SELECT h.usuarioAsig as usuario FROM HistorialInventario h " +
+																									"WHERE h.fkaccesorio = ? AND h.FKCATEGORIA = ? ORDER BY h.IDHISTORIALINV DESC) " +
+																					"where rownum = 1")
 
 })
 

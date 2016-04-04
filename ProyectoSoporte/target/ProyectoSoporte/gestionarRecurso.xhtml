@@ -49,7 +49,7 @@
 
 							<p:column styleClass="colDerGestion">
 								<p:inputText id="usuario" styleClass="anchoCompGestion" value="#{gestionarRecursoBean.historial.usuarioAsignado}"
-											 required="true" requiredMessage="Por favor indique un usuario"  readonly="#{facesContext.renderResponse}" />
+											 required="true" requiredMessage="Por favor indique un usuario"  readonly="true" />
 								<p:commandButton icon="ui-icon-search" style="font-size: small" immediate="true"
 										action="#{gestionarRecursoBean.buscarUsuarios}"/>
 								<p:outputLabel value="*" styleClass="requerido"/>
@@ -74,7 +74,7 @@
 							</p:column>
 							<p:column styleClass="colDerGestion">
 								<p:selectManyMenu id="accesorios" styleClass="anchoCompManyMenu" scrollHeight="90" value="#{gestionarRecursoBean.accesoriosSeleccion}" >
-									<f:selectItems value="#{gestionarRecursoBean.accesoriosGestion}" var="accesorio" itemLabel="#{accesorio.nombre}" itemValue="#{accesorio}" />
+									<f:selectItems value="#{gestionarRecursoBean.accesoriosGestion}" var="accesorio" itemLabel="#{accesorio.nombre}" itemValue="#{accesorio.id}" />
 								</p:selectManyMenu>
 								<p:commandButton icon="ui-icon-plus" styleClass="botonGestionMas" style="font-size: small" immediate="true"
 												 action="#{gestionarRecursoBean.agregarAccesorios}"/>
@@ -88,7 +88,7 @@
 								<p:outputLabel value="Incidencia:"/>
 							</p:column>
 							<p:column styleClass="colDerGestion">
-								<p:inputText id="incidencia" styleClass="anchoCompGestion"
+								<p:inputText id="incidencia" styleClass="anchoCompGestio" value="#{gestionarRecursoBean.historial.idIncidencia}"
 											 validatorMessage="En número de incidencia debe contener únicamente números y no sobrepasar los 7 caracteres">
 									<f:validateRegex pattern="\d{1,7}"/>
 								</p:inputText>
@@ -103,7 +103,8 @@
 							<p:column styleClass="colDerGestion">
 								<p:inputTextarea id="observacion" rows="4" cols="24" autoResize="false" counter="observ_caract" maxlength="300"
 												 counterTemplate="{0} caracteres restantes." style="margin-right: 46px"
-										required="true" requiredMessage="Por favor indique una observación"/>
+										required="true" requiredMessage="Por favor indique una observación"
+										value="#{gestionarRecursoBean.historial.descripcion}"/>
 								<p:outputLabel id="observ_caract" style="font-size: x-small"/>
 								<p:outputLabel value="*" styleClass="requerido"/>
 							</p:column>
@@ -149,11 +150,11 @@
 						<p:row>
 							<p:column colspan="2">
 
-								<p:dataTable id="datatableRecursos" var="item" value="#{gestionarRecursoBean.items}" rows="10" paginator="true"
+								<p:dataTable id="datatableRecursos" var="item" value="#{gestionarRecursoBean.items}" rows="10" paginator="true" styleClass="datatable"
 											 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} "
 											 widgetVar="itemTabla" emptyMessage="No se encontraron registros" filteredValue="#{gestionarRecursoBean.itemsBuscados}"
 											 selectionMode="single" selection="#{gestionarRecursoBean.itemSeleccionado}" rowKey="#{item.nombre}"
-											tableStyle="table-layout: auto">
+											 tableStyle="table-layout: auto" >
 
 									<f:facet name="header">
 
@@ -172,7 +173,7 @@
 									<c:choose>
 
 										<c:when test="#{gestionarRecursoBean.opcionDatatable == 'U'}">
-											<p:column headerText="C.I" filterBy="#{item.numSerie}" filterStyle="display: none"  >
+											<p:column headerText="C.I" filterBy="#{item.id}" filterStyle="display: none"  >
 												<h:outputText value="#{item.id}" />
 											</p:column>
 

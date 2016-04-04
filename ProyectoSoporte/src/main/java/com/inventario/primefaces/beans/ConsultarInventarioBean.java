@@ -50,51 +50,39 @@ public class ConsultarInventarioBean {
 	public void cargarRecursosOpcion() {
 
 		inicializarFiltros();
-		limpiarFiltros();
-
-		itemsBuscados = null;
-		itemSeleccionado = null;
+		inicialiazarItems();
 
 		estados = consultarInventarioServicio.cargarEstados();
 		marcas = consultarInventarioServicio.cargarMarcas();
 
-		if(opcion.equals("1")) {
-			categorias = consultarInventarioServicio.cargarCategorias("accesorio");
-		}
-/*
 		if (opcion.equals("0")) {        //Cargar equipos
-			requestContext.execute("ocultarCategoria();");
+			RequestContext.getCurrentInstance().execute("ocultarCategoria();");
 		} else {                        //Cargar accesorios
-			requestContext.execute("mostrarCategoria();");
+			RequestContext.getCurrentInstance().execute("mostrarCategoria();");
 			categorias = consultarInventarioServicio.cargarCategorias("accesorio");
 		}
-*/
+
 		filtrarRecuros();
+		RequestContext.getCurrentInstance().update("Filtro");
 	}
 
 	public void cargarModelos() {        //evento al seleccionar marca
 
-		if(!marca.getNombre().equals("")){
-
-			if (consultarInventarioServicio.obtenerMarcaPorNombre(marca.getNombre()) != null){
-
-				setMarca(consultarInventarioServicio.obtenerMarcaPorNombre(marca.getNombre()));
-				modelos = consultarInventarioServicio.cargarModelos(getMarca());
-			}
-		}else{
-			modelos = new ArrayList<ModeloEntity>();
-			limpiarFiltros();
-		}
+		modelos = consultarInventarioServicio.cargarModelos(getMarca());
 
 	}
 
 	public void filtrarRecuros() {
+
+		inicialiazarItems();
 
 		if (opcion.equals("0")) {        //Filtrar equipos
 			items = consultarInventarioServicio.filtrarEquipos(getEstado(), getMarca(), getModelo());
 		} else {                            //Filtrar accesorios
 			items = consultarInventarioServicio.filtrarAccesorios(getEstado(), getMarca(), getModelo(), getCategoria());
 		}
+
+		RequestContext.getCurrentInstance().update("Datatable");
 
 	}
 
@@ -111,14 +99,15 @@ public class ConsultarInventarioBean {
 		categorias = new ArrayList<CategoriaEntity>();
 	}
 
-	public void limpiarFiltros(){
+	public void inicialiazarItems(){
 
-		requestContext = RequestContext.getCurrentInstance();
+		items = null;
+		itemsBuscados = null;
+		itemSeleccionado = null;
 
-		//Limpiar filtros, filtrar vacio
-		requestContext.execute("PF('itemTabla').clearFilters()");
-
+		RequestContext.getCurrentInstance().execute("PF('itemTabla').clearFilters()");
 	}
+
 
 	public String detalleRecurso() {
 
