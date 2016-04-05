@@ -49,7 +49,7 @@
 
 							<p:column styleClass="colDerGestion">
 								<p:inputText id="usuario" styleClass="anchoCompGestion" value="#{gestionarRecursoBean.historial.usuarioAsignado}"
-											 required="#{!empty param['aceptar']}" requiredMessage="Por favor indique un usuario"  readonly="#{facesContext.renderResponse}" />
+											 required="#{!empty param['aceptar']}" requiredMessage="Por favor indique un usuario"  readonly="#{facesContext.renderResponse }" />
 								<p:commandButton icon="ui-icon-search" style="font-size: small" immediate="true"
 										action="#{gestionarRecursoBean.buscarUsuarios}"/>
 								<p:outputLabel value="*" styleClass="requerido"/>
@@ -91,7 +91,7 @@
 							<p:column styleClass="colDerGestion">
 								<p:inputText id="incidencia" styleClass="anchoCompGestion" value="#{gestionarRecursoBean.historial.idIncidencia}"
 											 validatorMessage="En número de incidencia debe contener únicamente números y no sobrepasar los 7 caracteres">
-									<f:validateRegex pattern="\d{1,7}"/>
+									<f:validateRegex pattern="\d{1,7}" />
 								</p:inputText>
 								<p:button icon="ui-icon-search" style="font-size: small"/>
 							</p:column>

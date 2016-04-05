@@ -4,6 +4,7 @@ import com.inventario.jpa.data.*;
 import com.inventario.spring.service.GestionarRecursoServicio;
 import com.inventario.util.constante.Constantes;
 import jdk.nashorn.internal.ir.LiteralNode;
+import jdk.nashorn.internal.ir.RuntimeNode;
 import org.hibernate.mapping.Collection;
 import org.primefaces.context.RequestContext;
 import org.primefaces.util.ArrayUtils;
@@ -27,6 +28,7 @@ public class GestionarRecursoBean {
 	/*ATRIBUTOS*/
 	@ManagedProperty("#{gestionarRecursoServicio}")
 	private GestionarRecursoServicio gestionarRecursoServicio;
+	private FacesContext context = FacesContext.getCurrentInstance();
 
 	private HistorialInventarioEntity historial;
 	private EquipoEntity equipo;
@@ -34,6 +36,7 @@ public class GestionarRecursoBean {
 	private Date fechaActual = new Date();
 
 	private String opcionGestion;
+	private String opcionRecurso;
 	private String opcionDatatable;
 
 	private Boolean gestion = false;
@@ -53,9 +56,27 @@ public class GestionarRecursoBean {
 
 		bt_limpiarGestion();
 
-		if (FacesContext.getCurrentInstance().isPostback()){
+		if (context.isPostback()){
 
-			opcionGestion = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("opcionGestion");
+			opcionGestion = context.getExternalContext().getRequestParameterMap().get("opcionGestion");
+			opcionRecurso = context.getExternalContext().getRequestParameterMap().get("opcionRecurso");
+
+			if ( opcionRecurso.equals("E") ){
+
+				equipo = gestionarRecursoServicio.obtenerEquipo( context.getExternalContext().getRequestParameterMap().get("numSerie") );
+
+				if ( opcionGestion.equals("D") ){
+					historial.setUsuarioAsignado( gestionarRecursoServicio.buscarUsuarioAsignadoE( equipo ) );
+				}
+
+			}else if (opcionRecurso.equals("A")){
+
+				accesoriosGestion.add( gestionarRecursoServicio.obtenerAccesorio( Integer.parseInt( context.getExternalContext().getRequestParameterMap().get("id") ) ) );
+
+				if (opcionGestion.equals("D")){
+					historial.setUsuarioAsignado( gestionarRecursoServicio.buscarUsuarioAsignadoA( accesoriosGestion.get(0) ) );
+				}
+			}
 
 		}else {
 			opcionGestion = "A";
@@ -67,6 +88,7 @@ public class GestionarRecursoBean {
 
 		historial = new HistorialInventarioEntity();
 		equipo = new EquipoEntity();
+
 		accesoriosGestion = new ArrayList<AccesorioEntity>();
 		accesoriosSeleccion = new ArrayList<String>();
 
@@ -310,6 +332,8 @@ public class GestionarRecursoBean {
 		return "Cancelar";
 	}
 
+
+
 	/*GET & SET*/
 
 	public GestionarRecursoServicio getGestionarRecursoServicio() {
@@ -358,6 +382,14 @@ public class GestionarRecursoBean {
 
 	public void setOpcionDatatable(String opcionDatatable) {
 		this.opcionDatatable = opcionDatatable;
+	}
+
+	public String getOpcionRecurso() {
+		return opcionRecurso;
+	}
+
+	public void setOpcionRecurso(String opcionRecurso) {
+		this.opcionRecurso = opcionRecurso;
 	}
 
 	public Boolean getGestion() {
