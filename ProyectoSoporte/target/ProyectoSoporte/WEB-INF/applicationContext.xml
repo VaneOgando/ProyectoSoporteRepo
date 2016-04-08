@@ -46,9 +46,26 @@
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
-	<tx:annotation-driven />
+
 
 	<bean id="persistenceExceptionTranslationPostProcessor"
 		  class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 
+
+	<bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource">
+		<property name="url" value="ldap://infra.tcs.local" />
+		<property name="base" value="DC=tcs,DC=local" />
+		<property name="userDn" value="incidencias" />
+		<property name="password" value="sDuZv5TfCMOgQ5" />
+	</bean>
+
+	<bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
+		<constructor-arg ref="contextSource" />
+	</bean>
+
+	<bean id="myAuthenticator" class="com.inventario.primefaces.beans.InicioSesionBean">
+		<property name="ldapTemplate" ref="ldapTemplate"/>
+	</bean>
+
+	<tx:annotation-driven />
 </beans>

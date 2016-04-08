@@ -17,11 +17,11 @@
 			<p:messages id="messages" />
 			<p:panelGrid columns="2">
 				<p:outputLabel value="Usuario:"></p:outputLabel>
-				<p:inputText id="usuario" value="#{inicioSesionBean.usuario}" required="true"></p:inputText>
+				<p:inputText id="usuario" value="#{inicioSesionBean.user}" required="true"></p:inputText>
 				<p:outputLabel value="Contraseña:"></p:outputLabel>
-				<p:password id="contrasenia" value="#{inicioSesionBean.contrasenia}" required="true" />
+				<p:password id="contrasenia" value="#{inicioSesionBean.pass}" required="true" />
 			</p:panelGrid>
-			<p:commandButton value="Ingresar" action="#{inicioSesionBean.bt_ingresar_action}" update="@form"></p:commandButton>
+			<p:commandButton value="Ingresar" action="#{inicioSesionBean.authenticateUser}" update="@form"></p:commandButton>
 		</h:form>
 
 	</h:body >
