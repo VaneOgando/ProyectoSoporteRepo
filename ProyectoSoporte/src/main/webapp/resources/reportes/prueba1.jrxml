@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="prueba1" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df693bea-0e3c-4239-a893-4832fec5c4e2">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="17"/>
+	<subDataset name="dataset4" uuid="0448fb60-d68d-4e42-89a5-221976b415a4">
+		<field name="id" class="java.lang.String"/>
+		<field name="nombre" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="dataset1" uuid="588d113c-09de-4ada-b2f8-71e68ece6ed5"/>
+	<parameter name="usuarioAsignado" class="java.lang.String"/>
+	<parameter name="usuarioSoporte" class="java.lang.String"/>
+	<parameter name="numSerie" class="java.lang.String"/>
+	<parameter name="nombreEquipo" class="java.lang.String"/>
+	<parameter name="accesorios" class="java.util.Collection"/>
+	<field name="id" class="java.lang.String"/>
+	<field name="nombre" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="63" splitType="Stretch">
+			<staticText>
+				<reportElement x="245" y="43" width="100" height="20" uuid="8a8946cb-97d0-47f0-acea-39e5fe2d3553"/>
+				<text><![CDATA[Prueba de reporte]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="60" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="16" height="20" uuid="16a18277-fd1f-40fd-95a7-7a4990a2b28b"/>
+				<text><![CDATA[Yo,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="116" y="0" width="85" height="20" uuid="de2b7b24-7062-4149-852e-d348aaf376b3"/>
+				<text><![CDATA[le hago entrega a ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="301" y="0" width="235" height="20" uuid="1f34a30b-4da9-4b91-873e-13f005f66cd2"/>
+				<text><![CDATA[los siguientes recursos pertenecientes a TCS]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="16" y="0" width="100" height="20" uuid="1d285c52-c082-4727-bbeb-9c0cb1856ffc"/>
+				<textFieldExpression><![CDATA[$P{usuarioSoporte}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="201" y="0" width="100" height="20" uuid="11886579-688c-48f3-b0e8-3251304dd238"/>
+				<textFieldExpression><![CDATA[$P{usuarioAsignado}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="26" splitType="Stretch">
+			<staticText>
+				<reportElement x="16" y="2" width="81" height="20" uuid="7b3de794-8337-4900-879a-097d6cee2425"/>
+				<text><![CDATA[Num. de serie]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="159" y="2" width="100" height="20" uuid="455a2590-50f4-453f-8d7a-b4663807d657"/>
+				<text><![CDATA[nombre]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="145" splitType="Stretch">
+			<textField>
+				<reportElement x="16" y="10" width="100" height="20" uuid="20c06ae4-c96b-4bdd-9963-e80ec9063ed9"/>
+				<textFieldExpression><![CDATA[$P{numSerie}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="159" y="10" width="186" height="20" uuid="e4f80c7d-c3c6-42bb-8d5a-8f57ed9a3f75"/>
+				<textFieldExpression><![CDATA[$P{nombreEquipo}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement x="16" y="46" width="329" height="30" uuid="4f0c8527-93e8-4898-831a-0edfb2ca3c81"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="dataset4" uuid="78c3cd48-84b9-4dc7-87cc-e58d2b95a36c">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{accesorios})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:listContents height="30" width="329">
+						<textField>
+							<reportElement x="0" y="0" width="100" height="20" uuid="b0d2303f-2645-42a3-8eba-ed390f23dc82"/>
+							<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="143" y="0" width="100" height="20" uuid="6da3b4e8-0338-4817-9fff-27d60e9bdfb3"/>
+							<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="10" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="40" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="48" y="8" width="100" height="20" uuid="ca421727-2212-4e1b-8fd3-68233139e2b3"/>
+				<textFieldExpression><![CDATA[$P{usuarioSoporte}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="395" y="8" width="100" height="20" uuid="526764be-c897-4d78-b14e-2dc66edf72d0"/>
+				<textFieldExpression><![CDATA[$P{usuarioAsignado}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="39" y="8" width="116" height="1" uuid="f125f90e-e499-4651-8f6b-fa6d7c97e1d3"/>
+			</line>
+			<line>
+				<reportElement x="385" y="9" width="116" height="1" uuid="525817e7-8d05-4727-91ca-73f0b86a0e04"/>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

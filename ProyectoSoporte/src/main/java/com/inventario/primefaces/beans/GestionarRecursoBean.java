@@ -3,27 +3,27 @@ package com.inventario.primefaces.beans;
 import com.inventario.jpa.data.*;
 import com.inventario.spring.service.GestionarRecursoServicio;
 import com.inventario.util.constante.Constantes;
-import jdk.nashorn.internal.ir.LiteralNode;
-import jdk.nashorn.internal.ir.RuntimeNode;
-import org.hibernate.mapping.Collection;
-import org.primefaces.context.RequestContext;
-import org.primefaces.util.ArrayUtils;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.apache.commons.collections.map.HashedMap;
 
+import org.primefaces.context.RequestContext;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 @ManagedBean
 @ViewScoped
-public class GestionarRecursoBean {
+public class GestionarRecursoBean{
 
 	/*ATRIBUTOS*/
 	@ManagedProperty("#{gestionarRecursoServicio}")
@@ -302,6 +302,8 @@ public class GestionarRecursoBean {
 					FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
 					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "EXITO! El/los recurso(s) se gestionaron satisfactoriamente", null));
 
+					generarReporte();
+
 					return "Exito";
 
 				}else {
@@ -331,6 +333,59 @@ public class GestionarRecursoBean {
 
 		return "Cancelar";
 	}
+
+	public void generarReporte(){
+
+		try {
+			// Compile jrxml file.
+			//JasperReport jasperReport = JasperCompileManager.compileReport("C:\\Users\\Vanessa\\intelliJIDEA\\ProyectoSoporteRepo\\ProyectoSoporte\\src\\main\\webapp\\resources\\reportes\\prueba1.jrxml");
+			String  jasperReport=  FacesContext.getCurrentInstance().getExternalContext().getRealPath("resources/reportes/prueba1.jasper");
+
+			// Parameters for report
+			Map<String, Object> parameters = new HashMap<String, Object>();
+
+			parameters.put("usuarioAsignado", historial.getUsuarioAsignado());
+			parameters.put("usuarioSoporte", "12345678");
+
+			parameters.put("numSerie", equipo.getNumSerie());
+			parameters.put("nombreEquipo", equipo.getNombre());
+
+			parameters.put("accesorios", accesoriosGestion);
+
+			// DataSource
+			// This is simple example, no database.
+			// then using empty datasource.
+			JRDataSource dataSource = new JREmptyDataSource();
+			//JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(accesoriosGestion);
+
+			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+
+			HttpServletResponse httpServletResponse=(HttpServletResponse)FacesContext.getCurrentInstance().getExternalContext().getResponse();
+			httpServletResponse.addHeader("Content-disposition", "attachment; filename=report.pdf");
+			ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+			JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
+			FacesContext.getCurrentInstance().responseComplete();
+			servletOutputStream.close();
+
+
+
+/*			// Make sure the output directory exists.
+			File outDir = new File("C:/Users/Vanessa/Desktop/prueba");
+			outDir.mkdirs();
+
+			// Export to PDF.
+			JasperExportManager.exportReportToPdfFile(jasperPrint,
+					"C:/Users/Vanessa/Desktop/prueba/StyledTextReport.pdf");
+
+			System.out.println("Done!");
+*/
+		} catch (JRException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 
 
 
@@ -447,6 +502,7 @@ public class GestionarRecursoBean {
 	public void setItemSeleccionado(Object itemSeleccionado) {
 		this.itemSeleccionado = itemSeleccionado;
 	}
+
 
 }
 
