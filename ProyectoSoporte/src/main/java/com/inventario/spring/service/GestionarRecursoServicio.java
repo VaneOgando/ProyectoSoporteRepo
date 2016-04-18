@@ -3,13 +3,18 @@ package com.inventario.spring.service;
 import com.inventario.jpa.data.*;
 import com.inventario.util.constante.Constantes;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.metadata.PostgresTableMetaDataProvider;
 import org.springframework.stereotype.Component;
 
+import javax.faces.bean.ManagedProperty;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @Component
@@ -17,6 +22,9 @@ public class GestionarRecursoServicio {
 
 	/*ATRIBUTOS*/
 	protected EntityManager entityManager;
+
+	private GenerarReporteServicio generarReporteServicio;
+
 
 
 	/*METODOS*/
@@ -180,7 +188,45 @@ public class GestionarRecursoServicio {
 
 	}
 
+	public String obtenerFecha(Date fechaGestion, String formato){
 
+		DateFormat formatoFecha = new SimpleDateFormat(formato);
+
+		return formatoFecha.format(fechaGestion);
+
+	}
+
+	public String generarNombreArchivo(){
+
+		//Llamar conexionLDAPServicio para obtener nombre y apellido de usuario
+		return "reportePrueba.pdf";
+
+	}
+
+	public void generarReporteEquipo(EquipoEntity equipo, HistorialInventarioEntity historial){
+
+		HashMap<String, Object> parametros = new HashMap<String, Object>();
+		generarReporteServicio = new GenerarReporteServicio();
+
+		String[] fecha = obtenerFecha(historial.getFechaGestion(), "dd-MMMM-yyyy").split("-");
+
+		parametros.put("fechaDia", fecha[0]);
+		parametros.put("fechaMes", fecha[1]);
+		parametros.put("fechaAnio", fecha[2]);
+
+		parametros.put("usuarioAsignado", historial.getUsuarioAsignado());
+		parametros.put("usuarioSoporte", historial.getResponsableSoporte());
+
+		parametros.put("equipo", equipo);
+
+		 generarReporteServicio.descargarReporte(Constantes.REPORTE_ASIGNAR_EQUIPO, parametros, generarNombreArchivo());
+
+	}
+
+	public void generarReporteAccesorio(){
+
+
+	}
 
 	/*GET & SET*/
 
@@ -193,5 +239,11 @@ public class GestionarRecursoServicio {
 		this.entityManager = entityManager;
 	}
 
+	public GenerarReporteServicio getGenerarReporteServicio() {
+		return generarReporteServicio;
+	}
 
+	public void setGenerarReporteServicio(GenerarReporteServicio generarReporteServicio) {
+		this.generarReporteServicio = generarReporteServicio;
+	}
 }

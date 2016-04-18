@@ -83,12 +83,6 @@
 	<navigation-rule>
 		<from-view-id>/gestionarRecurso.xhtml</from-view-id>
 		<navigation-case>
-			<from-action>#{gestionarRecursoBean.bt_gestionarRecurso}</from-action>
-			<from-outcome>Exito</from-outcome>
-			<to-view-id>/consultarInventario.xhtml</to-view-id>
-			<redirect/>
-		</navigation-case>
-		<navigation-case>
 			<from-action>#{gestionarRecursoBean.bt_cancelar}</from-action>
 			<from-outcome>Cancelar</from-outcome>
 			<to-view-id>/consultarInventario.xhtml</to-view-id>

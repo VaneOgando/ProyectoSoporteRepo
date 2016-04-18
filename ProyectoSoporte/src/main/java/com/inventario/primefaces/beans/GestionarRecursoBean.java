@@ -1,6 +1,7 @@
 package com.inventario.primefaces.beans;
 
 import com.inventario.jpa.data.*;
+import com.inventario.spring.service.GenerarReporteServicio;
 import com.inventario.spring.service.GestionarRecursoServicio;
 import com.inventario.util.constante.Constantes;
 import net.sf.jasperreports.engine.*;
@@ -23,11 +24,15 @@ import java.util.*;
 
 @ManagedBean
 @ViewScoped
-public class GestionarRecursoBean{
+public class GestionarRecursoBean {
 
 	/*ATRIBUTOS*/
 	@ManagedProperty("#{gestionarRecursoServicio}")
 	private GestionarRecursoServicio gestionarRecursoServicio;
+
+	@ManagedProperty("#{generarReporteServicio}")
+	private GenerarReporteServicio generarReporteServicio;
+
 	private FacesContext context = FacesContext.getCurrentInstance();
 
 	private HistorialInventarioEntity historial;
@@ -275,7 +280,7 @@ public class GestionarRecursoBean{
 
 	}
 
-	public String bt_gestionarRecurso(){
+	public void bt_gestionarRecurso(){
 
 		try {
 			//Validar seleccion de recurso
@@ -299,91 +304,33 @@ public class GestionarRecursoBean{
 
 				if (gestion == true) {
 
-					FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "EXITO! El/los recurso(s) se gestionaron satisfactoriamente", null));
+					FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_INFO, "EXITO! El/los recurso(s) se gestionaron satisfactoriamente", null));
+					RequestContext.getCurrentInstance().update("mensajesError");
 
-					generarReporte();
-
-					return "Exito";
+					gestionarRecursoServicio.generarReporteEquipo(equipo, historial);
 
 				}else {
 					FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! No se pudo gestionar el/los recurso(s)", null));
 					RequestContext.getCurrentInstance().update("mensajesError");
 
-					bt_limpiarGestion();
-
 				}
 
-				return "";
 			}
 
 		}catch (Exception e){
 			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! No se pudo gestionar el/los recurso(s)", null));
 			RequestContext.getCurrentInstance().update("mensajesError");
 
-			bt_limpiarGestion();
-			return "";
+
 		}
 
-		return "";
+		bt_limpiarGestion();
 	}
 
 
 	public String bt_cancelar(){
 
 		return "Cancelar";
-	}
-
-	public void generarReporte(){
-
-		try {
-			// Compile jrxml file.
-			//JasperReport jasperReport = JasperCompileManager.compileReport("C:\\Users\\Vanessa\\intelliJIDEA\\ProyectoSoporteRepo\\ProyectoSoporte\\src\\main\\webapp\\resources\\reportes\\prueba1.jrxml");
-			String  jasperReport=  FacesContext.getCurrentInstance().getExternalContext().getRealPath("resources/reportes/prueba1.jasper");
-
-			// Parameters for report
-			Map<String, Object> parameters = new HashMap<String, Object>();
-
-			parameters.put("usuarioAsignado", historial.getUsuarioAsignado());
-			parameters.put("usuarioSoporte", "12345678");
-
-			parameters.put("numSerie", equipo.getNumSerie());
-			parameters.put("nombreEquipo", equipo.getNombre());
-
-			parameters.put("accesorios", accesoriosGestion);
-
-			// DataSource
-			// This is simple example, no database.
-			// then using empty datasource.
-			JRDataSource dataSource = new JREmptyDataSource();
-			//JRBeanCollectionDataSource beanCollectionDataSource = new JRBeanCollectionDataSource(accesoriosGestion);
-
-			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-
-			HttpServletResponse httpServletResponse=(HttpServletResponse)FacesContext.getCurrentInstance().getExternalContext().getResponse();
-			httpServletResponse.addHeader("Content-disposition", "attachment; filename=report.pdf");
-			ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
-			JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
-			FacesContext.getCurrentInstance().responseComplete();
-			servletOutputStream.close();
-
-
-
-/*			// Make sure the output directory exists.
-			File outDir = new File("C:/Users/Vanessa/Desktop/prueba");
-			outDir.mkdirs();
-
-			// Export to PDF.
-			JasperExportManager.exportReportToPdfFile(jasperPrint,
-					"C:/Users/Vanessa/Desktop/prueba/StyledTextReport.pdf");
-
-			System.out.println("Done!");
-*/
-		} catch (JRException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 
@@ -397,6 +344,14 @@ public class GestionarRecursoBean{
 
 	public void setGestionarRecursoServicio(GestionarRecursoServicio gestionarRecursoServicio) {
 		this.gestionarRecursoServicio = gestionarRecursoServicio;
+	}
+
+	public GenerarReporteServicio getGenerarReporteServicio() {
+		return generarReporteServicio;
+	}
+
+	public void setGenerarReporteServicio(GenerarReporteServicio generarReporteServicio) {
+		this.generarReporteServicio = generarReporteServicio;
 	}
 
 	public HistorialInventarioEntity getHistorial() {

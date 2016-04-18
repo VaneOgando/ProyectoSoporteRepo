@@ -18,6 +18,9 @@ public class Constantes {
     public static final String D_DESC_HISTORIAL_CREACION_EQ = "Creación del equipo ";
     public static final String D_DESC_HISTORIAL_CREACION_ACC = "Creación del accesorio ";
 
+    public static final String REPORTE_ASIGNAR_EQUIPO = "prueba1";
+    public static final String REPORTE_DEVOLVER_EQUIPO = "prueba1";
+
     /*TEXTOS*/
 
 
