@@ -155,13 +155,9 @@
 						<p:column rendered="#{detalleEquipoBean.asignado || detalleEquipoBean.disponible}">
 							<p:commandButton id="asignar" value="Asignar" rendered="#{detalleEquipoBean.disponible}" immediate="true" action="gestionarRecurso.xhtml" >
 								<f:param name="opcionGestion" value='A' />
-								<f:param name="opcionRecurso" value='E' />
-								<f:param name="numSerie" value='#{detalleEquipoBean.equipo.numSerie}' />
 							</p:commandButton>
 							<p:commandButton id="devolver" value="Devolver" rendered="#{detalleEquipoBean.asignado}" immediate="true" action="gestionarRecurso.xhtml" >
 								<f:param name="opcionGestion" value='D' />
-								<f:param name="opcionRecurso" value='E' />
-								<f:param name="numSerie" value='#{detalleEquipoBean.equipo.numSerie}' />
 							</p:commandButton>
 						</p:column>
 					</p:row>
