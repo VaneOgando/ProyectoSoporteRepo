@@ -51,8 +51,8 @@
 										   itemValue="#{modelo.id}" />
 						</p:selectOneMenu>
 
-						<p:outputLabel id="categoriaLabel" value="Categoría:" style="float: right;" rendered="#{consultarInventarioBean.opcion == '1'}" />
-						<p:selectOneMenu id="categoriaSelec"  style="width:150px;" rendered="#{consultarInventarioBean.opcion == '1'}"
+						<p:outputLabel id="categoriaLabel" value="Categoría:" style="float: right; visibility:hidden;" />
+						<p:selectOneMenu id="categoriaSelec"  style="width:150px; visibility:hidden; "
 										 value="#{consultarInventarioBean.categoria.id}">
 							<f:selectItem itemLabel="Seleccione" itemValue="0" noSelectionOption="true" />
 							<f:selectItems var ="categoria" value="#{consultarInventarioBean.categorias}"

@@ -1,21 +1,15 @@
-
-function completarGestion(data){
-
-    var status = data.status;
-
-    switch (status) {
-        case "start":
-            alert("comienza");
-            break;
-        case "complete":
-            //var descargar = document.getElementById("gestionarRecurso:descargar");
-            //descargar.click();
-            alert("completa")
-            break;
-        case "success":
-            alert("success")
-            break;
-    }
-
-
+function ocultarCategoria(){
+console.log("ocultar js");
+	document.getElementById("Filtro:categoriaLabel").style.visibility = "hidden";
+	document.getElementById("Filtro:categoriaSelec").style.visibility = "hidden";
+	
 }
+
+
+function mostrarCategoria(){
+console.log("mostrar js");
+	document.getElementById("Filtro:categoriaLabel").style.visibility = "visible";
+	document.getElementById("Filtro:categoriaSelec").style.visibility = "visible";
+	
+}
+
