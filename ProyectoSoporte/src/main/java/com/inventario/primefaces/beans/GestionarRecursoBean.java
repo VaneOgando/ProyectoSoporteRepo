@@ -1,12 +1,12 @@
 package com.inventario.primefaces.beans;
 
 import com.inventario.jpa.data.*;
-import com.inventario.spring.service.GenerarReporteServicio;
+//import com.inventario.spring.service.GenerarReporteServicio;
 import com.inventario.spring.service.GestionarRecursoServicio;
 import com.inventario.util.constante.Constantes;
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import org.apache.commons.collections.map.HashedMap;
+//import net.sf.jasperreports.engine.*;
+//import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+//import org.apache.commons.collections.map.HashedMap;
 
 import org.primefaces.context.RequestContext;
 import javax.annotation.PostConstruct;
@@ -30,8 +30,8 @@ public class GestionarRecursoBean {
 	@ManagedProperty("#{gestionarRecursoServicio}")
 	private GestionarRecursoServicio gestionarRecursoServicio;
 
-	@ManagedProperty("#{generarReporteServicio}")
-	private GenerarReporteServicio generarReporteServicio;
+	//@ManagedProperty("#{generarReporteServicio}")
+	//private GenerarReporteServicio generarReporteServicio;
 
 	private FacesContext context = FacesContext.getCurrentInstance();
 
@@ -53,6 +53,7 @@ public class GestionarRecursoBean {
 	private List<Object> itemsBuscados = null;
 	private Object itemSeleccionado = null;
 
+	//private JasperPrint reporteDescarga;
 
 
 	/*METODOS*/
@@ -304,10 +305,10 @@ public class GestionarRecursoBean {
 
 				if (gestion == true) {
 
+					//reporteDescarga = gestionarRecursoServicio.generarReporteEquipo(equipo, historial);
+
 					FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_INFO, "EXITO! El/los recurso(s) se gestionaron satisfactoriamente", null));
 					RequestContext.getCurrentInstance().update("mensajesError");
-
-					gestionarRecursoServicio.generarReporteEquipo(equipo, historial);
 
 				}else {
 					FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! No se pudo gestionar el/los recurso(s)", null));
@@ -327,6 +328,16 @@ public class GestionarRecursoBean {
 		bt_limpiarGestion();
 	}
 
+//	public void descargarReporte(){
+//
+//		try {
+//			gestionarRecursoServicio.descargarReporte(reporteDescarga);
+//		}catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//
+//	}
+
 
 	public String bt_cancelar(){
 
@@ -345,14 +356,14 @@ public class GestionarRecursoBean {
 	public void setGestionarRecursoServicio(GestionarRecursoServicio gestionarRecursoServicio) {
 		this.gestionarRecursoServicio = gestionarRecursoServicio;
 	}
-
-	public GenerarReporteServicio getGenerarReporteServicio() {
-		return generarReporteServicio;
-	}
-
-	public void setGenerarReporteServicio(GenerarReporteServicio generarReporteServicio) {
-		this.generarReporteServicio = generarReporteServicio;
-	}
+//
+//	public GenerarReporteServicio getGenerarReporteServicio() {
+//		return generarReporteServicio;
+//	}
+//
+//	public void setGenerarReporteServicio(GenerarReporteServicio generarReporteServicio) {
+//		this.generarReporteServicio = generarReporteServicio;
+//	}
 
 	public HistorialInventarioEntity getHistorial() {
 		return historial;
