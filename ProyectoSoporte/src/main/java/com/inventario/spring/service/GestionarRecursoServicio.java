@@ -57,26 +57,6 @@ public class GestionarRecursoServicio {
 	}
 
 	@Transactional
-	public List<Object> buscarEquiposPorUsuario(String usuario) throws DataAccessException {
-
-		List<String> resultList = getEntityManager().createNamedQuery("SQL_EQUIPO_ASIGNADO_USUARIO")
-				.setParameter(1, Constantes.D_ID_ESTADO_ASIGNACION)
-				.setParameter(2, usuario)
-				.setParameter(3, Constantes.D_CAT_HISTORIAL_ASIGNACION)
-				.getResultList();
-
-		List<Object> equipos = new ArrayList<Object>();
-
-		for (String numSerie : resultList){
-
-			equipos.add( obtenerEquipo(numSerie) );
-
-		}
-
-		return equipos;
-	}
-
-	@Transactional
 	public String buscarUsuarioAsignadoE(EquipoEntity equipo) throws DataAccessException {
 
 		List<Object> resultList = getEntityManager().createNamedQuery("SQL_HISTORIAL_USUARIO_ASIGNADO_EQUIPO")
@@ -121,6 +101,21 @@ public class GestionarRecursoServicio {
 	}
 
 	@Transactional
+	public AccesorioEntity obtenerAccesorio(int idAccesorio) throws DataAccessException {
+
+		List<AccesorioEntity> resultList = getEntityManager().createNamedQuery("HQL_ACCESORIO_POR_ID")
+				.setParameter("idAccesorio", idAccesorio)
+				.getResultList();
+		if(resultList.size() < 1){
+			return null;
+		}else{
+			return resultList.get(0);
+		}
+
+	}
+
+
+	@Transactional
 	public CategoriaEntity obtenerCategoria(int idCategoria) throws DataAccessException {
 
 		List<CategoriaEntity> resultList = getEntityManager().createNamedQuery("HQL_CATEGORIA_POR_ID")
@@ -158,7 +153,7 @@ public class GestionarRecursoServicio {
 
 		try {
 
-			if (equipo != null) {
+			if (equipo.getNumSerie() != null) {
 
 				equipo.setEstado(estado);
 				entityManager.merge(equipo);

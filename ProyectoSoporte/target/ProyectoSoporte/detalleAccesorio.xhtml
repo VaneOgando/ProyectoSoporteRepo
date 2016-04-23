@@ -136,8 +136,16 @@
 											 onclick="if (!confirm('esta seguro? esta accion puede ser ireversible')) return false" update="mensajesError dialogoCambioEstado" />
 						</p:column>
 						<p:column rendered="#{detalleAccesorioBean.asignado || detalleAccesorioBean.disponible}">
-							<p:commandButton id="asignar" value="Asignar" rendered="#{detalleAccesorioBean.disponible}" immediate="true"/>
-							<p:commandButton id="devolver" value="Devolver" rendered="#{detalleAccesorioBean.asignado}" immediate="true" />
+							<p:commandButton id="asignar" value="Asignar" rendered="#{detalleAccesorioBean.disponible}" immediate="true" action="gestionarRecurso.xhtml">
+								<f:param name="opcionGestion" value='A' />
+								<f:param name="opcionRecurso" value='A' />
+								<f:param name="id" value='#{detalleAccesorioBean.accesorio.id}' />
+							</p:commandButton>
+							<p:commandButton id="devolver" value="Devolver" rendered="#{detalleAccesorioBean.asignado}" immediate="true" action="gestionarRecurso.xhtml">
+								<f:param name="opcionGestion" value='D' />
+								<f:param name="opcionRecurso" value='A' />
+								<f:param name="id" value='#{detalleAccesorioBean.accesorio.id}' />
+							</p:commandButton>
 						</p:column>
 					</p:row>
 				</p:panelGrid>
