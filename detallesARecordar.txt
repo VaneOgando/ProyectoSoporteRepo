@@ -1,7 +1,0 @@
-
-Recordar / por validar
-
-GESTIONAR RECURSO
-- Validacion de usuario en el LDAP ya que puede escribir manual al cambiar entre "Asignacion" y "Devolucion"
-
-- Limpiar formulario activa validacion de incidencia. Posible solucion al integrar con Mantis 
