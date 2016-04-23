@@ -17,7 +17,9 @@
 	<!--<context:component-scan base-package="com.journaldev.spring.service"></context:component-scan>-->
 	<!-- Scan for all of Spring components such as Spring Service -->
 	<context:component-scan base-package="com.inventario.spring.service"></context:component-scan>
-	<context:component-scan base-package="com.inventario.primefaces.beans"></context:component-scan>
+	
+	<!-- Necessary to get the entity manager injected into the factory bean -->
+	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
@@ -45,13 +47,25 @@
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
 
-	<!-- Detect @Transactional -->
-	<tx:annotation-driven transaction-manager="transactionManager" />
-
-	<!-- Necessary to get the entity manager injected into the factory bean -->
-	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 
 	<bean id="persistenceExceptionTranslationPostProcessor"
 		  class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 
+
+	<bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource">
+		<property name="url" value="ldap://infra.tcs.local" />
+		<property name="base" value="DC=tcs,DC=local" />
+		<property name="userDn" value="incidencias" />
+		<property name="password" value="sDuZv5TfCMOgQ5" />
+	</bean>
+
+	<bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
+		<constructor-arg ref="contextSource" />
+	</bean>
+
+	<bean id="myAuthenticator" class="com.inventario.primefaces.beans.InicioSesionBean">
+		<property name="ldapTemplate" ref="ldapTemplate"/>
+	</bean>
+
+	<tx:annotation-driven />
 </beans>

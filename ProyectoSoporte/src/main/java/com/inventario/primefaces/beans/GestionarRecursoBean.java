@@ -1,24 +1,26 @@
 package com.inventario.primefaces.beans;
 
 import com.inventario.jpa.data.*;
+import com.inventario.spring.service.GenerarReporteServicio;
 import com.inventario.spring.service.GestionarRecursoServicio;
 import com.inventario.util.constante.Constantes;
-import jdk.nashorn.internal.ir.LiteralNode;
-import org.hibernate.mapping.Collection;
-import org.primefaces.context.RequestContext;
-import org.primefaces.util.ArrayUtils;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.apache.commons.collections.map.HashedMap;
 
+import org.primefaces.context.RequestContext;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 @ManagedBean
 @ViewScoped
@@ -28,12 +30,18 @@ public class GestionarRecursoBean {
 	@ManagedProperty("#{gestionarRecursoServicio}")
 	private GestionarRecursoServicio gestionarRecursoServicio;
 
+	@ManagedProperty("#{generarReporteServicio}")
+	private GenerarReporteServicio generarReporteServicio;
+
+	private FacesContext context = FacesContext.getCurrentInstance();
+
 	private HistorialInventarioEntity historial;
 	private EquipoEntity equipo;
 	private EstadoEntity estado;
 	private Date fechaActual = new Date();
 
 	private String opcionGestion;
+	private String opcionRecurso;
 	private String opcionDatatable;
 
 	private Boolean gestion = false;
@@ -53,9 +61,27 @@ public class GestionarRecursoBean {
 
 		bt_limpiarGestion();
 
-		if (FacesContext.getCurrentInstance().isPostback()){
+		if (context.isPostback()){
 
-			opcionGestion = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("opcionGestion");
+			opcionGestion = context.getExternalContext().getRequestParameterMap().get("opcionGestion");
+			opcionRecurso = context.getExternalContext().getRequestParameterMap().get("opcionRecurso");
+
+			if ( opcionRecurso.equals("E") ){
+
+				equipo = gestionarRecursoServicio.obtenerEquipo( context.getExternalContext().getRequestParameterMap().get("numSerie") );
+
+				if ( opcionGestion.equals("D") ){
+					historial.setUsuarioAsignado( gestionarRecursoServicio.buscarUsuarioAsignadoE( equipo ) );
+				}
+
+			}else if (opcionRecurso.equals("A")){
+
+				accesoriosGestion.add( gestionarRecursoServicio.obtenerAccesorio( Integer.parseInt( context.getExternalContext().getRequestParameterMap().get("id") ) ) );
+
+				if (opcionGestion.equals("D")){
+					historial.setUsuarioAsignado( gestionarRecursoServicio.buscarUsuarioAsignadoA( accesoriosGestion.get(0) ) );
+				}
+			}
 
 		}else {
 			opcionGestion = "A";
@@ -67,6 +93,7 @@ public class GestionarRecursoBean {
 
 		historial = new HistorialInventarioEntity();
 		equipo = new EquipoEntity();
+
 		accesoriosGestion = new ArrayList<AccesorioEntity>();
 		accesoriosSeleccion = new ArrayList<String>();
 
@@ -253,7 +280,7 @@ public class GestionarRecursoBean {
 
 	}
 
-	public String bt_gestionarRecurso(){
+	public void bt_gestionarRecurso(){
 
 		try {
 			//Validar seleccion de recurso
@@ -277,31 +304,27 @@ public class GestionarRecursoBean {
 
 				if (gestion == true) {
 
-					FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
-					FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "EXITO! El/los recurso(s) se gestionaron satisfactoriamente", null));
+					FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_INFO, "EXITO! El/los recurso(s) se gestionaron satisfactoriamente", null));
+					RequestContext.getCurrentInstance().update("mensajesError");
 
-					return "Exito";
+					gestionarRecursoServicio.generarReporteEquipo(equipo, historial);
 
 				}else {
 					FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! No se pudo gestionar el/los recurso(s)", null));
 					RequestContext.getCurrentInstance().update("mensajesError");
 
-					bt_limpiarGestion();
-
 				}
 
-				return "";
 			}
 
 		}catch (Exception e){
 			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! No se pudo gestionar el/los recurso(s)", null));
 			RequestContext.getCurrentInstance().update("mensajesError");
 
-			bt_limpiarGestion();
-			return "";
+
 		}
 
-		return "";
+		bt_limpiarGestion();
 	}
 
 
@@ -309,6 +332,9 @@ public class GestionarRecursoBean {
 
 		return "Cancelar";
 	}
+
+
+
 
 	/*GET & SET*/
 
@@ -318,6 +344,14 @@ public class GestionarRecursoBean {
 
 	public void setGestionarRecursoServicio(GestionarRecursoServicio gestionarRecursoServicio) {
 		this.gestionarRecursoServicio = gestionarRecursoServicio;
+	}
+
+	public GenerarReporteServicio getGenerarReporteServicio() {
+		return generarReporteServicio;
+	}
+
+	public void setGenerarReporteServicio(GenerarReporteServicio generarReporteServicio) {
+		this.generarReporteServicio = generarReporteServicio;
 	}
 
 	public HistorialInventarioEntity getHistorial() {
@@ -358,6 +392,14 @@ public class GestionarRecursoBean {
 
 	public void setOpcionDatatable(String opcionDatatable) {
 		this.opcionDatatable = opcionDatatable;
+	}
+
+	public String getOpcionRecurso() {
+		return opcionRecurso;
+	}
+
+	public void setOpcionRecurso(String opcionRecurso) {
+		this.opcionRecurso = opcionRecurso;
 	}
 
 	public Boolean getGestion() {
@@ -415,6 +457,7 @@ public class GestionarRecursoBean {
 	public void setItemSeleccionado(Object itemSeleccionado) {
 		this.itemSeleccionado = itemSeleccionado;
 	}
+
 
 }
 

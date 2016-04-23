@@ -2,7 +2,6 @@ package com.inventario.spring.service;
 
 import com.inventario.jpa.data.*;
 import com.inventario.util.constante.Constantes;
-//import net.sf.jasperreports.engine.JasperPrint;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +10,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -25,7 +23,7 @@ public class GestionarRecursoServicio {
 	/*ATRIBUTOS*/
 	protected EntityManager entityManager;
 
-	//private GenerarReporteServicio generarReporteServicio;
+	private GenerarReporteServicio generarReporteServicio;
 
 
 
@@ -210,38 +208,30 @@ public class GestionarRecursoServicio {
 
 	}
 
-//	public JasperPrint generarReporteEquipo(EquipoEntity equipo, HistorialInventarioEntity historial){
-//
-//		HashMap<String, Object> parametros = new HashMap<String, Object>();
-//		generarReporteServicio = new GenerarReporteServicio();
-//
-//		String[] fecha = obtenerFecha(historial.getFechaGestion(), "dd-MMMM-yyyy").split("-");
-//
-//		parametros.put("fechaDia", fecha[0]);
-//		parametros.put("fechaMes", fecha[1]);
-//		parametros.put("fechaAnio", fecha[2]);
-//
-//		parametros.put("usuarioAsignado", historial.getUsuarioAsignado());
-//		parametros.put("usuarioSoporte", historial.getResponsableSoporte());
-//
-//		parametros.put("equipo", equipo);
-//
-//
-//
-//		return  generarReporteServicio.descargarReporte(Constantes.REPORTE_ASIGNAR_EQUIPO, parametros, generarNombreArchivo());
-//	}
+	public void generarReporteEquipo(EquipoEntity equipo, HistorialInventarioEntity historial){
 
-	public void generarReporteAccesorio() {
+		HashMap<String, Object> parametros = new HashMap<String, Object>();
+		generarReporteServicio = new GenerarReporteServicio();
+
+		String[] fecha = obtenerFecha(historial.getFechaGestion(), "dd-MMMM-yyyy").split("-");
+
+		parametros.put("fechaDia", fecha[0]);
+		parametros.put("fechaMes", fecha[1]);
+		parametros.put("fechaAnio", fecha[2]);
+
+		parametros.put("usuarioAsignado", historial.getUsuarioAsignado());
+		parametros.put("usuarioSoporte", historial.getResponsableSoporte());
+
+		parametros.put("equipo", equipo);
+
+		 generarReporteServicio.descargarReporte(Constantes.REPORTE_ASIGNAR_EQUIPO, parametros, generarNombreArchivo());
+
+	}
+
+	public void generarReporteAccesorio(){
 
 
 	}
-//
-//	public void descargarReporte(JasperPrint reporte) throws IOException {
-//
-//		generarReporteServicio.exportar(reporte, generarNombreArchivo());
-//	}
-
-
 
 	/*GET & SET*/
 
@@ -253,12 +243,12 @@ public class GestionarRecursoServicio {
 	public void setEntityManager(EntityManager entityManager) {
 		this.entityManager = entityManager;
 	}
-//
-//	public GenerarReporteServicio getGenerarReporteServicio() {
-//		return generarReporteServicio;
-//	}
-//
-//	public void setGenerarReporteServicio(GenerarReporteServicio generarReporteServicio) {
-//		this.generarReporteServicio = generarReporteServicio;
-//	}
+
+	public GenerarReporteServicio getGenerarReporteServicio() {
+		return generarReporteServicio;
+	}
+
+	public void setGenerarReporteServicio(GenerarReporteServicio generarReporteServicio) {
+		this.generarReporteServicio = generarReporteServicio;
+	}
 }

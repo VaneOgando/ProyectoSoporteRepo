@@ -120,10 +120,8 @@
 					<p:panelGrid id="botones" styleClass="panelInventario botonesPanel" style="margin: 0 auto; font-size: small">
 						<p:row>
 							<p:column>
-								<h:commandButton id="aceptar" value="Aceptar" process="gestionarRecurso" ajax="false"
-												 onclick="if (! confirm('Seguro desea gestionar?')) return false"
-												 actionListener="#{gestionarRecursoBean.bt_gestionarRecurso}">
-								</h:commandButton>
+								<h:commandButton id="aceptar" value="Aceptar" process="gestionarRecurso"
+												 onclick="if (! confirm('Seguro desea gestionar?')) return false" action="#{gestionarRecursoBean.bt_gestionarRecurso}" />
 							</p:column>
 							<p:column>
 								<h:commandButton id="limpiar" value="Limpiar" action="#{gestionarRecursoBean.bt_limpiarGestion}" />
