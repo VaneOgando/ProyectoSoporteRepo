@@ -55,10 +55,7 @@ public class ConsultarInventarioBean {
 		estados = consultarInventarioServicio.cargarEstados();
 		marcas = consultarInventarioServicio.cargarMarcas();
 
-		if (opcion.equals("0")) {        //Cargar equipos
-			RequestContext.getCurrentInstance().execute("ocultarCategoria();");
-		} else {                        //Cargar accesorios
-			RequestContext.getCurrentInstance().execute("mostrarCategoria();");
+		if (opcion.equals("1")) {
 			categorias = consultarInventarioServicio.cargarCategorias("accesorio");
 		}
 

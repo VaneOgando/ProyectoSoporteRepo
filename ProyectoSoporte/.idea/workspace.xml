@@ -59,7 +59,6 @@
       <file leaf-file-name="modificarEquipo.xhtml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/webapp/modificarEquipo.xhtml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.5" vertical-offset="1209" max-vertical-offset="3774">
               <caret line="80" column="108" selection-start-line="80" selection-start-column="108" selection-end-line="80" selection-end-column="108" />
               <folding>
                 <element signature="n#div#0;n#h:form#0;n#ui:define#0;n#ui:composition#0;n#!!top" expanded="false" />
