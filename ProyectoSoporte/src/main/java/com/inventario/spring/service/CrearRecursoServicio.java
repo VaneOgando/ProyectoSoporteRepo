@@ -12,7 +12,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
 import javax.persistence.RollbackException;
-import javax.transaction.Transactional;
+//import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.net.CacheRequest;
 import java.util.List;
 

@@ -1,13 +1,15 @@
 package com.inventario.primefaces.beans;
 
 import com.inventario.jpa.data.*;
+//import com.inventario.spring.service.GenerarReporteServicio;
 import com.inventario.spring.service.GenerarReporteServicio;
 import com.inventario.spring.service.GestionarRecursoServicio;
 import com.inventario.util.constante.Constantes;
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import org.apache.commons.collections.map.HashedMap;
+//import net.sf.jasperreports.engine.*;
+//import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+//import org.apache.commons.collections.map.HashedMap;
 
+import net.sf.jasperreports.engine.JasperPrint;
 import org.primefaces.context.RequestContext;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -53,6 +55,8 @@ public class GestionarRecursoBean {
 	private List<Object> itemsBuscados = null;
 	private Object itemSeleccionado = null;
 
+	private JasperPrint reporteDescarga;
+	private boolean descarga = false;
 
 
 	/*METODOS*/
@@ -304,10 +308,11 @@ public class GestionarRecursoBean {
 
 				if (gestion == true) {
 
+					reporteDescarga = gestionarRecursoServicio.generarReporteEquipo(accesoriosGestion, historial);
+					setDescarga(true);
+
 					FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_INFO, "EXITO! El/los recurso(s) se gestionaron satisfactoriamente", null));
 					RequestContext.getCurrentInstance().update("mensajesError");
-
-					gestionarRecursoServicio.generarReporteEquipo(equipo, historial);
 
 				}else {
 					FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! No se pudo gestionar el/los recurso(s)", null));
@@ -325,6 +330,17 @@ public class GestionarRecursoBean {
 		}
 
 		bt_limpiarGestion();
+
+	}
+
+	public void descargarReporte(){
+
+		try {
+			gestionarRecursoServicio.descargarReporte(reporteDescarga);
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 
@@ -458,6 +474,12 @@ public class GestionarRecursoBean {
 		this.itemSeleccionado = itemSeleccionado;
 	}
 
+	public boolean isDescarga() {
+		return descarga;
+	}
 
+	public void setDescarga(boolean descarga) {
+		this.descarga = descarga;
+	}
 }
 

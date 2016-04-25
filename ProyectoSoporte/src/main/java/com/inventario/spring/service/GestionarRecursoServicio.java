@@ -2,14 +2,18 @@ package com.inventario.spring.service;
 
 import com.inventario.jpa.data.*;
 import com.inventario.util.constante.Constantes;
+//import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrint;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
 import javax.faces.bean.ManagedProperty;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
+//import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -52,26 +56,6 @@ public class GestionarRecursoServicio {
 				.getResultList();
 
 		return resultList;
-	}
-
-	@Transactional
-	public List<Object> buscarEquiposPorUsuario(String usuario) throws DataAccessException {
-
-		List<String> resultList = getEntityManager().createNamedQuery("SQL_EQUIPO_ASIGNADO_USUARIO")
-				.setParameter(1, Constantes.D_ID_ESTADO_ASIGNACION)
-				.setParameter(2, usuario)
-				.setParameter(3, Constantes.D_CAT_HISTORIAL_ASIGNACION)
-				.getResultList();
-
-		List<Object> equipos = new ArrayList<Object>();
-
-		for (String numSerie : resultList){
-
-			equipos.add( obtenerEquipo(numSerie) );
-
-		}
-
-		return equipos;
 	}
 
 	@Transactional
@@ -119,6 +103,21 @@ public class GestionarRecursoServicio {
 	}
 
 	@Transactional
+	public AccesorioEntity obtenerAccesorio(int idAccesorio) throws DataAccessException {
+
+		List<AccesorioEntity> resultList = getEntityManager().createNamedQuery("HQL_ACCESORIO_POR_ID")
+				.setParameter("idAccesorio", idAccesorio)
+				.getResultList();
+		if(resultList.size() < 1){
+			return null;
+		}else{
+			return resultList.get(0);
+		}
+
+	}
+
+
+	@Transactional
 	public CategoriaEntity obtenerCategoria(int idCategoria) throws DataAccessException {
 
 		List<CategoriaEntity> resultList = getEntityManager().createNamedQuery("HQL_CATEGORIA_POR_ID")
@@ -156,7 +155,7 @@ public class GestionarRecursoServicio {
 
 		try {
 
-			if (equipo != null) {
+			if (equipo.getNumSerie() != null) {
 
 				equipo.setEstado(estado);
 				entityManager.merge(equipo);
@@ -208,7 +207,7 @@ public class GestionarRecursoServicio {
 
 	}
 
-	public void generarReporteEquipo(EquipoEntity equipo, HistorialInventarioEntity historial){
+	public JasperPrint generarReporteEquipo(List<AccesorioEntity> equipo, HistorialInventarioEntity historial){
 
 		HashMap<String, Object> parametros = new HashMap<String, Object>();
 		generarReporteServicio = new GenerarReporteServicio();
@@ -224,14 +223,20 @@ public class GestionarRecursoServicio {
 
 		parametros.put("equipo", equipo);
 
-		 generarReporteServicio.descargarReporte(Constantes.REPORTE_ASIGNAR_EQUIPO, parametros, generarNombreArchivo());
+		return  generarReporteServicio.descargarReporte(Constantes.REPORTE_ASIGNAR_EQUIPO, parametros, generarNombreArchivo());
+	}
+
+	public void generarReporteAccesorio() {
+
 
 	}
 
-	public void generarReporteAccesorio(){
+	public void descargarReporte(JasperPrint reporte) throws IOException {
 
-
+		generarReporteServicio.exportar(reporte, generarNombreArchivo());
 	}
+
+
 
 	/*GET & SET*/
 
@@ -243,12 +248,12 @@ public class GestionarRecursoServicio {
 	public void setEntityManager(EntityManager entityManager) {
 		this.entityManager = entityManager;
 	}
-
-	public GenerarReporteServicio getGenerarReporteServicio() {
-		return generarReporteServicio;
-	}
-
-	public void setGenerarReporteServicio(GenerarReporteServicio generarReporteServicio) {
-		this.generarReporteServicio = generarReporteServicio;
-	}
+//
+//	public GenerarReporteServicio getGenerarReporteServicio() {
+//		return generarReporteServicio;
+//	}
+//
+//	public void setGenerarReporteServicio(GenerarReporteServicio generarReporteServicio) {
+//		this.generarReporteServicio = generarReporteServicio;
+//	}
 }

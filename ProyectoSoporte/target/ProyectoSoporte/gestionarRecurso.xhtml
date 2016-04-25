@@ -38,6 +38,11 @@
 					<p:messages id="mensajesValidacion" closable="true" />
 				</div>
 
+				<div style="text-align: center">
+					<p:commandButton id="descarga" value="Descargar reporte" action="#{gestionarRecursoBean.descargarReporte}"
+							rendered="#{gestionarRecursoBean.descarga}" ajax="false"/>
+				</div>
+
 				<div id="Detalle" class="detalleGestion">
 
 					<p:panelGrid id="formularioGestion" styleClass="font panelInventario" style="margin: 0 auto">
@@ -49,7 +54,7 @@
 
 							<p:column styleClass="colDerGestion">
 								<p:inputText id="usuario" styleClass="anchoCompGestion" value="#{gestionarRecursoBean.historial.usuarioAsignado}"
-											 required="#{!empty param['aceptar']}" requiredMessage="Por favor indique un usuario"  readonly="#{facesContext.renderResponse}" />
+											 required="#{!empty param['aceptar']}" requiredMessage="Por favor indique un usuario"  readonly="#{facesContext.renderResponse }" />
 								<p:commandButton icon="ui-icon-search" style="font-size: small" immediate="true"
 										action="#{gestionarRecursoBean.buscarUsuarios}"/>
 								<p:outputLabel value="*" styleClass="requerido"/>
@@ -91,7 +96,7 @@
 							<p:column styleClass="colDerGestion">
 								<p:inputText id="incidencia" styleClass="anchoCompGestion" value="#{gestionarRecursoBean.historial.idIncidencia}"
 											 validatorMessage="En número de incidencia debe contener únicamente números y no sobrepasar los 7 caracteres">
-									<f:validateRegex pattern="\d{1,7}"/>
+									<f:validateRegex pattern="\d{1,7}" />
 								</p:inputText>
 								<p:button icon="ui-icon-search" style="font-size: small"/>
 							</p:column>
@@ -120,8 +125,10 @@
 					<p:panelGrid id="botones" styleClass="panelInventario botonesPanel" style="margin: 0 auto; font-size: small">
 						<p:row>
 							<p:column>
-								<h:commandButton id="aceptar" value="Aceptar" process="gestionarRecurso"
-												 onclick="if (! confirm('Seguro desea gestionar?')) return false" action="#{gestionarRecursoBean.bt_gestionarRecurso}" />
+								<h:commandButton id="aceptar" value="Aceptar" process="gestionarRecurso" ajax="false"
+												 onclick="if (! confirm('Seguro desea gestionar?')) return false"
+												 actionListener="#{gestionarRecursoBean.bt_gestionarRecurso}">
+								</h:commandButton>
 							</p:column>
 							<p:column>
 								<h:commandButton id="limpiar" value="Limpiar" action="#{gestionarRecursoBean.bt_limpiarGestion}" />
