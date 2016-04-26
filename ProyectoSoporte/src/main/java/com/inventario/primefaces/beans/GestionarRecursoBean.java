@@ -308,7 +308,7 @@ public class GestionarRecursoBean {
 
 				if (gestion == true) {
 
-					reporteDescarga = gestionarRecursoServicio.generarReporteEquipo(accesoriosGestion, historial);
+					reporteDescarga = gestionarRecursoServicio.generarReporteEquipo(equipo, accesoriosGestion, historial);
 					setDescarga(true);
 
 					FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_INFO, "EXITO! El/los recurso(s) se gestionaron satisfactoriamente", null));

@@ -16,10 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class GestionarRecursoServicio {
@@ -207,7 +204,7 @@ public class GestionarRecursoServicio {
 
 	}
 
-	public JasperPrint generarReporteEquipo(List<AccesorioEntity> equipo, HistorialInventarioEntity historial){
+	public JasperPrint generarReporteEquipo(EquipoEntity equipo, List<AccesorioEntity> accesorios, HistorialInventarioEntity historial){
 
 		HashMap<String, Object> parametros = new HashMap<String, Object>();
 		generarReporteServicio = new GenerarReporteServicio();
@@ -221,7 +218,14 @@ public class GestionarRecursoServicio {
 		parametros.put("usuarioAsignado", historial.getUsuarioAsignado());
 		parametros.put("usuarioSoporte", historial.getResponsableSoporte());
 
-		parametros.put("equipo", equipo);
+		List<Object> recursos = new ArrayList<Object>();
+		recursos.add(equipo);
+
+		for (AccesorioEntity acc : accesorios){
+			recursos.add(acc);
+		}
+
+		parametros.put("recurso", recursos);
 
 		return  generarReporteServicio.descargarReporte(Constantes.REPORTE_ASIGNAR_EQUIPO, parametros, generarNombreArchivo());
 	}
