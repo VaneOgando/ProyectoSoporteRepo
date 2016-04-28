@@ -4,6 +4,7 @@ import com.inventario.jpa.data.*;
 import com.inventario.util.constante.Constantes;
 //import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
@@ -146,9 +147,9 @@ public class GestionarRecursoServicio {
 
 
 	@Transactional
-	public boolean gestionarRecurso(HistorialInventarioEntity historial,EquipoEntity equipo, List<AccesorioEntity> accesorios, EstadoEntity estado) throws DataAccessException {
+	public Boolean gestionarRecurso(HistorialInventarioEntity historial,EquipoEntity equipo, List<AccesorioEntity> accesorios, EstadoEntity estado) throws DataAccessException {
 
-		boolean gestion = false;
+		Boolean gestion = false;
 
 		try {
 
@@ -175,7 +176,7 @@ public class GestionarRecursoServicio {
 
 			}
 
-			gestion = true;
+		gestion = true;
 
 		}catch(Exception e){
 			gestion = false;
@@ -189,12 +190,58 @@ public class GestionarRecursoServicio {
 
 	}
 
+
+	public JasperPrint generarReporteGestion(EquipoEntity equipo, List<AccesorioEntity> accesorios, HistorialInventarioEntity historial){
+
+		HashMap<String, Object> parametros = new HashMap<String, Object>();
+		generarReporteServicio = new GenerarReporteServicio();
+
+		String[] fecha = obtenerFecha(historial.getFechaGestion(), "dd-MMMM-yyyy").split("-");
+
+		/*Parametros fecha*/
+		parametros.put("fechaDia", fecha[0]);
+		parametros.put("fechaMes", fecha[1]);
+		parametros.put("fechaAnio", fecha[2]);
+
+		/*Parametros usuario*/
+		parametros.put("usuarioAsignado", historial.getUsuarioAsignado());
+		parametros.put("usuarioSoporte", historial.getResponsableSoporte());
+
+		/*Parametros recursos*/
+		List<HashMap<String, Object>> recursos = new ArrayList<HashMap<String, Object>>();
+
+		if (equipo.getNumSerie() != null) {
+			recursos.add(recursoHashMap("Equipo", equipo));
+		}
+
+		for (AccesorioEntity acc : accesorios){
+			recursos.add(recursoHashMap( acc.getCategoria().getNombre(), acc ));
+		}
+
+		parametros.put("recursosGestion", new JRBeanCollectionDataSource(recursos));
+
+		return  generarReporteServicio.generarReporte(Constantes.REPORTE_ASIGNACION, parametros);
+	}
+
 	public String obtenerFecha(Date fechaGestion, String formato){
 
 		DateFormat formatoFecha = new SimpleDateFormat(formato);
 
 		return formatoFecha.format(fechaGestion);
+	}
 
+	public HashMap<String, Object> recursoHashMap(String tipo, Object recurso){
+
+		HashMap<String, Object> recursoHashMap = new HashMap<String, Object>();
+		recursoHashMap.put("tipo",tipo);
+		recursoHashMap.put("recurso",recurso);
+
+		return recursoHashMap;
+	}
+
+	public void descargarReporte(JasperPrint reporte) throws IOException {
+
+		generarReporteServicio.exportarPDF(reporte, generarNombreArchivo());
 	}
 
 	public String generarNombreArchivo(){
@@ -203,43 +250,6 @@ public class GestionarRecursoServicio {
 		return "reportePrueba.pdf";
 
 	}
-
-	public JasperPrint generarReporteEquipo(EquipoEntity equipo, List<AccesorioEntity> accesorios, HistorialInventarioEntity historial){
-
-		HashMap<String, Object> parametros = new HashMap<String, Object>();
-		generarReporteServicio = new GenerarReporteServicio();
-
-		String[] fecha = obtenerFecha(historial.getFechaGestion(), "dd-MMMM-yyyy").split("-");
-
-		parametros.put("fechaDia", fecha[0]);
-		parametros.put("fechaMes", fecha[1]);
-		parametros.put("fechaAnio", fecha[2]);
-
-		parametros.put("usuarioAsignado", historial.getUsuarioAsignado());
-		parametros.put("usuarioSoporte", historial.getResponsableSoporte());
-
-		List<Object> recursos = new ArrayList<Object>();
-		recursos.add(equipo);
-
-		for (AccesorioEntity acc : accesorios){
-			recursos.add(acc);
-		}
-
-		parametros.put("recurso", recursos);
-
-		return  generarReporteServicio.descargarReporte(Constantes.REPORTE_ASIGNAR_EQUIPO, parametros, generarNombreArchivo());
-	}
-
-	public void generarReporteAccesorio() {
-
-
-	}
-
-	public void descargarReporte(JasperPrint reporte) throws IOException {
-
-		generarReporteServicio.exportar(reporte, generarNombreArchivo());
-	}
-
 
 
 	/*GET & SET*/
@@ -252,12 +262,5 @@ public class GestionarRecursoServicio {
 	public void setEntityManager(EntityManager entityManager) {
 		this.entityManager = entityManager;
 	}
-//
-//	public GenerarReporteServicio getGenerarReporteServicio() {
-//		return generarReporteServicio;
-//	}
-//
-//	public void setGenerarReporteServicio(GenerarReporteServicio generarReporteServicio) {
-//		this.generarReporteServicio = generarReporteServicio;
-//	}
+
 }

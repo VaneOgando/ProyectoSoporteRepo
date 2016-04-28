@@ -101,6 +101,7 @@ public class GestionarRecursoBean {
 		accesoriosGestion = new ArrayList<AccesorioEntity>();
 		accesoriosSeleccion = new ArrayList<String>();
 
+		descarga = false;
 	}
 
 	public void desplegarDialogo(){
@@ -308,16 +309,26 @@ public class GestionarRecursoBean {
 
 				if (gestion == true) {
 
-					reporteDescarga = gestionarRecursoServicio.generarReporteEquipo(equipo, accesoriosGestion, historial);
-					setDescarga(true);
+					reporteDescarga = gestionarRecursoServicio.generarReporteGestion(equipo, accesoriosGestion, historial);
 
-					FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_INFO, "EXITO! El/los recurso(s) se gestionaron satisfactoriamente", null));
-					RequestContext.getCurrentInstance().update("mensajesError");
+					if (reporteDescarga == null){
+						FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR! El/los recurso(s) se gestionaron satisfactoriamente, mas no se genero el reporte PDF. Por favor realizarlo manual", null));
+						RequestContext.getCurrentInstance().update("mensajesError");
 
+						bt_limpiarGestion();
+					}else {
+
+						bt_limpiarGestion();
+						setDescarga(true);
+
+						FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_INFO, "EXITO! El/los recurso(s) se gestionaron satisfactoriamente", null));
+						RequestContext.getCurrentInstance().update("mensajesError");
+					}
 				}else {
 					FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! No se pudo gestionar el/los recurso(s)", null));
 					RequestContext.getCurrentInstance().update("mensajesError");
 
+					bt_limpiarGestion();
 				}
 
 			}
@@ -326,10 +337,8 @@ public class GestionarRecursoBean {
 			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! No se pudo gestionar el/los recurso(s)", null));
 			RequestContext.getCurrentInstance().update("mensajesError");
 
-
+			bt_limpiarGestion();
 		}
-
-		bt_limpiarGestion();
 
 	}
 
