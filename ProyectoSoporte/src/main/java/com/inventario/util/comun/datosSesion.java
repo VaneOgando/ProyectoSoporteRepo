@@ -1,5 +1,6 @@
 package com.inventario.util.comun;
 
+import com.inventario.jpa.data.UsuarioEntity;
 import com.inventario.spring.service.LdapServicio;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.filter.EqualsFilter;
@@ -17,9 +18,17 @@ import java.util.Date;
 public class datosSesion {
 
 	/*ATRIBUTOS*/
-	private String usuarioConectado;
-	private Date fechaActual;
+	private UsuarioEntity usuario;
+	//private Date fechaActual;
 
 
+	/*GET & SET*/
 
+	public UsuarioEntity getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(UsuarioEntity usuario) {
+		this.usuario = usuario;
+	}
 }

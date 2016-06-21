@@ -4,6 +4,7 @@ import com.inventario.jpa.data.UsuarioEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.ldap.core.LdapTemplate;
+import org.springframework.ldap.filter.AndFilter;
 import org.springframework.ldap.filter.EqualsFilter;
 import org.springframework.ldap.filter.Filter;
 import org.springframework.stereotype.Component;
@@ -34,7 +35,10 @@ public class LdapServicio {
 
 	public List<Object> obtenerTodosUsuarios() {
 
-		return ldapTemplate.search("", "(objectclass=user)",
+		AndFilter filter = new AndFilter();
+		filter.and(new EqualsFilter("objectclass", "user"));
+
+		return ldapTemplate.search("", filter.encode(),
 				new AttributesMapper() {
 					@Override
 					public Object mapFromAttributes(javax.naming.directory.Attributes attributes) throws NamingException {
@@ -47,18 +51,24 @@ public class LdapServicio {
 
 	}
 
-	public List<Object> ObtenerNombreCompleto(String usuario) {
+	public UsuarioEntity ObtenerUsuarioCompleto(String usuario) {
 
-		return ldapTemplate.search("", "(& (sAMAccountName=" + usuario + ")(objectClass=user))",
-				new AttributesMapper() {
-					@Override
-					public Object mapFromAttributes(javax.naming.directory.Attributes attributes) throws NamingException {
+		AndFilter filter = new AndFilter();
+		filter.and(new EqualsFilter("objectclass", "user"));
+		filter.and(new EqualsFilter("sAMAccountName", usuario));
 
-						Object usuario = (Object) new UsuarioEntity( attributes.get("name").get().toString(), attributes.get("sAMAccountName").get().toString());
+		 List<UsuarioEntity> usuarios = ldapTemplate.search("", filter.encode(),
+											new AttributesMapper() {
+												@Override
+												public Object mapFromAttributes(javax.naming.directory.Attributes attributes) throws NamingException {
 
-						return usuario;
-					}
-				});
+													UsuarioEntity usuario =  new UsuarioEntity(attributes.get("name").get().toString(), attributes.get("sAMAccountName").get().toString());
+
+													return usuario;
+												}
+											});
+
+		return usuarios.get(0);
 
 	}
 

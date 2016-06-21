@@ -4,16 +4,18 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.*;
 import javax.faces.context.FacesContext;
 
+import com.inventario.jpa.data.UsuarioEntity;
 import com.inventario.util.comun.Constantes;
 
 import com.inventario.spring.service.LdapServicio;
+import com.inventario.util.comun.datosSesion;
 import org.primefaces.context.RequestContext;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.filter.EqualsFilter;
 import org.springframework.ldap.filter.Filter;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class InicioSesionBean {
 
 	/*ATRIBUTOS*/
@@ -26,6 +28,7 @@ public class InicioSesionBean {
 	private boolean respuesta;
 
     private LdapTemplate ldapTemplate;
+    private datosSesion sesion;
 
 	/*METODOS*/
 	public String bt_ingresar_action() {
@@ -33,6 +36,10 @@ public class InicioSesionBean {
 		respuesta = ldapServicio.autenticarUsuarioSoporte(user, pass);
 
 		if (respuesta == true) {
+
+            UsuarioEntity prueba = ldapServicio.ObtenerUsuarioCompleto(user);
+
+            sesion.setUsuario(prueba);
 			return "consultarInventario";
 
 		}else {
@@ -117,21 +124,6 @@ public class InicioSesionBean {
 //	}
 
 
-	public String autenticarUsuario(){
-
-        Filter filter = new EqualsFilter("sAMAccountName", user);
-        boolean authed = ldapTemplate.authenticate("", filter.encode(), pass);
-
-        System.out.println("Authenticated: " + authed);
-
-        if (authed == true){
-            return "consultarInventario.xhtml";
-        }else{
-            return "";
-        }
-
-    }
-
 	/*GET & SET*/
 	public LdapServicio getLdapServicio() {
 		return ldapServicio;
@@ -171,5 +163,13 @@ public class InicioSesionBean {
 
     public void setLdapTemplate(LdapTemplate ldapTemplate) {
         this.ldapTemplate = ldapTemplate;
+    }
+
+    public datosSesion getSesion() {
+        return sesion;
+    }
+
+    public void setSesion(datosSesion sesion) {
+        this.sesion = sesion;
     }
 }
