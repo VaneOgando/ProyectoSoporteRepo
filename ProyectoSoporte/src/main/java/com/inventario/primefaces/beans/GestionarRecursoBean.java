@@ -4,12 +4,14 @@ import com.inventario.jpa.data.*;
 //import com.inventario.spring.service.GenerarReporteServicio;
 import com.inventario.spring.service.GenerarReporteServicio;
 import com.inventario.spring.service.GestionarRecursoServicio;
-import com.inventario.util.constante.Constantes;
+import com.inventario.spring.service.LdapServicio;
+import com.inventario.util.comun.Constantes;
 //import net.sf.jasperreports.engine.*;
 //import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 //import org.apache.commons.collections.map.HashedMap;
 
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.primefaces.context.RequestContext;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -18,10 +20,9 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @ManagedBean
@@ -34,6 +35,9 @@ public class GestionarRecursoBean {
 
 	@ManagedProperty("#{generarReporteServicio}")
 	private GenerarReporteServicio generarReporteServicio;
+
+	@ManagedProperty("#{ldapServicio}")
+	private LdapServicio ldapServicio;
 
 	private FacesContext context = FacesContext.getCurrentInstance();
 
@@ -57,7 +61,7 @@ public class GestionarRecursoBean {
 
 	private JasperPrint reporteDescarga;
 	private boolean descarga = false;
-
+	private String nombreArchivo;
 
 	/*METODOS*/
 	@PostConstruct
@@ -121,8 +125,7 @@ public class GestionarRecursoBean {
 		opcionDatatable = "U";
 		items = new ArrayList<Object>();
 
-		items.add(new Empleado("87654321", "Vanessa"));
-		items.add(new Empleado("11111111", "Vanessa2"));
+		items = ldapServicio.obtenerTodosUsuarios();
 
 		desplegarDialogo();
 	}
@@ -225,7 +228,7 @@ public class GestionarRecursoBean {
 			int j = 0;
 			while (j < accesoriosGestion.size()){
 
-				if(accesoriosGestion.get(j).getId() == Integer.parseInt( accesoriosSeleccion.get(i) )){
+				if(accesoriosGestion.get(j).getId() == Integer.parseInt(accesoriosSeleccion.get(i))){
 					accesoriosGestion.remove(j);
 
 					j = accesoriosGestion.size();
@@ -251,7 +254,7 @@ public class GestionarRecursoBean {
 					accesoriosSeleccion = new ArrayList<String>();
 				}
 
-				historial.setUsuarioAsignado( ((Empleado) itemSeleccionado).getId());
+				historial.setUsuarioAsignado( ((UsuarioEntity) itemSeleccionado).getUsuario());
 
 			}else if (opcionDatatable.equals("E")){
 
@@ -309,7 +312,7 @@ public class GestionarRecursoBean {
 
 				if (gestion == true) {
 
-					reporteDescarga = gestionarRecursoServicio.generarReporteGestion(equipo, accesoriosGestion, historial);
+					generarReporteGestion();
 
 					if (reporteDescarga == null){
 						FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR! El/los recurso(s) se gestionaron satisfactoriamente, mas no se genero el reporte PDF. Por favor realizarlo manual", null));
@@ -345,20 +348,89 @@ public class GestionarRecursoBean {
 	public void descargarReporte(){
 
 		try {
-			gestionarRecursoServicio.descargarReporte(reporteDescarga);
+			generarReporteServicio.exportarPDF(reporteDescarga, nombreArchivo);
 		}catch (IOException e) {
 			e.printStackTrace();
 		}
 
 	}
 
+	public void generarNombreArchivo(){
+
+		if (opcionGestion.equals("A")){
+			nombreArchivo = "Carta Entrega ";
+		}else{
+			nombreArchivo = "Carta Devolucion ";
+		}
+
+		nombreArchivo = nombreArchivo + historial.getUsuarioAsignado() + " " + obtenerFecha(historial.getFechaGestion(), "dd-MM-yyyy") + ".pdf";
+
+	}
+
+	public void generarReporteGestion() throws FileNotFoundException {
+
+		HashMap<String, Object> parametros = new HashMap<String, Object>();
+
+		String[] fecha = obtenerFecha(historial.getFechaGestion(), "dd-MMMM-yyyy").split("-");
+
+		/*Parametros fecha*/
+		parametros.put("fechaDia", fecha[0]);
+		parametros.put("fechaMes", fecha[1]);
+		parametros.put("fechaAnio", fecha[2]);
+
+		/*Logo TCS*/
+		File img = new File( FacesContext.getCurrentInstance().getExternalContext().getRealPath(Constantes.URL_LOGO));
+		parametros.put("logoTCS", new FileInputStream(img));
+
+		/*Parametros usuario*/
+		parametros.put("usuarioAsignado", historial.getUsuarioAsignado() );
+		parametros.put("usuarioSoporte", historial.getResponsableSoporte() );
+
+		/*Parametros recursos*/
+		List<HashMap<String, Object>> recursos = new ArrayList<HashMap<String, Object>>();
+
+		if (equipo.getNumSerie() != null) {
+			recursos.add(recursoHashMap("Equipo", equipo));
+		}
+
+		for (AccesorioEntity acc : accesoriosGestion){
+			recursos.add(recursoHashMap( acc.getCategoria().getNombre(), acc ));
+		}
+
+		parametros.put("recursosGestion", new JRBeanCollectionDataSource(recursos));
+
+		String reporte = new String();
+		if (opcionGestion.equals("A")){
+			reporte = Constantes.REPORTE_ASIGNACION;
+		}else{
+			reporte = Constantes.REPORTE_DEVOLUCION;
+			parametros.put("observaciones", historial.getDescripcion());
+		}
+
+		 generarNombreArchivo();
+		 reporteDescarga = generarReporteServicio.generarReporte(reporte, parametros);
+	}
+
+	public String obtenerFecha(Date fechaGestion, String formato){
+
+		DateFormat formatoFecha = new SimpleDateFormat(formato);
+
+		return formatoFecha.format(fechaGestion);
+	}
+
+	public HashMap<String, Object> recursoHashMap(String tipo, Object recurso){
+
+		HashMap<String, Object> recursoHashMap = new HashMap<String, Object>();
+		recursoHashMap.put("tipo",tipo);
+		recursoHashMap.put("recurso",recurso);
+
+		return recursoHashMap;
+	}
 
 	public String bt_cancelar(){
 
 		return "Cancelar";
 	}
-
-
 
 
 	/*GET & SET*/
@@ -377,6 +449,14 @@ public class GestionarRecursoBean {
 
 	public void setGenerarReporteServicio(GenerarReporteServicio generarReporteServicio) {
 		this.generarReporteServicio = generarReporteServicio;
+	}
+
+	public LdapServicio getLdapServicio() {
+		return ldapServicio;
+	}
+
+	public void setLdapServicio(LdapServicio ldapServicio) {
+		this.ldapServicio = ldapServicio;
 	}
 
 	public HistorialInventarioEntity getHistorial() {
@@ -489,6 +569,14 @@ public class GestionarRecursoBean {
 
 	public void setDescarga(boolean descarga) {
 		this.descarga = descarga;
+	}
+
+	public String getNombreArchivo() {
+		return nombreArchivo;
+	}
+
+	public void setNombreArchivo(String nombreArchivo) {
+		this.nombreArchivo = nombreArchivo;
 	}
 }
 

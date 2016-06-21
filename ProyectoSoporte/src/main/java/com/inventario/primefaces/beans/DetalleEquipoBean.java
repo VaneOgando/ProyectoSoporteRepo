@@ -3,7 +3,7 @@ package com.inventario.primefaces.beans;
 import com.inventario.jpa.data.*;
 import com.inventario.spring.service.ConsultarInventarioServicio;
 import com.inventario.spring.service.DetalleEquipoServicio;
-import com.inventario.util.constante.Constantes;
+import com.inventario.util.comun.*;
 import org.primefaces.context.RequestContext;
 
 import javax.annotation.PostConstruct;
@@ -132,9 +132,6 @@ public class DetalleEquipoBean {
 		historialCambioEstado.setFechaGestion(fechaActual);
 		historialCambioEstado.setDescripcion(observacion);
 		historialCambioEstado.setResponsableSoporte("12345678");  //USUARIO DE LA SESSION
-
-		if(!incidencia.equals(""))
-			historialCambioEstado.setIdIncidencia(incidencia);
 
 		if (estadoACambiar.getId() == Constantes.D_ID_ESTADO_ELIMINADO){
 			historialCambioEstado.setCategoria(detalleEquipoServicio.obtenerCategoriaHistorial(Constantes.D_CAT_HISTORIAL_ELIMINACION));

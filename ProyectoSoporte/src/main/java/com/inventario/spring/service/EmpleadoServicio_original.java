@@ -1,6 +1,6 @@
 package com.inventario.spring.service;
 
-import com.inventario.jpa.data.Empleado;
+import com.inventario.jpa.data.UsuarioEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +21,7 @@ public class EmpleadoServicio_original {
 	}
 
 	@Transactional
-	public void registrar(Empleado emp) {
+	public void registrar(UsuarioEntity emp) {
 		// Guardar empleado
 		this.em.persist(emp);
 	}

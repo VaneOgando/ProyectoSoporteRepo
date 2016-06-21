@@ -3,7 +3,7 @@ package com.inventario.primefaces.beans;
 import com.inventario.jpa.data.*;
 import com.inventario.spring.service.CrearRecursoServicio;
 
-import com.inventario.util.constante.Constantes;
+import com.inventario.util.comun.*;
 import org.primefaces.context.RequestContext;
 
 import javax.annotation.PostConstruct;
@@ -165,9 +165,6 @@ public class CrearRecursoBean {
 		historial.setFechaGestion(fechaActual);
 		historial.setResponsableSoporte("12345678");  //USUARIO DE LA SESSION
 		historial.setCategoria(crearRecursoServicio.obtenerCategoriaHistorial(Constantes.D_CAT_HISTORIAL_CREACION));
-
-		if(!incidencia.equals(""))
-			historial.setIdIncidencia(incidencia);
 
 		if(!observacion.equals("")){
 			historial.setDescripcion(observacion);

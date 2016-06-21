@@ -3,7 +3,7 @@ package com.inventario.primefaces.beans;
 import com.inventario.jpa.data.*;
 import com.inventario.spring.service.DetalleEquipoServicio;
 import com.inventario.spring.service.ModificarEquipoServicio;
-import com.inventario.util.constante.Constantes;
+import com.inventario.util.comun.*;
 import org.primefaces.context.RequestContext;
 
 import javax.annotation.PostConstruct;
@@ -131,9 +131,6 @@ public class ModificarEquipoBean {
 		historial.setResponsableSoporte("12345678");  //USUARIO DE LA SESSION
 		historial.setDescripcion(observacion);
 		historial.setCategoria(modificarEquipoServicio.obtenerCategoriaHistorial(Constantes.D_CAT_HISTORIAL_MODIFICACION));
-
-		if(!incidencia.equals(""))
-			historial.setIdIncidencia(incidencia);
 
 	}
 

@@ -44,8 +44,6 @@ public class HistorialInventarioEntity {
 	private Date fechaGestion;
 	@Column(name = "DESCRIPCION")
 	private String descripcion;
-	@Column(name = "IDINCIDENCIA")
-	private String idIncidencia;
 	@Column(name = "RESPSOPORTE")
 	private String responsableSoporte;
 	@Column(name = "USUARIOASIG")
@@ -89,14 +87,6 @@ public class HistorialInventarioEntity {
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
-	}
-
-	public String getIdIncidencia() {
-		return idIncidencia;
-	}
-
-	public void setIdIncidencia(String idIncidencia) {
-		this.idIncidencia = idIncidencia;
 	}
 
 	public String getResponsableSoporte() {

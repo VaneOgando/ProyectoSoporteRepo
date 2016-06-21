@@ -54,9 +54,13 @@
 
 							<p:column styleClass="colDerGestion">
 								<p:inputText id="usuario" styleClass="anchoCompGestion" value="#{gestionarRecursoBean.historial.usuarioAsignado}"
-											 required="#{!empty param['aceptar']}" requiredMessage="Por favor indique un usuario"  readonly="#{facesContext.renderResponse }" />
+											 readonly="true" />
+
+								<h:inputHidden id="usuarioHidden" value="#{gestionarRecursoBean.historial.usuarioAsignado}"
+											 required="true" requiredMessage="Por favor indique un usuario"  />
+
 								<p:commandButton icon="ui-icon-search" style="font-size: small" immediate="true"
-										action="#{gestionarRecursoBean.buscarUsuarios}"/>
+										action="#{gestionarRecursoBean.buscarUsuarios}" />
 								<p:outputLabel value="*" styleClass="requerido"/>
 							</p:column>
 						</p:row>
@@ -82,23 +86,10 @@
 									<f:selectItems value="#{gestionarRecursoBean.accesoriosGestion}" var="accesorio" itemLabel="#{accesorio.nombre}" itemValue="#{accesorio.id}" />
 								</p:selectManyMenu>
 								<p:commandButton icon="ui-icon-plus" styleClass="botonGestionMas" style="font-size: small" immediate="true"
-												 action="#{gestionarRecursoBean.agregarAccesorios}"/>
+												 action="#{gestionarRecursoBean.agregarAccesorios}" />
 								<p:commandButton icon="ui-icon-minus" styleClass="botonGestionMenos" style="font-size: small"  process="@this accesorios"
 										action="#{gestionarRecursoBean.eliminarAccesorios}" update="gestionarRecurso:accesorios">
 								</p:commandButton>
-							</p:column>
-						</p:row>
-
-						<p:row>
-							<p:column styleClass="colIzqGestion">
-								<p:outputLabel value="Incidencia:"/>
-							</p:column>
-							<p:column styleClass="colDerGestion">
-								<p:inputText id="incidencia" styleClass="anchoCompGestion" value="#{gestionarRecursoBean.historial.idIncidencia}"
-											 validatorMessage="En número de incidencia debe contener únicamente números y no sobrepasar los 7 caracteres">
-									<f:validateRegex pattern="\d{1,7}" />
-								</p:inputText>
-								<p:button icon="ui-icon-search" style="font-size: small"/>
 							</p:column>
 						</p:row>
 
@@ -145,7 +136,6 @@
 
 		</h:form>
 
-
 		<div id="dialogo">
 			<p:dialog id="recursosGestion" header="Por favor seleccione" widgetVar="dialogoRecursoGestion" closable="false" resizable="false" modal="true" width="80%" >
 				<h:form id="datatable">
@@ -182,8 +172,8 @@
 									<c:choose>
 
 										<c:when test="#{gestionarRecursoBean.opcionDatatable == 'U'}">
-											<p:column headerText="C.I" filterBy="#{item.id}" filterStyle="display: none"  >
-												<h:outputText value="#{item.id}" />
+											<p:column headerText="Usuario" filterBy="#{item.usuario}" filterStyle="display: none"  >
+												<h:outputText value="#{item.usuario}" />
 											</p:column>
 
 											<p:column headerText="Nombre" filterBy="#{item.nombre}" filterStyle="display: none" >

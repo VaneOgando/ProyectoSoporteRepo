@@ -21,7 +21,7 @@
 				<p:outputLabel value="Contraseña:"></p:outputLabel>
 				<p:password id="contrasenia" value="#{inicioSesionBean.pass}" required="true" />
 			</p:panelGrid>
-			<p:commandButton value="Ingresar" action="#{inicioSesionBean.authenticateUser}" update="@form"></p:commandButton>
+			<p:commandButton value="Ingresar" action="#{inicioSesionBean.bt_ingresar_action}" update="@form"></p:commandButton>
 		</h:form>
 
 	</h:body >

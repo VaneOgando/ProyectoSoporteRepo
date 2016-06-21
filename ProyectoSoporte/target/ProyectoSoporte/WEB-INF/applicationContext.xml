@@ -19,6 +19,7 @@
 	<context:component-scan base-package="com.inventario.spring.service"></context:component-scan>
 	<context:component-scan base-package="com.inventario.primefaces.beans"></context:component-scan>
 
+	<!-- Conexion a Base de Datos -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
 		<property name="url" value="jdbc:oracle:thin:@//localhost:1521/XE" />
@@ -53,5 +54,21 @@
 
 	<bean id="persistenceExceptionTranslationPostProcessor"
 		  class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+
+	<!-- Conexion a LDAP -->
+	<bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource">
+		<property name="url" value="ldap://infra.tcs.local/" />
+		<property name="base" value="cn=Users,DC=tcs,DC=local"/>
+		<property name="userDn" value="CN=incidencias, CN=Users, DC=tcs, DC=local" />
+		<property name="password" value="sDuZv5TfCMOgQ5" />
+	</bean>
+
+	<bean id="ldapContact" class="org.springframework.ldap.core.LdapTemplate">
+		<constructor-arg ref="contextSource" />
+	</bean>
+
+	<bean id="ldapTemplate" class="com.inventario.spring.service.LdapServicio">
+		<property name="ldapTemplate" ref="ldapContact" />
+	</bean>
 
 </beans>

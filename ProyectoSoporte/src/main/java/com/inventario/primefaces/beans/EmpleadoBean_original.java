@@ -1,6 +1,6 @@
 package com.inventario.primefaces.beans;
 
-import com.inventario.jpa.data.Empleado;
+import com.inventario.jpa.data.UsuarioEntity;
 import com.inventario.spring.service.EmpleadoServicio_original;
 
 import javax.faces.application.FacesMessage;
@@ -16,7 +16,7 @@ public class EmpleadoBean_original {
 	@ManagedProperty("#{empleadoServicio_original}")
 	private EmpleadoServicio_original empleadoServicio;
 
-	private Empleado empleado = new Empleado();
+	private UsuarioEntity empleado = new UsuarioEntity();
 
 	public EmpleadoServicio_original getEmpleadoServicio() {
 		return empleadoServicio;
@@ -26,11 +26,11 @@ public class EmpleadoBean_original {
 		this.empleadoServicio = empleadoServicio;
 	}
 
-	public Empleado getEmpleado() {
+	public UsuarioEntity getEmpleado() {
 		return empleado;
 	}
 
-	public void setEmpleado(Empleado empleado) {
+	public void setEmpleado(UsuarioEntity empleado) {
 		this.empleado = empleado;
 	}
 

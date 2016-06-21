@@ -1,69 +1,51 @@
 package com.inventario.primefaces.beans;
 
-//import javax.faces.application.FacesMessage;
-//import javax.faces.bean.*;
-//import javax.faces.context.ExternalContext;
-//import javax.faces.context.FacesContext;
-//import javax.naming.*;
-//import javax.naming.directory.*;
-//
-//import com.inventario.util.constante.Constantes;
-//
-//import com.inventario.spring.service.InicioSesionServicio;
-//import org.springframework.ldap.core.AttributesMapper;
-//import org.springframework.ldap.core.DirContextOperations;
-//import org.springframework.ldap.core.DistinguishedName;
-//import org.springframework.ldap.core.LdapTemplate;
-//import org.springframework.ldap.core.support.AbstractContextMapper;
-//import org.springframework.ldap.filter.AndFilter;
-//import org.springframework.ldap.filter.EqualsFilter;
-//import org.springframework.ldap.filter.Filter;
-//import org.springframework.ldap.support.LdapUtils;
-//
-//import java.util.Hashtable;
-//import java.util.List;
-//
-//import static org.springframework.ldap.query.LdapQueryBuilder.query;
-//
-//@ManagedBean
-//@SessionScoped
-//public class InicioSesionBean {
-//
-//	/*ATRIBUTOS*/
-//	@ManagedProperty("#{inicioSesionServicio}")
-//	private InicioSesionServicio inicioSesionServicio;
-//	private ExternalContext context;
-//
-//	private String user;
-//	private String pass;
-//	private String nombre;
-//	private String apellido;
-//
-//	private boolean respuesta;
-//
-//	private LdapTemplate ldapTemplate;
-//
-//	/*METODOS*/
-//	public String bt_ingresar_action() {
-//		// Llamada al servicio (Controllador)
-//		respuesta = inicioSesionServicio.ValidarUsuarioContrasenia(user, pass);
-//
-//		if (respuesta == true) {
-//			this.nombre = "Admin";
-//			this.apellido = "Admin";
-//			return "consultarInventario";
-//
-//		}else {
-//			this.user 	 = "";
-//			this.pass = "";
-//
-//			FacesContext.getCurrentInstance().addMessage(null,
-//					new FacesMessage(FacesMessage.SEVERITY_ERROR, Constantes.ERR_LOGIN_INVALIDO, Constantes.ERR_LOGIN_INVALIDO));
-//		}
-//		return "";
-//	}
-//
-//
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.*;
+import javax.faces.context.FacesContext;
+
+import com.inventario.util.comun.Constantes;
+
+import com.inventario.spring.service.LdapServicio;
+import org.primefaces.context.RequestContext;
+import org.springframework.ldap.core.LdapTemplate;
+import org.springframework.ldap.filter.EqualsFilter;
+import org.springframework.ldap.filter.Filter;
+
+@ManagedBean
+@SessionScoped
+public class InicioSesionBean {
+
+	/*ATRIBUTOS*/
+	@ManagedProperty("#{ldapServicio}")
+	private LdapServicio ldapServicio;
+
+	private String user;
+	private String pass;
+
+	private boolean respuesta;
+
+    private LdapTemplate ldapTemplate;
+
+	/*METODOS*/
+	public String bt_ingresar_action() {
+
+		respuesta = ldapServicio.autenticarUsuarioSoporte(user, pass);
+
+		if (respuesta == true) {
+			return "consultarInventario";
+
+		}else {
+			this.user = "";
+			this.pass = "";
+
+			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR! Usuario y/o cotraseña invalido", null));
+			RequestContext.getCurrentInstance().update("mensajesError");
+		}
+		return "";
+	}
+
+
 //	public String authenticateUser() throws NamingException {
 //
 //		Hashtable<String, String> env = new Hashtable<String, String>();
@@ -132,99 +114,62 @@ package com.inventario.primefaces.beans;
 //				try { ctx.close(); } catch (Exception e) { /* Do Nothing */ }
 //			}
 //		}
-//
-//
 //	}
-//
-//	public String autenticarUsuario(){
-//
-//		DirContext ctx = null;
-//		try {
-//			ctx = ldapTemplate.getContextSource().getContext( obtenerDNUsuario(user) ,pass);
-//			return "consultarInventario.xhtml";
-//		} catch (Exception e) {
-//			// Context creation failed - authentication did not succeed
-//			System.out.println("Fallo inicio sesion");
-//			return "";
-//		} finally {
-//			// It is imperative that the created DirContext instance is always closed
-//			LdapUtils.closeContext(ctx);
-//		}
-//
-//	}
-//
-//	private String obtenerDNUsuario(String usuario) {
-//
-//		List<String> result = ldapTemplate.search(
-//				query().where("uid").is(usuario),
-//				new AbstractContextMapper() {
-//					protected String doMapFromContext(DirContextOperations ctx) {
-//						return ctx.getNameInNamespace();
-//					}
-//				});
-//
-//		if(result.size() != 1) {
-//			throw new RuntimeException("User not found or not unique");
-//		}
-//
-//		return result.get(0);
-//	}
-//
-//
-//	/*GET & SET*/
-//	public InicioSesionServicio getInicioSesionServicio() {
-//		return inicioSesionServicio;
-//	}
-//
-//	public void setInicioSesionServicio(InicioSesionServicio inicioSesionServicio) {
-//		this.inicioSesionServicio = inicioSesionServicio;
-//	}
-//
-//	public String getUser() {
-//		return user;
-//	}
-//
-//	public void setUser(String user) {
-//		this.user = user;
-//	}
-//
-//	public String getPass() {
-//		return pass;
-//	}
-//
-//	public void setPass(String pass) {
-//		this.pass = pass;
-//	}
-//
-//	public String getNombre() {
-//		return nombre;
-//	}
-//
-//	public void setNombre(String nombre) {
-//		this.nombre = nombre;
-//	}
-//
-//	public String getApellido() {
-//		return apellido;
-//	}
-//
-//	public void setApellido(String apellido) {
-//		this.apellido = apellido;
-//	}
-//
-//	public boolean getRespuesta() {
-//		return respuesta;
-//	}
-//
-//	public void setRespuesta(boolean respuesta) {
-//		this.respuesta = respuesta;
-//	}
-//
-//	public LdapTemplate getLdapTemplate() {
-//		return ldapTemplate;
-//	}
-//
-//	public void setLdapTemplate(LdapTemplate ldapTemplate) {
-//		this.ldapTemplate = ldapTemplate;
-//	}
-//}
+
+
+	public String autenticarUsuario(){
+
+        Filter filter = new EqualsFilter("sAMAccountName", user);
+        boolean authed = ldapTemplate.authenticate("", filter.encode(), pass);
+
+        System.out.println("Authenticated: " + authed);
+
+        if (authed == true){
+            return "consultarInventario.xhtml";
+        }else{
+            return "";
+        }
+
+    }
+
+	/*GET & SET*/
+	public LdapServicio getLdapServicio() {
+		return ldapServicio;
+	}
+
+	public void setLdapServicio(LdapServicio ldapServicio) {
+		this.ldapServicio = ldapServicio;
+	}
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
+	public String getPass() {
+		return pass;
+	}
+
+	public void setPass(String pass) {
+		this.pass = pass;
+	}
+
+	public boolean getRespuesta() {
+		return respuesta;
+	}
+
+	public void setRespuesta(boolean respuesta) {
+		this.respuesta = respuesta;
+	}
+
+    public LdapTemplate getLdapTemplate() {
+        return ldapTemplate;
+    }
+
+    public void setLdapTemplate(LdapTemplate ldapTemplate) {
+        this.ldapTemplate = ldapTemplate;
+    }
+}

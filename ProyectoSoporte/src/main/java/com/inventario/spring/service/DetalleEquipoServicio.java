@@ -1,7 +1,7 @@
 package com.inventario.spring.service;
 
 import com.inventario.jpa.data.*;
-import com.inventario.util.constante.Constantes;
+import com.inventario.util.comun.*;
 import com.sun.corba.se.spi.ior.ObjectKey;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;

@@ -2,7 +2,7 @@ package com.inventario.primefaces.beans;
 
 import com.inventario.jpa.data.*;
 import com.inventario.spring.service.ModificarAccesorioServicio;
-import com.inventario.util.constante.Constantes;
+import com.inventario.util.comun.*;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -141,9 +141,6 @@ public class ModificarAccesorioBean {
 		historial.setResponsableSoporte("12345678");  //USUARIO DE LA SESSION
 		historial.setDescripcion(observacion);
 		historial.setCategoria(modificarAccesorioServicio.obtenerCategoriaHistorial(Constantes.D_CAT_HISTORIAL_MODIFICACION));
-
-		if(!incidencia.equals(""))
-			historial.setIdIncidencia(incidencia);
 
 	}
 

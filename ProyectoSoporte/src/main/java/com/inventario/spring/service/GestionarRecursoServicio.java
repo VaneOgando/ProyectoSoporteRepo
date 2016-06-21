@@ -1,14 +1,14 @@
 package com.inventario.spring.service;
 
 import com.inventario.jpa.data.*;
-import com.inventario.util.constante.Constantes;
+import com.inventario.util.comun.Constantes;
 //import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
-import javax.faces.bean.ManagedProperty;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 //import javax.transaction.Transactional;
@@ -159,7 +159,7 @@ public class GestionarRecursoServicio {
 				entityManager.merge(equipo);
 
 				historial.setEquipo(equipo);
-				entityManager.merge(historial);  //persist rastrea futuros cambios setEquipo(null)
+				entityManager.merge(historial);  //persist rastrea futuros cambios "setEquipo(null)"
 
 				historial.setEquipo(null);
 			}
@@ -189,68 +189,6 @@ public class GestionarRecursoServicio {
 		}
 
 	}
-
-
-	public JasperPrint generarReporteGestion(EquipoEntity equipo, List<AccesorioEntity> accesorios, HistorialInventarioEntity historial){
-
-		HashMap<String, Object> parametros = new HashMap<String, Object>();
-		generarReporteServicio = new GenerarReporteServicio();
-
-		String[] fecha = obtenerFecha(historial.getFechaGestion(), "dd-MMMM-yyyy").split("-");
-
-		/*Parametros fecha*/
-		parametros.put("fechaDia", fecha[0]);
-		parametros.put("fechaMes", fecha[1]);
-		parametros.put("fechaAnio", fecha[2]);
-
-		/*Parametros usuario*/
-		parametros.put("usuarioAsignado", historial.getUsuarioAsignado());
-		parametros.put("usuarioSoporte", historial.getResponsableSoporte());
-
-		/*Parametros recursos*/
-		List<HashMap<String, Object>> recursos = new ArrayList<HashMap<String, Object>>();
-
-		if (equipo.getNumSerie() != null) {
-			recursos.add(recursoHashMap("Equipo", equipo));
-		}
-
-		for (AccesorioEntity acc : accesorios){
-			recursos.add(recursoHashMap( acc.getCategoria().getNombre(), acc ));
-		}
-
-		parametros.put("recursosGestion", new JRBeanCollectionDataSource(recursos));
-
-		return  generarReporteServicio.generarReporte(Constantes.REPORTE_ASIGNACION, parametros);
-	}
-
-	public String obtenerFecha(Date fechaGestion, String formato){
-
-		DateFormat formatoFecha = new SimpleDateFormat(formato);
-
-		return formatoFecha.format(fechaGestion);
-	}
-
-	public HashMap<String, Object> recursoHashMap(String tipo, Object recurso){
-
-		HashMap<String, Object> recursoHashMap = new HashMap<String, Object>();
-		recursoHashMap.put("tipo",tipo);
-		recursoHashMap.put("recurso",recurso);
-
-		return recursoHashMap;
-	}
-
-	public void descargarReporte(JasperPrint reporte) throws IOException {
-
-		generarReporteServicio.exportarPDF(reporte, generarNombreArchivo());
-	}
-
-	public String generarNombreArchivo(){
-
-		//Llamar conexionLDAPServicio para obtener nombre y apellido de usuario
-		return "reportePrueba.pdf";
-
-	}
-
 
 	/*GET & SET*/
 

@@ -178,19 +178,6 @@
 
 						<p:row>
 							<p:column styleClass="panelColumnaIzq">
-								<p:outputLabel value="Incidencia:"/>
-							</p:column>
-							<p:column styleClass="panelColumnaDer">
-								<p:inputText styleClass="anchoCompModificacion" value="#{detalleAccesorioBean.incidencia}"
-											 validatorMessage="En número de incidencia debe contener únicamente números y no sobrepasar los 7 caracteres">
-									<f:validateRegex pattern="\d{1,7}"/>
-								</p:inputText>
-								<p:button icon="ui-icon-search" style="font-size: small" onclick=""/>
-							</p:column>
-						</p:row>
-
-						<p:row>
-							<p:column styleClass="panelColumnaIzq">
 								<p:outputLabel value="Observación:"/>
 							</p:column>
 							<p:column styleClass="panelColumnaDer">
@@ -259,11 +246,6 @@
 
 					<p:column headerText="Descripción" filterBy="#{item.descripcion}" filterStyle="display:none">
 						<h:outputText value="#{item.descripcion}" />
-					</p:column>
-
-					<p:column headerText="Id incidencia" filterBy="#{item.idIncidencia}" filterStyle="display:none">
-						<h:outputText value="#{item.idIncidencia}" rendered="#{item.idIncidencia != null}" />
-						<h:outputText value="N/A" rendered="#{item.idIncidencia == null}" />
 					</p:column>
 
 					<p:column headerText="Usuario" filterBy="#{item.usuarioAsignado}" filterStyle="display:none">
