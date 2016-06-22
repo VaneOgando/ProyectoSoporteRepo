@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="cartaAsignacionRecurso" language="groovy" pageWidth="595" pageHeight="842" columnWidth="455" leftMargin="70" rightMargin="70" topMargin="56" bottomMargin="56" isSummaryWithPageHeaderAndFooter="true" uuid="8515e659-43cb-4677-95dd-50d60e363d0d">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="303"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -124,7 +124,7 @@
 						</jr:columnHeader>
 						<jr:detailCell style="table_TD" height="23" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="86" height="23" isPrintWhenDetailOverflows="true" uuid="d242a627-3a15-402a-832f-72e0d6eac911"/>
+								<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="86" height="23" isPrintWhenDetailOverflows="true" uuid="d242a627-3a15-402a-832f-72e0d6eac911"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Calibri" size="12"/>
 								</textElement>
@@ -144,7 +144,7 @@
 						</jr:columnHeader>
 						<jr:detailCell style="table_TD" height="23" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="106" height="23" isPrintWhenDetailOverflows="true" uuid="d9bf65ac-5dc1-4926-b6b0-dd988bc23b14"/>
+								<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="106" height="23" isPrintWhenDetailOverflows="true" uuid="d9bf65ac-5dc1-4926-b6b0-dd988bc23b14"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Calibri" size="12"/>
 								</textElement>
@@ -164,7 +164,7 @@
 						</jr:columnHeader>
 						<jr:detailCell style="table_TD" height="23" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="95" height="23" isPrintWhenDetailOverflows="true" uuid="65415aef-0426-4244-ac56-fab2a51456fa"/>
+								<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="95" height="23" isPrintWhenDetailOverflows="true" uuid="65415aef-0426-4244-ac56-fab2a51456fa"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Calibri" size="12"/>
 								</textElement>
@@ -184,7 +184,7 @@
 						</jr:columnHeader>
 						<jr:detailCell style="table_TD" height="23" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="86" height="23" isPrintWhenDetailOverflows="true" uuid="ae74112d-18be-4195-bea6-80ee632338ea"/>
+								<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="86" height="23" isPrintWhenDetailOverflows="true" uuid="ae74112d-18be-4195-bea6-80ee632338ea"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Calibri" size="12"/>
 								</textElement>
@@ -204,7 +204,7 @@
 						</jr:columnHeader>
 						<jr:detailCell style="table_TD" height="23" rowSpan="1">
 							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-								<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="83" height="23" isPrintWhenDetailOverflows="true" uuid="b5cd029b-8604-4f1c-97a6-8e6de285e132"/>
+								<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="83" height="23" isPrintWhenDetailOverflows="true" uuid="b5cd029b-8604-4f1c-97a6-8e6de285e132"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Calibri" size="12"/>
 								</textElement>
@@ -255,9 +255,9 @@
 					<font fontName="Calibri" size="12"/>
 					<paragraph lineSpacing="1_1_2" firstLineIndent="30"/>
 				</textElement>
-				<text><![CDATA[A partir de este momento es de total responsabilidad el usuario del mal uso, extravió o cualquier situación con la que se relacionen los recursos dentro y fuera de las instalaciones.
+				<text><![CDATA[A partir de este momento es de total responsabilidad del usuario del mal uso, extravío o cualquier situación con la que se relacionen los recursos dentro y fuera de las instalaciones.
 
-En caso de extravió debe ser notificado y realizar la denuncia ante el ente competente.]]></text>
+En caso de extravío debe ser notificado y realizar la denuncia ante el ente competente.]]></text>
 			</staticText>
 		</band>
 	</pageFooter>

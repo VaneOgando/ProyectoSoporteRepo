@@ -146,7 +146,7 @@ public class GestionarRecursoBean {
 			items = gestionarRecursoServicio.buscarEquipos(Constantes.D_ID_ESTADO_ASIGNACION);
 
 			//Usuario especifico
-			if (historial.getUsuarioAsignado() != null){
+			if (!historial.getUsuarioAsignado().equals("")){
 
 				int i = 0;
 
@@ -180,7 +180,7 @@ public class GestionarRecursoBean {
 			items = gestionarRecursoServicio.buscarAccesorios(Constantes.D_ID_ESTADO_ASIGNACION);
 
 			//Usuario especifico
-			if (historial.getUsuarioAsignado() != null) {
+			if (!historial.getUsuarioAsignado().equals("")) {
 
 				int i = 0;
 

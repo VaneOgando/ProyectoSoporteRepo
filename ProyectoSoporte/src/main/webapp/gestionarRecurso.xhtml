@@ -54,12 +54,12 @@
 
 							<p:column styleClass="colDerGestion">
 								<p:inputText id="usuario" styleClass="anchoCompGestion" value="#{gestionarRecursoBean.historial.usuarioAsignado}"
-											 readonly="true" />
+											 readonly="true"  />
 
 								<h:inputHidden id="usuarioHidden" value="#{gestionarRecursoBean.historial.usuarioAsignado}"
 											 required="#{!empty param['aceptar']}" requiredMessage="Por favor indique un usuario"  />
 
-								<p:commandButton icon="ui-icon-search" style="font-size: small" immediate="true"
+								<p:commandButton icon="ui-icon-search" style="font-size: small"
 										action="#{gestionarRecursoBean.buscarUsuarios}" />
 								<p:outputLabel value="*" styleClass="requerido"/>
 							</p:column>
@@ -72,7 +72,7 @@
 							<p:column styleClass="colDerGestion">
 								<p:inputText id="equipo" styleClass="anchoCompGestion" readonly="true"
 											 value="#{gestionarRecursoBean.equipo.numSerie}" />
-								<p:commandButton icon="ui-icon-search" style="font-size: small" immediate="true"
+								<p:commandButton icon="ui-icon-search" style="font-size: small"
 												 action="#{gestionarRecursoBean.buscarEquipos}" />
 							</p:column>
 						</p:row>
@@ -85,7 +85,7 @@
 								<p:selectManyMenu id="accesorios" styleClass="anchoCompManyMenu" scrollHeight="90" value="#{gestionarRecursoBean.accesoriosSeleccion}" >
 									<f:selectItems value="#{gestionarRecursoBean.accesoriosGestion}" var="accesorio" itemLabel="#{accesorio.nombre}" itemValue="#{accesorio.id}" />
 								</p:selectManyMenu>
-								<p:commandButton icon="ui-icon-plus" styleClass="botonGestionMas" style="font-size: small" immediate="true"
+								<p:commandButton icon="ui-icon-plus" styleClass="botonGestionMas" style="font-size: small"
 												 action="#{gestionarRecursoBean.agregarAccesorios}" />
 								<p:commandButton icon="ui-icon-minus" styleClass="botonGestionMenos" style="font-size: small"  process="@this accesorios"
 										action="#{gestionarRecursoBean.eliminarAccesorios}" update="gestionarRecurso:accesorios">
