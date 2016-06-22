@@ -25,6 +25,10 @@ public class DetalleAccesorioBean {
 	/*ATRIBUTOS*/
 	@ManagedProperty("#{detalleAccesorioServicio}")
 	private DetalleAccesorioServicio detalleAccesorioServicio;
+
+	@ManagedProperty("#{datosSesion}")
+	private datosSesion sesion;
+
 	RequestContext requestContext;
 
 	private AccesorioEntity accesorio = new AccesorioEntity();
@@ -127,7 +131,7 @@ public class DetalleAccesorioBean {
 
 		historialCambioEstado.setFechaGestion(fechaActual);
 		historialCambioEstado.setDescripcion(observacion);
-		historialCambioEstado.setResponsableSoporte("12345678");  //USUARIO DE LA SESSION
+		historialCambioEstado.setResponsableSoporte(sesion.getUsuario().getUsuario());  //USUARIO DE LA SESSION
 
 		if (estadoACambiar.getId() == Constantes.D_ID_ESTADO_ELIMINADO){
 			historialCambioEstado.setCategoria(detalleAccesorioServicio.obtenerCategoriaHistorial(Constantes.D_CAT_HISTORIAL_ELIMINACION));
@@ -145,6 +149,14 @@ public class DetalleAccesorioBean {
 
 	public void setDetalleAccesorioServicio(DetalleAccesorioServicio detalleAccesorioServicio) {
 		this.detalleAccesorioServicio = detalleAccesorioServicio;
+	}
+
+	public datosSesion getSesion() {
+		return sesion;
+	}
+
+	public void setSesion(datosSesion sesion) {
+		this.sesion = sesion;
 	}
 
 	public RequestContext getRequestContext() {

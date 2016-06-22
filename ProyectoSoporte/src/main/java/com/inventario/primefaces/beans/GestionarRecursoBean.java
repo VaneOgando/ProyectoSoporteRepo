@@ -10,6 +10,7 @@ import com.inventario.util.comun.Constantes;
 //import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 //import org.apache.commons.collections.map.HashedMap;
 
+import com.inventario.util.comun.datosSesion;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.primefaces.context.RequestContext;
@@ -38,6 +39,9 @@ public class GestionarRecursoBean {
 
 	@ManagedProperty("#{ldapServicio}")
 	private LdapServicio ldapServicio;
+
+	@ManagedProperty("#{datosSesion}")
+	private datosSesion sesion;
 
 	private FacesContext context = FacesContext.getCurrentInstance();
 
@@ -298,7 +302,7 @@ public class GestionarRecursoBean {
 			} else {
 
 				historial.setFechaGestion(fechaActual);
-				historial.setResponsableSoporte("12345678");  //USUARIO DE SESION
+				historial.setResponsableSoporte(sesion.getUsuario().getUsuario());  //USUARIO DE SESION
 
 				if (opcionGestion.equals("A")){
 					historial.setCategoria( gestionarRecursoServicio.obtenerCategoria(Constantes.D_CAT_HISTORIAL_ASIGNACION) );
@@ -382,9 +386,25 @@ public class GestionarRecursoBean {
 		File img = new File( FacesContext.getCurrentInstance().getExternalContext().getRealPath(Constantes.URL_LOGO));
 		parametros.put("logoTCS", new FileInputStream(img));
 
+		/*Nombre completo de ususarios*/
+		String usuarioSoporte = sesion.getUsuario().getNombre() ;
+
+		if (usuarioSoporte == null){
+			usuarioSoporte = historial.getResponsableSoporte();
+		}
+
+		String usuarioAsignado = "";
+		try {
+			usuarioAsignado = (ldapServicio.ObtenerUsuarioCompleto(historial.getUsuarioAsignado())).getNombre();
+
+		}catch (Exception e){
+			usuarioAsignado = historial.getUsuarioAsignado();
+		}
+
+
 		/*Parametros usuario*/
-		parametros.put("usuarioAsignado", historial.getUsuarioAsignado() );
-		parametros.put("usuarioSoporte", historial.getResponsableSoporte() );
+		parametros.put("usuarioAsignado", usuarioAsignado);
+		parametros.put("usuarioSoporte", usuarioSoporte);
 
 		/*Parametros recursos*/
 		List<HashMap<String, Object>> recursos = new ArrayList<HashMap<String, Object>>();
@@ -577,6 +597,14 @@ public class GestionarRecursoBean {
 
 	public void setNombreArchivo(String nombreArchivo) {
 		this.nombreArchivo = nombreArchivo;
+	}
+
+	public datosSesion getSesion() {
+		return sesion;
+	}
+
+	public void setSesion(datosSesion sesion) {
+		this.sesion = sesion;
 	}
 }
 

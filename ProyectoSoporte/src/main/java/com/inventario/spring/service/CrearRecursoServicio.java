@@ -148,7 +148,7 @@ public class CrearRecursoServicio {
 				entityManager.persist(modelo);
 			}
 
-			if(opcion.equals("0")) {
+			if(opcion.equals("E")) {
 
 				equipo.setEstado(estado);
 				equipo.setModelo(modelo);
@@ -156,7 +156,7 @@ public class CrearRecursoServicio {
 
 				historial.setEquipo(equipo);
 
-			}else if(opcion.equals("1")){
+			}else if(opcion.equals("A")){
 
 				if(categoria.getId() == 0){//categoria no existe
 					categoria.setTipoCategoria("accesorio");

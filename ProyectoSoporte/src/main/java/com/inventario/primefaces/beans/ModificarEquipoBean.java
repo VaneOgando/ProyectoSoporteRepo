@@ -26,6 +26,9 @@ public class ModificarEquipoBean {
 	@ManagedProperty("#{modificarEquipoServicio}")
 	private ModificarEquipoServicio modificarEquipoServicio;
 
+	@ManagedProperty("#{datosSesion}")
+	private datosSesion sesion;
+
 	private EquipoEntity equipo = new EquipoEntity();
 	private HistorialInventarioEntity historial = new HistorialInventarioEntity();
 
@@ -128,7 +131,7 @@ public class ModificarEquipoBean {
 	public void crearHistorial(){
 
 		historial.setFechaGestion(fechaActual);
-		historial.setResponsableSoporte("12345678");  //USUARIO DE LA SESSION
+		historial.setResponsableSoporte(sesion.getUsuario().getUsuario());  //USUARIO DE LA SESSION
 		historial.setDescripcion(observacion);
 		historial.setCategoria(modificarEquipoServicio.obtenerCategoriaHistorial(Constantes.D_CAT_HISTORIAL_MODIFICACION));
 
@@ -147,6 +150,14 @@ public class ModificarEquipoBean {
 
 	public void setModificarEquipoServicio(ModificarEquipoServicio modificarEquipoServicio) {
 		this.modificarEquipoServicio = modificarEquipoServicio;
+	}
+
+	public datosSesion getSesion() {
+		return sesion;
+	}
+
+	public void setSesion(datosSesion sesion) {
+		this.sesion = sesion;
 	}
 
 	public EquipoEntity getEquipo() {

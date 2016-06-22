@@ -57,7 +57,7 @@
 											 readonly="true" />
 
 								<h:inputHidden id="usuarioHidden" value="#{gestionarRecursoBean.historial.usuarioAsignado}"
-											 required="true" requiredMessage="Por favor indique un usuario"  />
+											 required="#{!empty param['aceptar']}" requiredMessage="Por favor indique un usuario"  />
 
 								<p:commandButton icon="ui-icon-search" style="font-size: small" immediate="true"
 										action="#{gestionarRecursoBean.buscarUsuarios}" />

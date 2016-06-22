@@ -25,10 +25,6 @@ public class GestionarRecursoServicio {
 	/*ATRIBUTOS*/
 	protected EntityManager entityManager;
 
-	private GenerarReporteServicio generarReporteServicio;
-
-
-
 	/*METODOS*/
 	@Transactional
 	public List<Object> buscarEquipos(int estado) throws DataAccessException {

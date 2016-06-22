@@ -24,12 +24,14 @@ public class CrearRecursoBean {
 	@ManagedProperty("#{crearRecursoServicio}")
 	private CrearRecursoServicio crearRecursoServicio;
 
+	@ManagedProperty("#{datosSesion}")
+	private datosSesion sesion;
+
 	private EquipoEntity equipo;
 	private AccesorioEntity accesorio;
 
-	private String opcion = "0";
+	private String opcionRecurso = "E";
 	private String observacion;
-	private String incidencia;
 	private Boolean creacion = false;
 
 	private Date fechaActual = new Date();
@@ -58,7 +60,7 @@ public class CrearRecursoBean {
 		inicializarListas();
 		marcas = cargarMarcas();
 
-		if(opcion.equals("1")){
+		if(opcionRecurso.equals("A")){
 			categorias = cargarCategorias();
 		}
 
@@ -103,7 +105,7 @@ public class CrearRecursoBean {
 
 		try {
 
-			if (opcion.equals("0")) {
+			if (opcionRecurso.equals("E")) {
 				if (equipo.getFechaCompra() == null) {
 					equipo.setFechaCompra(fechaActual);
 				}
@@ -131,7 +133,7 @@ public class CrearRecursoBean {
 				modelo.setId(0);
 			}
 
-			creacion = crearRecursoServicio.crearRecurso(marca, modelo, categoria, estado, historial, equipo, accesorio, opcion);
+			creacion = crearRecursoServicio.crearRecurso(marca, modelo, categoria, estado, historial, equipo, accesorio, opcionRecurso);
 
 			if (creacion == true) {
 
@@ -163,14 +165,14 @@ public class CrearRecursoBean {
 	public void crearHistorial(){
 
 		historial.setFechaGestion(fechaActual);
-		historial.setResponsableSoporte("12345678");  //USUARIO DE LA SESSION
+		historial.setResponsableSoporte(sesion.getUsuario().getUsuario());  //USUARIO DE LA SESSION
 		historial.setCategoria(crearRecursoServicio.obtenerCategoriaHistorial(Constantes.D_CAT_HISTORIAL_CREACION));
 
 		if(!observacion.equals("")){
 			historial.setDescripcion(observacion);
 		}else{
 
-			if(opcion.equals("0")) {
+			if(opcionRecurso.equals("E")) {
 				historial.setDescripcion(Constantes.D_DESC_HISTORIAL_CREACION_EQ + equipo.getNombre());
 			}else{
 				historial.setDescripcion(Constantes.D_DESC_HISTORIAL_CREACION_ACC + accesorio.getNombre());
@@ -212,6 +214,14 @@ public class CrearRecursoBean {
 		this.crearRecursoServicio = crearRecursoServicio;
 	}
 
+	public datosSesion getSesion() {
+		return sesion;
+	}
+
+	public void setSesion(datosSesion sesion) {
+		this.sesion = sesion;
+	}
+
 	public EquipoEntity getEquipo() {
 		return equipo;
 	}
@@ -228,12 +238,12 @@ public class CrearRecursoBean {
 		this.accesorio = accesorio;
 	}
 
-	public String getOpcion() {
-		return opcion;
+	public String getOpcionRecurso() {
+		return opcionRecurso;
 	}
 
-	public void setOpcion(String opcion) {
-		this.opcion = opcion;
+	public void setOpcionRecurso(String opcionRecurso) {
+		this.opcionRecurso = opcionRecurso;
 	}
 
 	public String getObservacion() {
@@ -242,14 +252,6 @@ public class CrearRecursoBean {
 
 	public void setObservacion(String observacion) {
 		this.observacion = observacion;
-	}
-
-	public String getIncidencia() {
-		return incidencia;
-	}
-
-	public void setIncidencia(String incidencia) {
-		this.incidencia = incidencia;
 	}
 
 	public Boolean getCreacion() {

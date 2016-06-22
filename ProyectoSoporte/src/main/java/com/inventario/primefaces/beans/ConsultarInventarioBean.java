@@ -20,7 +20,7 @@ public class ConsultarInventarioBean {
 
 	RequestContext requestContext;
 
-	private String opcion = "0";
+	private String opcionRecurso = "E";
 
 	private List<Object> items = new ArrayList<Object>();
 	private List<Object> itemsBuscados;
@@ -55,7 +55,7 @@ public class ConsultarInventarioBean {
 		estados = consultarInventarioServicio.cargarEstados();
 		marcas = consultarInventarioServicio.cargarMarcas();
 
-		if (opcion.equals("1")) {
+		if (opcionRecurso.equals("A")) {
 			categorias = consultarInventarioServicio.cargarCategorias("accesorio");
 		}
 
@@ -73,7 +73,7 @@ public class ConsultarInventarioBean {
 
 		inicialiazarItems();
 
-		if (opcion.equals("0")) {        //Filtrar equipos
+		if (opcionRecurso.equals("E")) {        //Filtrar equipos
 			items = consultarInventarioServicio.filtrarEquipos(getEstado(), getMarca(), getModelo());
 		} else {                            //Filtrar accesorios
 			items = consultarInventarioServicio.filtrarAccesorios(getEstado(), getMarca(), getModelo(), getCategoria());
@@ -110,7 +110,7 @@ public class ConsultarInventarioBean {
 
 		if (itemSeleccionado != null) {
 
-			if (opcion.equals("0")) {        //Detalle equipo
+			if (opcionRecurso.equals("E")) {        //Detalle equipo
 				return "detalleEquipo.xhtml?faces-redirect=true&numSerie=" + ((EquipoEntity) itemSeleccionado).getNumSerie();
 			} else {                            //Detalle accesorio
 				return "detalleAccesorio.xhtml?faces-redirect=true&id=" + ((AccesorioEntity) itemSeleccionado).getId();
@@ -131,12 +131,12 @@ public class ConsultarInventarioBean {
 		this.consultarInventarioServicio = consultarInventarioServicio;
 	}
 
-	public String getOpcion() {
-		return opcion;
+	public String getOpcionRecurso() {
+		return opcionRecurso;
 	}
 
-	public void setOpcion(String opcion) {
-		this.opcion = opcion;
+	public void setOpcionRecurso(String opcionRecurso) {
+		this.opcionRecurso = opcionRecurso;
 	}
 
 	public List<Object> getItems() {

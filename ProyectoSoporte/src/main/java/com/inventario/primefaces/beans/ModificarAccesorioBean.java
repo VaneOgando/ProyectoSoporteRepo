@@ -22,11 +22,13 @@ public class ModificarAccesorioBean {
 	@ManagedProperty("#{modificarAccesorioServicio}")
 	private ModificarAccesorioServicio modificarAccesorioServicio;
 
+	@ManagedProperty("#{datosSesion}")
+	private datosSesion sesion;
+
 	private AccesorioEntity accesorio = new AccesorioEntity();
 	private HistorialInventarioEntity historial = new HistorialInventarioEntity();
 
 	private String observacion;
-	private String incidencia;
 
 	private Boolean modificacion = false;
 
@@ -138,7 +140,7 @@ public class ModificarAccesorioBean {
 	public void crearHistorial(){
 
 		historial.setFechaGestion(fechaActual);
-		historial.setResponsableSoporte("12345678");  //USUARIO DE LA SESSION
+		historial.setResponsableSoporte(sesion.getUsuario().getUsuario());  //USUARIO DE LA SESSION
 		historial.setDescripcion(observacion);
 		historial.setCategoria(modificarAccesorioServicio.obtenerCategoriaHistorial(Constantes.D_CAT_HISTORIAL_MODIFICACION));
 
@@ -157,6 +159,14 @@ public class ModificarAccesorioBean {
 
 	public void setModificarAccesorioServicio(ModificarAccesorioServicio modificarAccesorioServicio) {
 		this.modificarAccesorioServicio = modificarAccesorioServicio;
+	}
+
+	public datosSesion getSesion() {
+		return sesion;
+	}
+
+	public void setSesion(datosSesion sesion) {
+		this.sesion = sesion;
 	}
 
 	public AccesorioEntity getAccesorio() {
@@ -181,14 +191,6 @@ public class ModificarAccesorioBean {
 
 	public void setObservacion(String observacion) {
 		this.observacion = observacion;
-	}
-
-	public String getIncidencia() {
-		return incidencia;
-	}
-
-	public void setIncidencia(String incidencia) {
-		this.incidencia = incidencia;
 	}
 
 	public Boolean getModificacion() {

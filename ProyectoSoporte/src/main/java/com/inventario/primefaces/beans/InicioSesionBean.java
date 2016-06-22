@@ -22,29 +22,29 @@ public class InicioSesionBean {
 	@ManagedProperty("#{ldapServicio}")
 	private LdapServicio ldapServicio;
 
-	private String user;
-	private String pass;
+    @ManagedProperty(value="#{datosSesion}")
+    private datosSesion sesion;
+
+    private String usuario;
+	private String contrasenia;
 
 	private boolean respuesta;
 
     private LdapTemplate ldapTemplate;
-    private datosSesion sesion;
 
 	/*METODOS*/
 	public String bt_ingresar_action() {
 
-		respuesta = ldapServicio.autenticarUsuarioSoporte(user, pass);
+		respuesta = ldapServicio.autenticarUsuarioSoporte(usuario, contrasenia);
 
 		if (respuesta == true) {
 
-            UsuarioEntity prueba = ldapServicio.ObtenerUsuarioCompleto(user);
-
-            sesion.setUsuario(prueba);
+            sesion.setUsuario(ldapServicio.ObtenerUsuarioCompleto(usuario));
 			return "consultarInventario";
 
 		}else {
-			this.user = "";
-			this.pass = "";
+			this.usuario = "";
+			this.contrasenia = "";
 
 			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR! Usuario y/o cotraseña invalido", null));
 			RequestContext.getCurrentInstance().update("mensajesError");
@@ -133,20 +133,20 @@ public class InicioSesionBean {
 		this.ldapServicio = ldapServicio;
 	}
 
-	public String getUser() {
-		return user;
+	public String getUsuario() {
+		return usuario;
 	}
 
-	public void setUser(String user) {
-		this.user = user;
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
 
-	public String getPass() {
-		return pass;
+	public String getContrasenia() {
+		return contrasenia;
 	}
 
-	public void setPass(String pass) {
-		this.pass = pass;
+	public void setContrasenia(String contrasenia) {
+		this.contrasenia = contrasenia;
 	}
 
 	public boolean getRespuesta() {

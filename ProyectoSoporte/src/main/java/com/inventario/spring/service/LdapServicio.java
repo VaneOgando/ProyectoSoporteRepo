@@ -26,7 +26,10 @@ public class LdapServicio {
 
 		boolean autenticado;
 
-		Filter filter = new EqualsFilter("sAMAccountName", usuario);
+		AndFilter filter = new AndFilter();
+		filter.and(new EqualsFilter("sAMAccountName", usuario));
+		//AGREGAR FILTRO DE DEPARTAMENTO IT
+
 		autenticado = ldapTemplate.authenticate("", filter.encode(), contrasenia);
 
 		return autenticado;
@@ -71,12 +74,6 @@ public class LdapServicio {
 		return usuarios.get(0);
 
 	}
-
-
-
-
-
-
 
 
 	/*GET & SET*/

@@ -22,6 +22,9 @@ public class DetalleEquipoBean {
 	@ManagedProperty("#{detalleEquipoServicio}")
 	private DetalleEquipoServicio detalleEquipoServicio;
 
+	@ManagedProperty("#{datosSesion}")
+	private datosSesion sesion;
+
 	private EquipoEntity equipo = new EquipoEntity();
 
 	private EstadoEntity estadoACambiar = new EstadoEntity();
@@ -118,20 +121,11 @@ public class DetalleEquipoBean {
 
 	}
 
-	public void confirmarEliminacion(){
-
-		boolean eliminar = false;
-		if (estadoACambiar.getId() == Constantes.D_ID_ESTADO_ELIMINADO){
-
-			RequestContext.getCurrentInstance().execute("if (confirm('seguro?') return true; )");
-		}
-	}
-
 	public void crearHistorialCambioEstado(){
 
 		historialCambioEstado.setFechaGestion(fechaActual);
 		historialCambioEstado.setDescripcion(observacion);
-		historialCambioEstado.setResponsableSoporte("12345678");  //USUARIO DE LA SESSION
+		historialCambioEstado.setResponsableSoporte(sesion.getUsuario().getUsuario());  //USUARIO DE LA SESSION
 
 		if (estadoACambiar.getId() == Constantes.D_ID_ESTADO_ELIMINADO){
 			historialCambioEstado.setCategoria(detalleEquipoServicio.obtenerCategoriaHistorial(Constantes.D_CAT_HISTORIAL_ELIMINACION));
@@ -149,6 +143,14 @@ public class DetalleEquipoBean {
 
 	public void setDetalleEquipoServicio(DetalleEquipoServicio detalleEquipoServicio) {
 		this.detalleEquipoServicio = detalleEquipoServicio;
+	}
+
+	public datosSesion getSesion() {
+		return sesion;
+	}
+
+	public void setSesion(datosSesion sesion) {
+		this.sesion = sesion;
 	}
 
 	public EquipoEntity getEquipo() {

@@ -13,10 +13,10 @@
 			<div id="TituloRecurso">
 
 				<c:choose>
-					<c:when test="#{crearRecursoBean.opcion=='0'}">
+					<c:when test="#{crearRecursoBean.opcionRecurso.equals('E')}">
 						<h1 style="text-align: center" > Crear equipo </h1>
 					</c:when>
-					<c:when test="#{crearRecursoBean.opcion=='1'}">
+					<c:when test="#{crearRecursoBean.opcionRecurso.equals('A')}">
 						<h1 style="text-align: center" > Crear Accesorio </h1>
 					</c:when>
 				</c:choose>
@@ -31,9 +31,9 @@
 
 						<p:row>
 							<p:column>
-								<p:selectOneButton id="SeleccionRecurso" value="#{crearRecursoBean.opcion}" style="height: 30px; font-size: small">
-									<f:selectItem itemLabel="Equipos" itemValue="0" />
-									<f:selectItem itemLabel="Accesorios" itemValue="1" />
+								<p:selectOneButton id="SeleccionRecurso" value="#{crearRecursoBean.opcionRecurso}" style="height: 30px; font-size: small">
+									<f:selectItem itemLabel="Equipos" itemValue="E" />
+									<f:selectItem itemLabel="Accesorios" itemValue="A" />
 									<p:ajax listener="#{crearRecursoBean.cambiarRecursoOpcion}" update=":crearRecurso" />
 								</p:selectOneButton>
 							</p:column>
@@ -52,7 +52,7 @@
 						<p:panelGrid id="formularioCreacion" styleClass="font panelInventario" style="margin: 0 auto">
 
 							<c:choose>
-								<c:when test="#{crearRecursoBean.opcion == '0'}">
+								<c:when test="#{crearRecursoBean.opcionRecurso.equals('E') }">
 
 									<p:row>
 										<p:column styleClass="colIzqCreacion">
@@ -207,7 +207,7 @@
 
 								</c:when>
 
-								<c:when test="#{crearRecursoBean.opcion == '1'}">
+								<c:when test="#{crearRecursoBean.opcionRecurso.equals('A') }">
 
 									<p:row>
 										<p:column styleClass="colIzqCreacion">
