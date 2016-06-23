@@ -13,11 +13,14 @@
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
+	
+
 	<context-param>
 		<description>State saving method: 'client' or 'server' (=default). See JSF Specification 2.5.2</description>
 		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
 		<param-value>client</param-value>
 	</context-param>
+
 
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -30,6 +33,7 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			/WEB-INF/applicationContext.xml
+			/WEB-INF/springSecurity.xml
 		</param-value>
 	</context-param>
 
@@ -37,5 +41,19 @@
 		<param-name>javax.faces.CONFIG_FILES</param-name>
 		<param-value>/WEB-INF/faces-config.xml</param-value>
 	</context-param>
+
+
+	<!-- Enable Spring Security -->
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+
+	<!-- Allow login pages with JSF which redirects to security check,
+     therefore we have to add the forward entry here -->
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
 </web-app>

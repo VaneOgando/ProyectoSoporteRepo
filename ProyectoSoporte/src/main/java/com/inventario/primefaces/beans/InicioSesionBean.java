@@ -2,7 +2,17 @@ package com.inventario.primefaces.beans;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.*;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.PhaseEvent;
+import javax.faces.event.PhaseId;
+import javax.faces.event.PhaseListener;
+import javax.inject.Inject;
+import javax.naming.AuthenticationException;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 
 import com.inventario.jpa.data.UsuarioEntity;
 import com.inventario.util.comun.Constantes;
@@ -13,10 +23,18 @@ import org.primefaces.context.RequestContext;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.filter.EqualsFilter;
 import org.springframework.ldap.filter.Filter;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.WebAttributes;
+
+import java.io.IOException;
 
 @ManagedBean
 @ViewScoped
-public class InicioSesionBean {
+public class InicioSesionBean{
 
 	/*ATRIBUTOS*/
 	@ManagedProperty("#{ldapServicio}")
@@ -33,6 +51,7 @@ public class InicioSesionBean {
     private LdapTemplate ldapTemplate;
 
 	/*METODOS*/
+
 	public String bt_ingresar_action() {
 
 		respuesta = ldapServicio.autenticarUsuarioSoporte(usuario, contrasenia);
@@ -46,12 +65,11 @@ public class InicioSesionBean {
 			this.usuario = "";
 			this.contrasenia = "";
 
-			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR! Usuario y/o cotraseña invalido", null));
+			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR! Usuario y/o cotraseï¿½a invalido", null));
 			RequestContext.getCurrentInstance().update("mensajesError");
 		}
 		return "";
 	}
-
 
 //	public String authenticateUser() throws NamingException {
 //
@@ -172,4 +190,6 @@ public class InicioSesionBean {
     public void setSesion(datosSesion sesion) {
         this.sesion = sesion;
     }
+
+
 }
