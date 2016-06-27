@@ -34,7 +34,7 @@ import java.io.IOException;
 
 @ManagedBean
 @ViewScoped
-public class InicioSesionBean{
+public class InicioSesionBean implements PhaseListener{
 
 	/*ATRIBUTOS*/
 	@ManagedProperty("#{ldapServicio}")
@@ -71,7 +71,43 @@ public class InicioSesionBean{
 		return "";
 	}
 
-//	public String authenticateUser() throws NamingException {
+	public String doLogin() throws IOException, ServletException{
+		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+
+		RequestDispatcher dispatcher = ((ServletRequest) context.getRequest())
+				.getRequestDispatcher("/j_spring_security_check");
+
+		dispatcher.forward((ServletRequest) context.getRequest(),
+				(ServletResponse) context.getResponse());
+
+		FacesContext.getCurrentInstance().responseComplete();
+
+		return null;
+
+	}
+
+	@Override
+	public void beforePhase(final PhaseEvent arg0) {
+		Exception e = (Exception) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+				.get(WebAttributes.AUTHENTICATION_EXCEPTION);
+
+		if (e instanceof BadCredentialsException) {
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+					.put(WebAttributes.AUTHENTICATION_EXCEPTION, null);
+			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR! Usuario y/o cotraseña invalido", null));
+		}
+	}
+
+	@Override
+	public void afterPhase(final PhaseEvent arg0) {
+	}
+
+	@Override
+	public PhaseId getPhaseId() {
+		return PhaseId.RENDER_RESPONSE;
+	}
+
+	//	public String authenticateUser() throws NamingException {
 //
 //		Hashtable<String, String> env = new Hashtable<String, String>();
 //

@@ -8,6 +8,10 @@
 		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
 	</application>
 
+	<lifecycle>
+		<phase-listener>com.inventario.primefaces.beans.InicioSesionBean</phase-listener>
+	</lifecycle>
+
 	<navigation-rule>
 		<from-view-id>/index.xhtml</from-view-id>
 		<navigation-case>
