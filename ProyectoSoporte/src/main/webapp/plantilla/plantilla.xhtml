@@ -17,9 +17,22 @@
 			<div id="contenedor">
 
 				<div id="header">
-						<div id="logo">
-							<a href="#"><img src="resources/img/logo.png" width="200" height="70"/></a>
-						</div>
+
+					<p:panelGrid columns="2" style="width: 100%" styleClass="panelInventario">
+
+						<p:column>
+							<div id="logo">
+								<a href="#"><img src="resources/img/logo.png" width="200" height="70"/></a>
+							</div>
+						</p:column>
+
+						<p:column>
+							<div id="desconectar" style="text-align: right">
+								<a href="j_spring_security_logout" style="text-decoration: none; font-size: small" >Cerrar Sesion</a>
+							</div>
+						</p:column>
+
+					</p:panelGrid>
 
 					<div id="menu">
 						<h:form>
