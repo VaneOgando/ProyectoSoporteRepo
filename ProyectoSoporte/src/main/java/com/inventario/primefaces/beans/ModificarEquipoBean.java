@@ -5,6 +5,8 @@ import com.inventario.spring.service.DetalleEquipoServicio;
 import com.inventario.spring.service.ModificarEquipoServicio;
 import com.inventario.util.comun.*;
 import org.primefaces.context.RequestContext;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -130,8 +132,11 @@ public class ModificarEquipoBean {
 
 	public void crearHistorial(){
 
+		//Obtener usuario conectado
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
 		historial.setFechaGestion(fechaActual);
-		historial.setResponsableSoporte(sesion.getUsuario().getUsuario());  //USUARIO DE LA SESSION
+		historial.setResponsableSoporte( auth.getName() );
 		historial.setDescripcion(observacion);
 		historial.setCategoria(modificarEquipoServicio.obtenerCategoriaHistorial(Constantes.D_CAT_HISTORIAL_MODIFICACION));
 

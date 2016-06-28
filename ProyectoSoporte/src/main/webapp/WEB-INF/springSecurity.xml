@@ -11,7 +11,7 @@
         <intercept-url pattern="/resources/**" access="permitAll"/>
         <intercept-url pattern="/index.xhtml" access="permitAll"/>
         <intercept-url pattern="/error.xhtml" access="permitAll"/>
-        <intercept-url pattern="/**" access="isAuthenticated"/>
+        <intercept-url pattern="/**" access="authenticated"/>
 <!--
         <intercept-url pattern="/**" access="hasRole('ROLE_Usuario')"/>
 -->

@@ -14,6 +14,9 @@ import com.inventario.util.comun.datosSesion;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.primefaces.context.RequestContext;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -301,8 +304,11 @@ public class GestionarRecursoBean {
 				RequestContext.getCurrentInstance().update("mensajesError");
 			} else {
 
+				//Obtener usuario conectado
+				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
 				historial.setFechaGestion(fechaActual);
-				historial.setResponsableSoporte(sesion.getUsuario().getUsuario());  //USUARIO DE SESION
+				historial.setResponsableSoporte( auth.getName() );
 
 				if (opcionGestion.equals("A")){
 					historial.setCategoria( gestionarRecursoServicio.obtenerCategoria(Constantes.D_CAT_HISTORIAL_ASIGNACION) );

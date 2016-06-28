@@ -5,6 +5,8 @@ import com.inventario.spring.service.CrearRecursoServicio;
 
 import com.inventario.util.comun.*;
 import org.primefaces.context.RequestContext;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -165,7 +167,11 @@ public class CrearRecursoBean {
 	public void crearHistorial(){
 
 		historial.setFechaGestion(fechaActual);
-		historial.setResponsableSoporte(sesion.getUsuario().getUsuario());  //USUARIO DE LA SESSION
+
+		//Obtener usuario conectado
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		historial.setResponsableSoporte( auth.getName() );
 		historial.setCategoria(crearRecursoServicio.obtenerCategoriaHistorial(Constantes.D_CAT_HISTORIAL_CREACION));
 
 		if(!observacion.equals("")){

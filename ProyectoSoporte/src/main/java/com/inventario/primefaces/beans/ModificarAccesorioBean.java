@@ -3,6 +3,8 @@ package com.inventario.primefaces.beans;
 import com.inventario.jpa.data.*;
 import com.inventario.spring.service.ModificarAccesorioServicio;
 import com.inventario.util.comun.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -139,8 +141,11 @@ public class ModificarAccesorioBean {
 
 	public void crearHistorial(){
 
+		//Obtener usuario conectado
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
 		historial.setFechaGestion(fechaActual);
-		historial.setResponsableSoporte(sesion.getUsuario().getUsuario());  //USUARIO DE LA SESSION
+		historial.setResponsableSoporte( auth.getName() );
 		historial.setDescripcion(observacion);
 		historial.setCategoria(modificarAccesorioServicio.obtenerCategoriaHistorial(Constantes.D_CAT_HISTORIAL_MODIFICACION));
 

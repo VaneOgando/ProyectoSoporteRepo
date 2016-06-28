@@ -5,6 +5,8 @@ import com.inventario.spring.service.ConsultarInventarioServicio;
 import com.inventario.spring.service.DetalleEquipoServicio;
 import com.inventario.util.comun.*;
 import org.primefaces.context.RequestContext;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -123,9 +125,12 @@ public class DetalleEquipoBean {
 
 	public void crearHistorialCambioEstado(){
 
+		//Obtener usuario conectado
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
 		historialCambioEstado.setFechaGestion(fechaActual);
 		historialCambioEstado.setDescripcion(observacion);
-		historialCambioEstado.setResponsableSoporte(sesion.getUsuario().getUsuario());  //USUARIO DE LA SESSION
+		historialCambioEstado.setResponsableSoporte( auth.getName() );
 
 		if (estadoACambiar.getId() == Constantes.D_ID_ESTADO_ELIMINADO){
 			historialCambioEstado.setCategoria(detalleEquipoServicio.obtenerCategoriaHistorial(Constantes.D_CAT_HISTORIAL_ELIMINACION));
