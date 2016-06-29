@@ -24,9 +24,6 @@ public class DetalleEquipoBean {
 	@ManagedProperty("#{detalleEquipoServicio}")
 	private DetalleEquipoServicio detalleEquipoServicio;
 
-	@ManagedProperty("#{datosSesion}")
-	private datosSesion sesion;
-
 	private EquipoEntity equipo = new EquipoEntity();
 
 	private EstadoEntity estadoACambiar = new EstadoEntity();
@@ -148,14 +145,6 @@ public class DetalleEquipoBean {
 
 	public void setDetalleEquipoServicio(DetalleEquipoServicio detalleEquipoServicio) {
 		this.detalleEquipoServicio = detalleEquipoServicio;
-	}
-
-	public datosSesion getSesion() {
-		return sesion;
-	}
-
-	public void setSesion(datosSesion sesion) {
-		this.sesion = sesion;
 	}
 
 	public EquipoEntity getEquipo() {

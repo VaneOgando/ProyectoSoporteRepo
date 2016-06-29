@@ -22,6 +22,8 @@ public class Constantes {
     public static final String REPORTE_RESUMEN_RECURSOS = "resumenRecursos.jasper";
 
     public static final String URL_LOGO = "resources/img/logo.png";
+
+
     /*TEXTOS*/
 
 

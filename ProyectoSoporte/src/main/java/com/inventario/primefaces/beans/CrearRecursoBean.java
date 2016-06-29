@@ -26,9 +26,6 @@ public class CrearRecursoBean {
 	@ManagedProperty("#{crearRecursoServicio}")
 	private CrearRecursoServicio crearRecursoServicio;
 
-	@ManagedProperty("#{datosSesion}")
-	private datosSesion sesion;
-
 	private EquipoEntity equipo;
 	private AccesorioEntity accesorio;
 
@@ -218,14 +215,6 @@ public class CrearRecursoBean {
 
 	public void setCrearRecursoServicio(CrearRecursoServicio crearRecursoServicio) {
 		this.crearRecursoServicio = crearRecursoServicio;
-	}
-
-	public datosSesion getSesion() {
-		return sesion;
-	}
-
-	public void setSesion(datosSesion sesion) {
-		this.sesion = sesion;
 	}
 
 	public EquipoEntity getEquipo() {

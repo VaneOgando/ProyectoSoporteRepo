@@ -18,8 +18,6 @@ public class ConsultarInventarioBean {
 	@ManagedProperty("#{consultarInventarioServicio}")
 	private ConsultarInventarioServicio consultarInventarioServicio;
 
-	RequestContext requestContext;
-
 	private String opcionRecurso = "E";
 
 	private List<Object> items = new ArrayList<Object>();

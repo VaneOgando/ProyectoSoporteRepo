@@ -28,9 +28,6 @@ public class ModificarEquipoBean {
 	@ManagedProperty("#{modificarEquipoServicio}")
 	private ModificarEquipoServicio modificarEquipoServicio;
 
-	@ManagedProperty("#{datosSesion}")
-	private datosSesion sesion;
-
 	private EquipoEntity equipo = new EquipoEntity();
 	private HistorialInventarioEntity historial = new HistorialInventarioEntity();
 
@@ -155,14 +152,6 @@ public class ModificarEquipoBean {
 
 	public void setModificarEquipoServicio(ModificarEquipoServicio modificarEquipoServicio) {
 		this.modificarEquipoServicio = modificarEquipoServicio;
-	}
-
-	public datosSesion getSesion() {
-		return sesion;
-	}
-
-	public void setSesion(datosSesion sesion) {
-		this.sesion = sesion;
 	}
 
 	public EquipoEntity getEquipo() {

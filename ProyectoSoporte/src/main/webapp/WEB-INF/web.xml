@@ -43,7 +43,7 @@
 	</context-param>
 
 
-	<!-- Enable Spring Security -->
+	<!-- Spring Security -->
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -57,6 +57,17 @@
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
+
+	<listener>
+		<listener-class>
+			org.springframework.security.web.session.HttpSessionEventPublisher
+		</listener-class>
+	</listener>
+
+	<session-config>
+		<!-- in minutes -->
+		<session-timeout>60</session-timeout>
+	</session-config>
 
 	<!-- Manejo de errores -->
 	<error-page>

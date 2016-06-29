@@ -1,16 +1,11 @@
 package com.inventario.primefaces.beans;
 
 import com.inventario.jpa.data.*;
-//import com.inventario.spring.service.GenerarReporteServicio;
 import com.inventario.spring.service.GenerarReporteServicio;
 import com.inventario.spring.service.GestionarRecursoServicio;
 import com.inventario.spring.service.LdapServicio;
 import com.inventario.util.comun.Constantes;
-//import net.sf.jasperreports.engine.*;
-//import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-//import org.apache.commons.collections.map.HashedMap;
 
-import com.inventario.util.comun.datosSesion;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.primefaces.context.RequestContext;
@@ -42,9 +37,6 @@ public class GestionarRecursoBean {
 
 	@ManagedProperty("#{ldapServicio}")
 	private LdapServicio ldapServicio;
-
-	@ManagedProperty("#{datosSesion}")
-	private datosSesion sesion;
 
 	private FacesContext context = FacesContext.getCurrentInstance();
 
@@ -368,12 +360,12 @@ public class GestionarRecursoBean {
 	public void generarNombreArchivo(){
 
 		if (opcionGestion.equals("A")){
-			nombreArchivo = "Carta Entrega ";
+			nombreArchivo = "CartaEntrega_";
 		}else{
-			nombreArchivo = "Carta Devolucion ";
+			nombreArchivo = "CartaDevolucion_";
 		}
 
-		nombreArchivo = nombreArchivo + historial.getUsuarioAsignado() + " " + obtenerFecha(historial.getFechaGestion(), "dd-MM-yyyy") + ".pdf";
+		nombreArchivo = nombreArchivo + historial.getUsuarioAsignado() + "_" + obtenerFecha(historial.getFechaGestion(), "ddMMyyyy") + ".pdf";
 
 	}
 
@@ -393,9 +385,11 @@ public class GestionarRecursoBean {
 		parametros.put("logoTCS", new FileInputStream(img));
 
 		/*Nombre completo de ususarios*/
-		String usuarioSoporte = sesion.getUsuario().getNombre() ;
+		String usuarioSoporte = "";
+		try {
+			usuarioSoporte = (ldapServicio.ObtenerUsuarioCompleto(historial.getResponsableSoporte())).getNombre();
 
-		if (usuarioSoporte == null){
+		}catch (Exception e){
 			usuarioSoporte = historial.getResponsableSoporte();
 		}
 
@@ -605,12 +599,5 @@ public class GestionarRecursoBean {
 		this.nombreArchivo = nombreArchivo;
 	}
 
-	public datosSesion getSesion() {
-		return sesion;
-	}
-
-	public void setSesion(datosSesion sesion) {
-		this.sesion = sesion;
-	}
 }
 

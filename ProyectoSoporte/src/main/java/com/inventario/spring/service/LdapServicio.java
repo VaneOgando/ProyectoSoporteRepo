@@ -22,19 +22,6 @@ public class LdapServicio {
 
 
 	/*METODOS*/
-	public boolean autenticarUsuarioSoporte(String usuario, String contrasenia){
-
-		boolean autenticado;
-
-		AndFilter filter = new AndFilter();
-		filter.and(new EqualsFilter("sAMAccountName", usuario));
-		//AGREGAR FILTRO DE DEPARTAMENTO IT
-
-		autenticado = ldapTemplate.authenticate("", filter.encode(), contrasenia);
-
-		return autenticado;
-	}
-
 
 	public List<Object> obtenerTodosUsuarios() {
 

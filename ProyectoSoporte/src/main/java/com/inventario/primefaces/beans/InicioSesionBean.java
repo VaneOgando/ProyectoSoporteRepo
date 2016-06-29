@@ -7,27 +7,15 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
-import javax.inject.Inject;
-import javax.naming.AuthenticationException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import com.inventario.jpa.data.UsuarioEntity;
-import com.inventario.util.comun.Constantes;
-
 import com.inventario.spring.service.LdapServicio;
-import com.inventario.util.comun.datosSesion;
 import org.primefaces.context.RequestContext;
 import org.springframework.ldap.core.LdapTemplate;
-import org.springframework.ldap.filter.EqualsFilter;
-import org.springframework.ldap.filter.Filter;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.WebAttributes;
 
 import java.io.IOException;
@@ -40,9 +28,6 @@ public class InicioSesionBean implements PhaseListener{
 	@ManagedProperty("#{ldapServicio}")
 	private LdapServicio ldapServicio;
 
-    @ManagedProperty(value="#{datosSesion}")
-    private datosSesion sesion;
-
     private String usuario;
 	private String contrasenia;
 
@@ -52,26 +37,7 @@ public class InicioSesionBean implements PhaseListener{
 
 	/*METODOS*/
 
-	public String bt_ingresar_action() {
-
-		respuesta = ldapServicio.autenticarUsuarioSoporte(usuario, contrasenia);
-
-		if (respuesta == true) {
-
-            sesion.setUsuario(ldapServicio.ObtenerUsuarioCompleto(usuario));
-			return "consultarInventario";
-
-		}else {
-			this.usuario = "";
-			this.contrasenia = "";
-
-			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR! Usuario y/o cotrase�a invalido", null));
-			RequestContext.getCurrentInstance().update("mensajesError");
-		}
-		return "";
-	}
-
-	public String doLogin() throws IOException, ServletException{
+	public String bt_ingresar_action() throws IOException, ServletException{
 		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 
 		RequestDispatcher dispatcher = ((ServletRequest) context.getRequest())
@@ -217,14 +183,6 @@ public class InicioSesionBean implements PhaseListener{
 
     public void setLdapTemplate(LdapTemplate ldapTemplate) {
         this.ldapTemplate = ldapTemplate;
-    }
-
-    public datosSesion getSesion() {
-        return sesion;
-    }
-
-    public void setSesion(datosSesion sesion) {
-        this.sesion = sesion;
     }
 
 

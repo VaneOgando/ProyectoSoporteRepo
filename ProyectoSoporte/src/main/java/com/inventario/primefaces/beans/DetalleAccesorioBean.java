@@ -28,9 +28,6 @@ public class DetalleAccesorioBean {
 	@ManagedProperty("#{detalleAccesorioServicio}")
 	private DetalleAccesorioServicio detalleAccesorioServicio;
 
-	@ManagedProperty("#{datosSesion}")
-	private datosSesion sesion;
-
 	RequestContext requestContext;
 
 	private AccesorioEntity accesorio = new AccesorioEntity();
@@ -154,14 +151,6 @@ public class DetalleAccesorioBean {
 
 	public void setDetalleAccesorioServicio(DetalleAccesorioServicio detalleAccesorioServicio) {
 		this.detalleAccesorioServicio = detalleAccesorioServicio;
-	}
-
-	public datosSesion getSesion() {
-		return sesion;
-	}
-
-	public void setSesion(datosSesion sesion) {
-		this.sesion = sesion;
 	}
 
 	public RequestContext getRequestContext() {
