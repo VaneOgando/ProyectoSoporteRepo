@@ -130,7 +130,7 @@ public class ModificarAccesorioServicio {
 		boolean modificacion = false;
 
 		try {
-
+getEntityManager().getTransaction().begin();
 			if (marca.getId() == 0) { //Marca no existe
 				entityManager.persist(marca);
 			}
@@ -157,7 +157,7 @@ public class ModificarAccesorioServicio {
 			entityManager.persist(historial);
 
 			modificacion = true;
-
+getEntityManager().getTransaction().commit();
 		}catch(Exception e){
 			modificacion = false;
 			throw e;

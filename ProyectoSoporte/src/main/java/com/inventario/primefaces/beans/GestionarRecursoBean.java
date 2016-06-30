@@ -278,7 +278,7 @@ public class GestionarRecursoBean {
 
 		}else{
 			if(items.size() > 0) {
-				FacesContext.getCurrentInstance().addMessage("mensajesDialogo", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR! Seleccione un item", null));
+				FacesContext.getCurrentInstance().addMessage("mensajesDialogo", new FacesMessage(FacesMessage.SEVERITY_ERROR, Constantes.ERR_SELECCION_ITEM, null));
 				RequestContext.getCurrentInstance().update("datatable:mensajesDialogo");
 			}else {
 				RequestContext.getCurrentInstance().execute("PF('dialogoRecursoGestion').hide()");
@@ -292,7 +292,7 @@ public class GestionarRecursoBean {
 		try {
 			//Validar seleccion de recurso
 			if ( equipo.getNumSerie() == null && accesoriosGestion.size() == 0 ) {
-				FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR! Por favor seleccione un recurso a gestionar", null));
+				FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_ERROR, Constantes.ERR_SELECCION_RECURSO, null));
 				RequestContext.getCurrentInstance().update("mensajesError");
 			} else {
 
@@ -317,7 +317,7 @@ public class GestionarRecursoBean {
 					generarReporteGestion();
 
 					if (reporteDescarga == null){
-						FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR! El/los recurso(s) se gestionaron satisfactoriamente, mas no se genero el reporte PDF. Por favor realizarlo manual", null));
+						FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_INFO, Constantes.EX_GESTION_ERR_REPORTE, null));
 						RequestContext.getCurrentInstance().update("mensajesError");
 
 						bt_limpiarGestion();
@@ -326,11 +326,11 @@ public class GestionarRecursoBean {
 						bt_limpiarGestion();
 						setDescarga(true);
 
-						FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_INFO, "EXITO! El/los recurso(s) se gestionaron satisfactoriamente", null));
+						FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_INFO, Constantes.EX_GESTION, null));
 						RequestContext.getCurrentInstance().update("mensajesError");
 					}
 				}else {
-					FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! No se pudo gestionar el/los recurso(s)", null));
+					FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, Constantes.ERR_GESTION, null));
 					RequestContext.getCurrentInstance().update("mensajesError");
 
 					bt_limpiarGestion();
@@ -339,7 +339,7 @@ public class GestionarRecursoBean {
 			}
 
 		}catch (Exception e){
-			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! No se pudo gestionar el/los recurso(s)", null));
+			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, Constantes.ERR_GESTION, null));
 			RequestContext.getCurrentInstance().update("mensajesError");
 
 			bt_limpiarGestion();
@@ -360,9 +360,9 @@ public class GestionarRecursoBean {
 	public void generarNombreArchivo(){
 
 		if (opcionGestion.equals("A")){
-			nombreArchivo = "CartaEntrega_";
+			nombreArchivo = Constantes.NOMBRE_ARCHIVO_ENTREGA;
 		}else{
-			nombreArchivo = "CartaDevolucion_";
+			nombreArchivo = Constantes.NOMBRE_ARCHIVO_DEVOLUCION;
 		}
 
 		nombreArchivo = nombreArchivo + historial.getUsuarioAsignado() + "_" + obtenerFecha(historial.getFechaGestion(), "ddMMyyyy") + ".pdf";

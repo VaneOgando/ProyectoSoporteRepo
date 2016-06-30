@@ -13,6 +13,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 import com.inventario.spring.service.LdapServicio;
+import com.inventario.util.comun.Constantes;
 import org.primefaces.context.RequestContext;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -60,7 +61,7 @@ public class InicioSesionBean implements PhaseListener{
 		if (e instanceof BadCredentialsException) {
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
 					.put(WebAttributes.AUTHENTICATION_EXCEPTION, null);
-			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR! Usuario y/o cotraseña invalido", null));
+			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_ERROR, Constantes.ERR_LOGIN_INVALIDO, null));
 		}
 	}
 

@@ -1,5 +1,8 @@
 package com.inventario.util.comun;
 
+import javax.faces.bean.ManagedBean;
+
+@ManagedBean
 public class Constantes {
 
     /*CONSTANTES*/
@@ -23,12 +26,55 @@ public class Constantes {
 
     public static final String URL_LOGO = "resources/img/logo.png";
 
+    public static final String NOMBRE_ARCHIVO_ENTREGA = "CartaEntrega_";
+    public static final String NOMBRE_ARCHIVO_DEVOLUCION = "CartaDevolucion_";
 
-    /*TEXTOS*/
+
+    /*TEXTOS INPUTS*/
+    public static final String EQUIPOS = "Equipos";
+    public static final String ACCESORIOS = "Accesorios";
+    public static final String NUM_SERIE = "Número de serie:";
+    public static final String NOMBRE  = "Nombre";
+    public static final String MARCA = "Marca:";
+    public static final String MODELO = "Modelo:";
+    public static final String CATEGORIA = "Categoría:";
+    public static final String PROCESADOR = "Procesador:";
+    public static final String MEMORIA_RAM = "Memoria Ram:";
+    public static final String DISCO_DURO = "Disco Duro:";
+    public static final String SIST_OPERATIVO = "Sistema Operativo:";
+    public static final String CARACTERISTICAS = "Caracteristicas:";
+    public static final String FECHA_ADQUISICION = "Fecha de adquisición:";
+    public static final String OBSERVACION = "Observación:";
+
+    public static final String ESTADO = "Estado:";
+
+
+    /*TEXTO BOTONES*/
+    public static final String BT_CREAR = "Observación:";
+    public static final String BT_MODIFICAR = "Observación:";
+    public static final String BT_GESTIONAR = "Observación:";
+    public static final String BT_CANCELAR = "Observación:";
 
 
     /*ERRORES*/
-
     public static final String ERR_LOGIN_INVALIDO = "Usuario y/o contraseña invalida";
+    public static final String ERR_CREAR = "ERROR! No se pudo ingresar el recurso";
+    public static final String ERR_RECURSO_ELIMINADO = "ERROR! Este recurso se encuentra fuera del inventario";
+    public static final String ERR_RECURSO_ASIGNADO = "ERROR! Este recurso se encuentra asignado, por favor realizar su respectiva devolución";
+    public static final String ERR_CAMBIO_ESTADO = "ERROR! El estado no se pudo cambiar";
+    public static final String ERR_SELECCION_ITEM = "ERROR! Seleccione un item";
+    public static final String ERR_SELECCION_RECURSO = "ERROR! Por favor seleccione un recurso a gestionar";
+    public static final String ERR_GESTION = "ERROR! No se pudo gestionar el/los recurso(s)";
+    public static final String ERR_MODIFICAR = "ERROR! No se pudo modificar el recurso";
+
+
+    /*EXITO*/
+    public static final String EX_CREAR = "EXITO! El recurso se ingreso satisfactoriamente";
+    public static final String EX_CAMBIO_ESTADO = "EXITO! El estado se cambio satisfactoriamente";
+    public static final String EX_GESTION = "EXITO! El/los recurso(s) se gestionaron satisfactoriamente";
+    public static final String EX_MODIFICAR = "EXITO! El recurso se modifico satisfactoriamente";
+
+    public static final String EX_GESTION_ERR_REPORTE = "El/los recurso(s) se gestionaron satisfactoriamente, mas no se genero el reporte PDF. Por favor realizarlo manual";
+
 
 }

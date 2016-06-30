@@ -69,7 +69,7 @@ public class DetalleEquipoBean {
 
 		if (equipo.getEstado().getId() == Constantes.D_ID_ESTADO_ELIMINADO){
 
-			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! Este recurso se encuentra fuera del inventario", null));
+			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, Constantes.ERR_RECURSO_ELIMINADO, null));
 			return "";
 
 		}else{
@@ -81,9 +81,9 @@ public class DetalleEquipoBean {
 	public void validarEstado(){
 
 		if (equipo.getEstado().getId() == Constantes.D_ID_ESTADO_ELIMINADO) {
-			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! Este recurso se encuentra fuera del inventario", null));
+			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, Constantes.ERR_RECURSO_ELIMINADO, null));
 		}else if (equipo.getEstado().getId() == Constantes.D_ID_ESTADO_ASIGNACION) {
-			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR! Este recurso se encuentra asignado, por favor realizar su respectiva devolución", null));
+			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_ERROR, Constantes.ERR_RECURSO_ASIGNADO, null));
 
 		} else {
 			estados	= detalleEquipoServicio.obtenerCambioEstado(equipo.getEstado());
@@ -103,15 +103,15 @@ public class DetalleEquipoBean {
 
 			if (cambiarEstado == true) {
 				FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
-				FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_INFO, "EXITO! El estado se cambio satisfactoriamente", null));
+				FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_INFO, Constantes.EX_CAMBIO_ESTADO, null));
 				FacesContext.getCurrentInstance().getExternalContext().redirect("detalleEquipo.xhtml?numSerie=" + equipo.getNumSerie());
 
 			} else {
-				FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! El estado no se pudo cambiar", null));
+				FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, Constantes.ERR_CAMBIO_ESTADO, null));
 			}
 
 		} catch (Exception e) {
-			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! El estado no se pudo cambiar", null));
+			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, Constantes.ERR_CAMBIO_ESTADO, null));
 		}finally {
 			RequestContext.getCurrentInstance().execute("PF('dialogoCambioEstado').hide()");
 			RequestContext.getCurrentInstance().update("mensajesError");

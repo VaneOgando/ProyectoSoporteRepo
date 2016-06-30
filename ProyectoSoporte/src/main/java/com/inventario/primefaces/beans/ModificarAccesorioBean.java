@@ -114,12 +114,12 @@ public class ModificarAccesorioBean {
 			if (modificacion == true) {
 
 				FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "EXITO! El recurso se modifico satisfactoriamente", null));
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, Constantes.EX_MODIFICAR, null));
 
 				return "Exito";
 
 			}else {
-				FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! No se pudo modificar el recurso", null));
+				FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, Constantes.ERR_MODIFICAR, null));
 				FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
 
 				return "";
@@ -127,7 +127,7 @@ public class ModificarAccesorioBean {
 			}
 
 		}catch (Exception e){
-			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, "ERROR! No se pudo modificar el recurso", null));
+			FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_FATAL, Constantes.ERR_MODIFICAR, null));
 			FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(true);
 
 			return "";
