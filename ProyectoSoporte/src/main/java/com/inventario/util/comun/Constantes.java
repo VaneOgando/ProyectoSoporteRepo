@@ -30,32 +30,6 @@ public class Constantes {
     public static final String NOMBRE_ARCHIVO_DEVOLUCION = "CartaDevolucion_";
 
 
-    /*TEXTOS INPUTS*/
-    public static final String EQUIPOS = "Equipos";
-    public static final String ACCESORIOS = "Accesorios";
-    public static final String NUM_SERIE = "Número de serie:";
-    public static final String NOMBRE  = "Nombre";
-    public static final String MARCA = "Marca:";
-    public static final String MODELO = "Modelo:";
-    public static final String CATEGORIA = "Categoría:";
-    public static final String PROCESADOR = "Procesador:";
-    public static final String MEMORIA_RAM = "Memoria Ram:";
-    public static final String DISCO_DURO = "Disco Duro:";
-    public static final String SIST_OPERATIVO = "Sistema Operativo:";
-    public static final String CARACTERISTICAS = "Caracteristicas:";
-    public static final String FECHA_ADQUISICION = "Fecha de adquisición:";
-    public static final String OBSERVACION = "Observación:";
-
-    public static final String ESTADO = "Estado:";
-
-
-    /*TEXTO BOTONES*/
-    public static final String BT_CREAR = "Observación:";
-    public static final String BT_MODIFICAR = "Observación:";
-    public static final String BT_GESTIONAR = "Observación:";
-    public static final String BT_CANCELAR = "Observación:";
-
-
     /*ERRORES*/
     public static final String ERR_LOGIN_INVALIDO = "Usuario y/o contraseña invalida";
     public static final String ERR_CREAR = "ERROR! No se pudo ingresar el recurso";

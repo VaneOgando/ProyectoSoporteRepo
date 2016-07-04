@@ -8,28 +8,30 @@
     </global-method-security>
 
     <http auto-config="true" use-expressions="true" authentication-manager-ref="authenticationManager">
+
         <intercept-url pattern="/resources/**" access="permitAll"/>
         <intercept-url pattern="/index.xhtml" access="permitAll"/>
         <intercept-url pattern="/error.xhtml" access="permitAll"/>
         <intercept-url pattern="/**" access="authenticated"/>
+        <!--
+      <intercept-url pattern="/**" access="hasRole('ROLE_Usuario')"/>
+        -->
+<form-login
+      login-page="/index.xhtml"
+      default-target-url="/consultarInventario.xhtml"
+      always-use-default-target="true"/>
+
+<logout
+      invalidate-session="true"
+      delete-cookies="JSESSIONID,SPRING_SECURITY_REMEMBER_ME_COOKIE"
+      logout-success-url="/index.xhtml"></logout>
+</http>
+
 <!--
-        <intercept-url pattern="/**" access="hasRole('ROLE_Usuario')"/>
+Consulta por nombre de usuario unico (no por Common Name).
+Se añaden los grupos (como roles de usuario) al que pertenezca.
 -->
-        <form-login
-                login-page="/index.xhtml"
-                default-target-url="/consultarInventario.xhtml"
-                always-use-default-target="true"/>
 
-        <logout
-                invalidate-session="true"
-                delete-cookies="JSESSIONID,SPRING_SECURITY_REMEMBER_ME_COOKIE"
-                logout-success-url="/index.xhtml"></logout>
-    </http>
-
-    <!--
-      Consulta por nombre de usuario unico (no por Common Name).
-      Se añaden los grupos (como roles de usuario) al que pertenezca.
-  -->
     <authentication-manager alias="authenticationManager">
         <ldap-authentication-provider server-ref="ldapLocal"
                                       user-search-filter="(sAMAccountName={0})"
@@ -49,11 +51,10 @@
     <authentication-manager alias="authenticationManager">
         <authentication-provider>
             <user-service>
-                <user name="nessa" password="1234" authorities="ROLE_Usuario" />
+                <user name="admin" password="admin" authorities="ROLE_Usuario" />
             </user-service>
         </authentication-provider>
     </authentication-manager>
 -->
-
 
 </bean:beans>
