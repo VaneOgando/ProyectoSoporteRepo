@@ -21,7 +21,7 @@ public class GenerarReporteServicio {
 	public GenerarReporteServicio() {}
 
 	@Transactional
-	public JasperPrint generarReporte(String reporte, Map<String, Object> parametros){
+	public JasperPrint generarReporte(String reporte, Map<String, Object> parametros) throws JRException {
 
 		try {
 			//Buscar reporte
@@ -33,8 +33,7 @@ public class GenerarReporteServicio {
 			return jasperPrint;
 
 		} catch (JRException e) {
-			e.printStackTrace();
-			return null;
+			throw e;
 		}
 	}
 

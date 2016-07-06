@@ -101,7 +101,10 @@
 								<p:inputTextarea id="observacion" rows="4" cols="24" autoResize="false" counter="observ_caract" maxlength="300"
 												 counterTemplate="{0} caracteres restantes." style="margin-right: 46px"
 										required="#{!empty param['aceptar']}" requiredMessage="Por favor indique una observación"
-										value="#{gestionarRecursoBean.historial.descripcion}"/>
+										value="#{gestionarRecursoBean.historial.descripcion}"
+										validatorMessage="La observacion no puede sobrepasar los 300 caracteres">
+										<f:validateLength maximum="300"/>
+								</p:inputTextarea>
 								<p:outputLabel id="observ_caract" style="font-size: x-small"/>
 								<p:outputLabel value="*" styleClass="requerido"/>
 							</p:column>

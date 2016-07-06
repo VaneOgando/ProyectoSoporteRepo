@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="cartaDevolucionRecurso" language="groovy" pageWidth="595" pageHeight="842" columnWidth="455" leftMargin="70" rightMargin="70" topMargin="56" bottomMargin="56" uuid="8515e659-43cb-4677-95dd-50d60e363d0d">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="170"/>
+	<property name="ireport.y" value="0"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -44,7 +44,7 @@
 	</background>
 	<pageHeader>
 		<band height="276" splitType="Stretch">
-			<image onErrorType="Blank">
+			<image isUsingCache="true" onErrorType="Blank">
 				<reportElement mode="Opaque" x="0" y="0" width="146" height="52" uuid="ff2fbe30-0247-4084-b6b8-11f9ea7f597d"/>
 				<imageExpression><![CDATA[$P{logoTCS}]]></imageExpression>
 			</image>
@@ -106,7 +106,7 @@
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="209" splitType="Stretch">
+		<band height="254" splitType="Stretch">
 			<componentElement>
 				<reportElement key="table" style="table" positionType="Float" stretchType="RelativeToBandHeight" x="0" y="14" width="455" height="123" isPrintWhenDetailOverflows="true" uuid="e2858bd5-d28a-40a7-9923-72ea49f2f8be"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
@@ -223,7 +223,7 @@
 				<text><![CDATA[Observaciones:]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" x="0" y="168" width="455" height="41" isPrintWhenDetailOverflows="true" uuid="5c7040cd-e3b4-473c-939c-931ebd17a365"/>
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="168" width="455" height="86" isPrintWhenDetailOverflows="true" uuid="5c7040cd-e3b4-473c-939c-931ebd17a365"/>
 				<textElement>
 					<font fontName="Calibri" size="12"/>
 					<paragraph lineSpacing="1_1_2" firstLineIndent="30"/>
@@ -233,33 +233,33 @@
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="245" splitType="Stretch">
+		<band height="200" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="95" width="455" height="55" uuid="38fb37ab-a4e2-4a51-ad9d-86eabb88ba22"/>
+				<reportElement x="0" y="112" width="455" height="55" uuid="38fb37ab-a4e2-4a51-ad9d-86eabb88ba22"/>
 				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="12" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{usuarioAsignado}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="159" y="94" width="135" height="1" uuid="6ece5c33-bebc-4525-b3f2-9ac41ea36170"/>
+				<reportElement x="159" y="112" width="135" height="1" uuid="6ece5c33-bebc-4525-b3f2-9ac41ea36170"/>
 			</line>
 			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="41" width="455" height="52" uuid="ae746109-02b1-4078-add1-d9347e9288bc"/>
+				<reportElement x="0" y="60" width="455" height="52" uuid="ae746109-02b1-4078-add1-d9347e9288bc"/>
 				<textElement>
 					<font fontName="Calibri" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{usuarioSoporte}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="455" height="41" uuid="c1e93161-904c-4fca-92d4-0fdc2e01d264"/>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="455" height="41" uuid="c1e93161-904c-4fca-92d4-0fdc2e01d264"/>
 				<textElement verticalAlignment="Bottom">
 					<font fontName="Calibri" size="12" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[Atentamente,]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="216" width="455" height="29" uuid="bfc36d64-7f6a-42d2-8190-7b4adc11fd6e"/>
+				<reportElement mode="Opaque" x="0" y="171" width="455" height="29" uuid="bfc36d64-7f6a-42d2-8190-7b4adc11fd6e"/>
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="9"/>
 				</textElement>

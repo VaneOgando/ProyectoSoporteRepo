@@ -314,7 +314,15 @@ public class GestionarRecursoBean {
 
 				if (gestion == true) {
 
-					generarReporteGestion();
+					try {
+						generarReporteGestion();
+
+					}catch (Exception e){
+						FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_INFO, Constantes.EX_GESTION_ERR_REPORTE, null));
+						RequestContext.getCurrentInstance().update("mensajesError");
+
+						bt_limpiarGestion();
+					}
 
 					if (reporteDescarga == null){
 						FacesContext.getCurrentInstance().addMessage("mensajesError", new FacesMessage(FacesMessage.SEVERITY_INFO, Constantes.EX_GESTION_ERR_REPORTE, null));
@@ -369,66 +377,70 @@ public class GestionarRecursoBean {
 
 	}
 
-	public void generarReporteGestion() throws FileNotFoundException {
+	public void generarReporteGestion() throws Exception {
 
-		HashMap<String, Object> parametros = new HashMap<String, Object>();
+		try {
+			HashMap<String, Object> parametros = new HashMap<String, Object>();
 
-		String[] fecha = obtenerFecha(historial.getFechaGestion(), "dd-MMMM-yyyy").split("-");
+			String[] fecha = obtenerFecha(historial.getFechaGestion(), "dd-MMMM-yyyy").split("-");
 
 		/*Parametros fecha*/
-		parametros.put("fechaDia", fecha[0]);
-		parametros.put("fechaMes", fecha[1]);
-		parametros.put("fechaAnio", fecha[2]);
+			parametros.put("fechaDia", fecha[0]);
+			parametros.put("fechaMes", fecha[1]);
+			parametros.put("fechaAnio", fecha[2]);
 
 		/*Logo TCS*/
-		File img = new File( FacesContext.getCurrentInstance().getExternalContext().getRealPath(Constantes.URL_LOGO));
-		parametros.put("logoTCS", new FileInputStream(img));
+			File img = new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath(Constantes.URL_LOGO));
+			parametros.put("logoTCS", new FileInputStream(img));
 
 		/*Nombre completo de ususarios*/
-		String usuarioSoporte = "";
-		try {
-			usuarioSoporte = (ldapServicio.ObtenerUsuarioCompleto(historial.getResponsableSoporte())).getNombre();
+			String usuarioSoporte = "";
+			try {
+				usuarioSoporte = (ldapServicio.ObtenerUsuarioCompleto(historial.getResponsableSoporte())).getNombre();
 
-		}catch (Exception e){
-			usuarioSoporte = historial.getResponsableSoporte();
-		}
+			} catch (Exception e) {
+				usuarioSoporte = historial.getResponsableSoporte();
+			}
 
-		String usuarioAsignado = "";
-		try {
-			usuarioAsignado = (ldapServicio.ObtenerUsuarioCompleto(historial.getUsuarioAsignado())).getNombre();
+			String usuarioAsignado = "";
+			try {
+				usuarioAsignado = (ldapServicio.ObtenerUsuarioCompleto(historial.getUsuarioAsignado())).getNombre();
 
-		}catch (Exception e){
-			usuarioAsignado = historial.getUsuarioAsignado();
-		}
+			} catch (Exception e) {
+				usuarioAsignado = historial.getUsuarioAsignado();
+			}
 
 
 		/*Parametros usuario*/
-		parametros.put("usuarioAsignado", usuarioAsignado);
-		parametros.put("usuarioSoporte", usuarioSoporte);
+			parametros.put("usuarioAsignado", usuarioAsignado);
+			parametros.put("usuarioSoporte", usuarioSoporte);
 
 		/*Parametros recursos*/
-		List<HashMap<String, Object>> recursos = new ArrayList<HashMap<String, Object>>();
+			List<HashMap<String, Object>> recursos = new ArrayList<HashMap<String, Object>>();
 
-		if (equipo.getNumSerie() != null) {
-			recursos.add(recursoHashMap("Equipo", equipo));
+			if (equipo.getNumSerie() != null) {
+				recursos.add(recursoHashMap("Equipo", equipo));
+			}
+
+			for (AccesorioEntity acc : accesoriosGestion) {
+				recursos.add(recursoHashMap(acc.getCategoria().getNombre(), acc));
+			}
+
+			parametros.put("recursosGestion", new JRBeanCollectionDataSource(recursos));
+
+			String reporte = new String();
+			if (opcionGestion.equals("A")) {
+				reporte = Constantes.REPORTE_ASIGNACION;
+			} else {
+				reporte = Constantes.REPORTE_DEVOLUCION;
+				parametros.put("observaciones", historial.getDescripcion());
+			}
+
+			generarNombreArchivo();
+			reporteDescarga = generarReporteServicio.generarReporte(reporte, parametros);
+		}catch (Exception e){
+			throw e;
 		}
-
-		for (AccesorioEntity acc : accesoriosGestion){
-			recursos.add(recursoHashMap( acc.getCategoria().getNombre(), acc ));
-		}
-
-		parametros.put("recursosGestion", new JRBeanCollectionDataSource(recursos));
-
-		String reporte = new String();
-		if (opcionGestion.equals("A")){
-			reporte = Constantes.REPORTE_ASIGNACION;
-		}else{
-			reporte = Constantes.REPORTE_DEVOLUCION;
-			parametros.put("observaciones", historial.getDescripcion());
-		}
-
-		 generarNombreArchivo();
-		 reporteDescarga = generarReporteServicio.generarReporte(reporte, parametros);
 	}
 
 	public String obtenerFecha(Date fechaGestion, String formato){
