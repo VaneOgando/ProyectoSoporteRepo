@@ -62,8 +62,9 @@
 										<p:column styleClass="colDerCreacion">
 											<p:inputText styleClass="anchoCompCreacion" value="#{crearRecursoBean.equipo.numSerie}"
 														 required="true" requiredMessage="Por favor indique un numero de serie"
-														 validatorMessage="El número de serie no puede sobrepasar los 22 caracteres">
-												<f:validateLength maximum="22" />
+														 validatorMessage="El número de serie no puede contener caracteres especiales"
+													     maxlength="22">
+												<f:validateRegex pattern="([A-Za-z0-9-_])+"/>
 											</p:inputText>
 											<p:outputLabel value="*" styleClass="requerido"/>
 										</p:column>
@@ -77,7 +78,7 @@
 											<p:inputText styleClass="anchoCompCreacion" value="#{crearRecursoBean.equipo.nombre}"
 														 required="true" requiredMessage="Por favor indique un nombre"
 														 validatorMessage="El nombre no puede sobrepasar los 30 caracteres">
-												<f:validateLength maximum="30" />
+												<f:validateLength maximum="30"/>
 											</p:inputText>
 											<p:outputLabel value="*" styleClass="requerido"/>
 										</p:column>
@@ -124,7 +125,7 @@
 											<p:inputText styleClass="anchoCompCreacion" value="#{crearRecursoBean.equipo.procesador}"
 														 required="true" requiredMessage="Por favor indique un procesador"
 														 validatorMessage="El procesador no puede sobrepasar los 30 caracteres">
-												<f:validateLength maximum="30" />
+												<f:validateLength maximum="30"/>
 											</p:inputText>
 											<p:outputLabel value="*" styleClass="requerido"/>
 										</p:column>
@@ -138,7 +139,7 @@
 											<p:inputText styleClass="anchoCompCreacion" value="#{crearRecursoBean.equipo.memoriaRam}"
 														 required="true" requiredMessage="Por favor indique la memoria ram"
 														 validatorMessage="La memoria ram no puede sobrepasar los 30 caracteres">
-												<f:validateLength maximum="30" />
+												<f:validateLength maximum="30"/>
 											</p:inputText>
 											<p:outputLabel value="*" styleClass="requerido"/>
 										</p:column>
@@ -152,7 +153,7 @@
 											<p:inputText styleClass="anchoCompCreacion" value="#{crearRecursoBean.equipo.discoDuro}"
 														 required="true" requiredMessage="Por favor indique el disco duro"
 														 validatorMessage="El disco duro no puede sobrepasar los 30 caracteres">
-												<f:validateLength maximum="30" />
+												<f:validateLength maximum="30"/>
 											</p:inputText>
 											<p:outputLabel value="*" styleClass="requerido"/>
 										</p:column>
@@ -166,7 +167,7 @@
 											<p:inputText styleClass="anchoCompCreacion" value="#{crearRecursoBean.equipo.sistOperativo}"
 														 required="true" requiredMessage="Por favor indique el sistema operativo"
 														 validatorMessage="El sistema operativo no puede sobrepasar los 30 caracteres">
-												<f:validateLength maximum="30" />
+												<f:validateLength maximum="30"/>
 											</p:inputText>
 											<p:outputLabel value="*" styleClass="requerido"/>
 										</p:column>
@@ -199,8 +200,9 @@
 											<p:outputLabel value="Observación:"/>
 										</p:column>
 										<p:column styleClass="colDerCreacion">
-											<p:inputTextarea value="#{crearRecursoBean.observacion}" rows="3" cols="22" autoResize="false" counter="observ_caractEquipo" maxlength="100"
-															 counterTemplate="{0} caracteres restantes." style="margin-right: 46px" />
+											<p:inputTextarea value="#{crearRecursoBean.observacion}" rows="3" cols="22" autoResize="false"
+															 counter="observ_caractEquipo" maxlength="100" counterTemplate="{0} caracteres restantes."
+															 style="margin-right: 46px" />
 											<p:outputLabel id="observ_caractEquipo" style="font-size: x-small"/>
 										</p:column>
 									</p:row>
