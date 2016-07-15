@@ -1,0 +1,96 @@
+/*CREAR TABLAS*/
+
+CREATE TABLE ACCESORIO(
+
+	idAccesorio 	INT 		NOT NULL,
+	numSerie		VARCHAR(22),
+	numParte		VARCHAR(22),
+	accesorio		VARCHAR(30)	NOT NULL,
+	caracteristicas	VARCHAR(150),
+	fechaCompra		DATE		NOT NULL,
+	
+	CONSTRAINT accesorio_pk PRIMARY KEY (idAccesorio)
+);
+
+CREATE TABLE CATEGORIA(
+
+	idCategoria   INT 			NOT NULL,
+	categoria	  VARCHAR(30)	NOT NULL,
+	tipoCategoria VARCHAR(30)	NOT NULL,
+
+	CONSTRAINT categoria_pk PRIMARY KEY (idCategoria)	
+);
+
+/*
+CREATE TABLE DOCUMENTO(
+
+	idDocumento		INT 		NOT NULL,
+	documento 		VARCHAR(30)	NOT NULL,
+	archivo			BLOB		NOT NULL,
+	
+	CONSTRAINT documento_pk PRIMARY KEY (idDocumento)
+);
+*/
+
+CREATE TABLE EQUIPO(
+
+	numSerie 		VARCHAR(22)	NOT NULL,
+	equipo			VARCHAR(30)	NOT NULL,
+	procesador		VARCHAR(30)	NOT NULL,
+	memoriaRam		VARCHAR(30)	NOT NULL,
+	discoDuro		VARCHAR(30)	NOT NULL,
+	sistOperativo	VARCHAR(30)	NOT NULL,
+	numParte		VARCHAR(22),
+	caracteristicas	VARCHAR(150),
+	fechaCompra		DATE		NOT NULL,
+	
+	CONSTRAINT equipo_pk PRIMARY KEY (numSerie)
+);
+
+CREATE TABLE ESTADO(
+
+	idEstado	INT			NOT NULL,
+	estado		VARCHAR(30)	NOT NULL,
+	cambiarA	CHAR(1)		NOT NULL,
+	
+	CONSTRAINT estado_pk PRIMARY KEY (idEstado)
+);
+
+CREATE TABLE HISTORIALINVENTARIO(
+
+	idHistorialInv	INT				NOT NULL,
+	fechaGestion	DATE			NOT NULL,
+	descripcion		VARCHAR(300)	NOT NULL,
+	respSoporte		VARCHAR(35)		NOT NULL,
+	usuarioAsig		VARCHAR(35), 
+
+	CONSTRAINT historialInv_pk PRIMARY KEY (idHistorialInv)
+);
+
+CREATE TABLE MARCA(
+
+	idMarca 	INT 		NOT NULL,
+	marca 		VARCHAR(30) NOT NULL,
+
+	CONSTRAINT marca_pk PRIMARY KEY (idMarca)
+);
+
+CREATE TABLE MODELO(
+
+	idModelo 	INT 		NOT NULL,
+	modelo 		VARCHAR(30) NOT NULL,
+	
+	CONSTRAINT modelo_pk PRIMARY KEY (idModelo)
+);
+
+
+/*CREAR SECUENCIAS*/
+
+CREATE SEQUENCE accesorio_seq INCREMENT BY 1 START WITH 1 NOCYCLE;
+CREATE SEQUENCE categoria_seq INCREMENT BY 1 START WITH 1 NOCYCLE;
+/*CREATE SEQUENCE documento_seq INCREMENT BY 1 START WITH 1 NOCYCLE;*/
+CREATE SEQUENCE estado_seq    INCREMENT BY 1 START WITH 1 NOCYCLE;
+CREATE SEQUENCE histInv_seq   INCREMENT BY 1 START WITH 1 NOCYCLE;
+CREATE SEQUENCE marca_seq     INCREMENT BY 1 START WITH 1 NOCYCLE;
+CREATE SEQUENCE modelo_seq    INCREMENT BY 1 START WITH 1 NOCYCLE;
+

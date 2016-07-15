@@ -428,12 +428,14 @@ public class GestionarRecursoBean {
 
 			parametros.put("recursosGestion", new JRBeanCollectionDataSource(recursos));
 
+		/*Parametros Observaciones*/
+			parametros.put("observaciones", historial.getDescripcion());
+
 			String reporte = new String();
 			if (opcionGestion.equals("A")) {
 				reporte = Constantes.REPORTE_ASIGNACION;
 			} else {
 				reporte = Constantes.REPORTE_DEVOLUCION;
-				parametros.put("observaciones", historial.getDescripcion());
 			}
 
 			generarNombreArchivo();

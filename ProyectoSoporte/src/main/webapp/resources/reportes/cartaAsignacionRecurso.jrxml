@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="cartaAsignacionRecurso" language="groovy" pageWidth="595" pageHeight="842" columnWidth="455" leftMargin="70" rightMargin="70" topMargin="56" bottomMargin="56" isSummaryWithPageHeaderAndFooter="true" uuid="8515e659-43cb-4677-95dd-50d60e363d0d">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="cartaAsignacionRecurso" language="groovy" pageWidth="595" pageHeight="842" columnWidth="455" leftMargin="70" rightMargin="70" topMargin="56" bottomMargin="40" isSummaryWithPageHeaderAndFooter="true" uuid="8515e659-43cb-4677-95dd-50d60e363d0d">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="366"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -38,11 +38,12 @@
 	<parameter name="usuarioSoporte" class="java.lang.String"/>
 	<parameter name="recursosGestion" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
 	<parameter name="logoTCS" class="java.io.InputStream"/>
+	<parameter name="observaciones" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<pageHeader>
-		<band height="272" splitType="Stretch">
+		<band height="240" splitType="Stretch">
 			<image isUsingCache="true" onErrorType="Blank">
 				<reportElement mode="Opaque" x="0" y="0" width="146" height="52" uuid="ff2fbe30-0247-4084-b6b8-11f9ea7f597d"/>
 				<imageExpression><![CDATA[$P{logoTCS}]]></imageExpression>
@@ -68,7 +69,7 @@
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="0" y="79" width="455" height="21" isPrintWhenDetailOverflows="true" uuid="1f6de43e-4c6c-461a-a8e1-d32f3ea05ae6"/>
 				<textElement textAlignment="Right">
-					<font fontName="Calibri" size="12"/>
+					<font fontName="Calibri" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Caracas, " + $P{fechaDia} + " de "+ $P{fechaMes} +" de "+ $P{fechaAnio}]]></textFieldExpression>
 			</textField>
@@ -80,34 +81,34 @@
 				<text><![CDATA[Carta de Entrega]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="136" width="455" height="28" uuid="fa7f9b71-fbfc-403d-a7f8-8f61f0a83363"/>
+				<reportElement x="0" y="136" width="455" height="18" uuid="fa7f9b71-fbfc-403d-a7f8-8f61f0a83363"/>
 				<textElement verticalAlignment="Bottom">
-					<font fontName="Calibri" size="12" isBold="true" isUnderline="false"/>
+					<font fontName="Calibri" size="11" isBold="true" isUnderline="false"/>
 				</textElement>
 				<text><![CDATA[Atención: ]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="164" width="455" height="34" uuid="4784a874-a386-459f-868c-e105cdeebef7"/>
+				<reportElement x="0" y="154" width="455" height="29" uuid="4784a874-a386-459f-868c-e105cdeebef7"/>
 				<textElement>
-					<font fontName="Calibri" size="12"/>
+					<font fontName="Calibri" size="11"/>
 					<paragraph firstLineIndent="30"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Sr(a). " +  $P{usuarioAsignado}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToBandHeight" x="0" y="198" width="455" height="74" isPrintWhenDetailOverflows="true" uuid="7140b6c3-4d77-4bc3-a4d3-ba31c26a45bb"/>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="183" width="455" height="57" isPrintWhenDetailOverflows="true" uuid="7140b6c3-4d77-4bc3-a4d3-ba31c26a45bb"/>
 				<textElement textAlignment="Left">
-					<font fontName="Calibri" size="12"/>
+					<font fontName="Calibri" size="11"/>
 					<paragraph lineSpacing="1_1_2" firstLineIndent="30"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Por medio de la presente Yo, " + $P{usuarioSoporte} + ", le hago entrega de los siguientes recursos propiedad de TCS Technology Consulting Solution C.A. los cuales serán asignados a su persona para labores en las instalaciones de TCS y sus clientes, si aplica."]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Por medio de la presente Yo, " + $P{usuarioSoporte} + ", le hago entrega de los siguientes recursos propiedad de TCS Technology Consulting Solution C.A con las observaciones señaladas. Y serán asignados a su persona para labores en las instalaciones de TCS y sus clientes, si aplica."]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="77" splitType="Immediate">
+		<band height="63" splitType="Immediate">
 			<componentElement>
-				<reportElement key="table" style="table" positionType="Float" stretchType="RelativeToBandHeight" x="0" y="15" width="455" height="62" isPrintWhenDetailOverflows="true" uuid="e2858bd5-d28a-40a7-9923-72ea49f2f8be"/>
+				<reportElement key="table" style="table" positionType="Float" stretchType="RelativeToBandHeight" x="0" y="7" width="455" height="56" isPrintWhenDetailOverflows="true" uuid="e2858bd5-d28a-40a7-9923-72ea49f2f8be"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
 					<datasetRun subDataset="Tabla recursos" uuid="fb8aec1d-86cf-4ada-8bf3-a49bedbef77e">
 						<dataSourceExpression><![CDATA[$P{recursosGestion}]]></dataSourceExpression>
@@ -219,29 +220,22 @@
 	<pageFooter>
 		<band height="299" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="216" width="455" height="55" uuid="38fb37ab-a4e2-4a51-ad9d-86eabb88ba22"/>
+				<reportElement x="224" y="228" width="231" height="42" uuid="38fb37ab-a4e2-4a51-ad9d-86eabb88ba22"/>
 				<textElement textAlignment="Center">
-					<font fontName="Calibri" size="12" isStrikeThrough="false"/>
+					<font fontName="Calibri" size="11" isStrikeThrough="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{usuarioAsignado}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="159" y="215" width="135" height="1" uuid="6ece5c33-bebc-4525-b3f2-9ac41ea36170"/>
+				<reportElement x="272" y="226" width="135" height="1" uuid="6ece5c33-bebc-4525-b3f2-9ac41ea36170"/>
 			</line>
 			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="162" width="455" height="52" uuid="ae746109-02b1-4078-add1-d9347e9288bc"/>
-				<textElement>
-					<font fontName="Calibri" size="12"/>
+				<reportElement x="0" y="228" width="224" height="42" uuid="ae746109-02b1-4078-add1-d9347e9288bc"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{usuarioSoporte}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement positionType="FixRelativeToBottom" x="0" y="130" width="455" height="32" uuid="c1e93161-904c-4fca-92d4-0fdc2e01d264"/>
-				<textElement verticalAlignment="Bottom">
-					<font fontName="Calibri" size="12" isItalic="false"/>
-				</textElement>
-				<text><![CDATA[Atentamente,]]></text>
-			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="270" width="455" height="29" uuid="bfc36d64-7f6a-42d2-8190-7b4adc11fd6e"/>
 				<textElement textAlignment="Center">
@@ -250,14 +244,31 @@
 				<text><![CDATA[Caracas –Venezuela. Avenida Francisco de Miranda. Torre Bazar Bolívar. Piso 6. Oficina 601. Telf.: 0212-2353173/2375094/2385718]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="0" width="451" height="130" uuid="96c2aab4-daca-4e1d-b178-62435c4e3803"/>
+				<reportElement x="0" y="117" width="451" height="65" uuid="96c2aab4-daca-4e1d-b178-62435c4e3803"/>
 				<textElement>
-					<font fontName="Calibri" size="12"/>
+					<font fontName="Calibri" size="11"/>
 					<paragraph lineSpacing="1_1_2" firstLineIndent="30"/>
 				</textElement>
 				<text><![CDATA[A partir de este momento es de total responsabilidad del usuario del mal uso, extravío o cualquier situación con la que se relacionen los recursos dentro y fuera de las instalaciones.
-
 En caso de extravío debe ser notificado y realizar la denuncia ante el ente competente.]]></text>
+			</staticText>
+			<line>
+				<reportElement x="44" y="226" width="135" height="1" uuid="973b4000-1054-4031-a560-0644f201fe89"/>
+			</line>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="31" width="455" height="70" isPrintWhenDetailOverflows="true" uuid="fc04e7de-1cc3-41df-8928-27b70d9d6484"/>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+					<paragraph lineSpacing="1_1_2" firstLineIndent="30"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{observaciones}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="11" width="455" height="20" uuid="7647ddbb-19c8-4f24-a3d9-3f7c3b7e714a"/>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="Calibri" size="11" isBold="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Observaciones:]]></text>
 			</staticText>
 		</band>
 	</pageFooter>

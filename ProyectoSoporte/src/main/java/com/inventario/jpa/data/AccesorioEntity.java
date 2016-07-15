@@ -33,6 +33,8 @@ public class AccesorioEntity {
 	private String numSerie;
 	@Column(name = "ACCESORIO")
 	private String nombre;
+	@Column(name = "NUMPARTE")
+	private String numParte;
 	@Column(name = "CARACTERISTICAS")
 	private String caracteristicas;
 	@Column(name = "FECHACOMPRA")
@@ -83,6 +85,14 @@ public class AccesorioEntity {
 
 	public String getCaracteristicas() {
 		return caracteristicas;
+	}
+
+	public String getNumParte() {
+		return numParte;
+	}
+
+	public void setNumParte(String numParte) {
+		this.numParte = numParte;
 	}
 
 	public void setCaracteristicas(String caracteristicas) {

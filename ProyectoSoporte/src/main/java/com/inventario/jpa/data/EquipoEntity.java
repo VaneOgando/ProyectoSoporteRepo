@@ -35,6 +35,8 @@ public class EquipoEntity{
 	private String discoDuro;
 	@Column(name = "SISTOPERATIVO")
 	private String sistOperativo;
+	@Column(name = "NUMPARTE")
+	private String numParte;
 	@Column(name = "CARACTERISTICAS")
 	private String caracteristicas;
 	@Column(name = "FECHACOMPRA")
@@ -102,6 +104,14 @@ public class EquipoEntity{
 
 	public void setSistOperativo(String sistOperativo) {
 		this.sistOperativo = sistOperativo;
+	}
+
+	public String getNumParte() {
+		return numParte;
+	}
+
+	public void setNumParte(String numParte) {
+		this.numParte = numParte;
 	}
 
 	public String getCaracteristicas() {

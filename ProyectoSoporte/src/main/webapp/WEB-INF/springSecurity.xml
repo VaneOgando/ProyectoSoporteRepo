@@ -7,14 +7,18 @@
             secured-annotations="enabled">
     </global-method-security>
 
-    <http auto-config="true" use-expressions="true" authentication-manager-ref="authenticationManager">
+    <http pattern="/resources/**" security="none" />
+    <http pattern="/index.xhtml" security="none"/>
+    <http pattern="/error.xhtml" security="none"/>
 
+    <http auto-config="true" use-expressions="true" authentication-manager-ref="authenticationManager">
+<!--
         <intercept-url pattern="/resources/**" access="permitAll"/>
         <intercept-url pattern="/index.xhtml" access="permitAll"/>
-        <intercept-url pattern="/error.xhtml" access="permitAll"/>
+        <intercept-url pattern="/error.xhtml" access="permitAll"/> -->
         <intercept-url pattern="/**" access="authenticated"/>
-        <!--
-      <intercept-url pattern="/**" access="hasRole('ROLE_Usuario')"/>
+<!--
+        <intercept-url pattern="/**" access="hasRole('ROLE_Usuario')"/>
         -->
 <form-login
       login-page="/index.xhtml"
@@ -27,18 +31,24 @@
       logout-success-url="/index.xhtml"></logout>
 </http>
 
+
 <!--
 Consulta por nombre de usuario unico (no por Common Name).
 Se añaden los grupos (como roles de usuario) al que pertenezca.
 -->
 
     <authentication-manager alias="authenticationManager">
+<!--
+                <ldap-authentication-provider server-ref="ldapLocal"
+                                              user-search-filter="(&amp;(sAMAccountName={0})(memberof=CN=soporteinterno, CN=users, DC=tcs, DC=local))"
+                                              user-search-base="CN=Users"
+                                              group-search-base="CN=Users">
+                </ldap-authentication-provider>
+-->
+        <authentication-provider ref="ldapAuthProviderSoporte"/>
+        <authentication-provider ref="ldapAuthProviderLideres"/>
+        <authentication-provider user-service-ref="userAdmin"/>
 
-        <ldap-authentication-provider server-ref="ldapLocal"
-                                      user-search-filter="(&amp;(sAMAccountName={0})(memberof=CN=soporteinterno, CN=users, DC=tcs, DC=local))"
-                                      user-search-base="CN=Users"
-                                      group-search-base="CN=Users">
-        </ldap-authentication-provider>
     </authentication-manager>
 
     <!-- La IP de la máquina donde esté el ldap. El usuario y la clave de un administrador -->
@@ -47,14 +57,50 @@ Se añaden los grupos (como roles de usuario) al que pertenezca.
                  manager-dn="CN=incidencias, CN=Users, DC=tcs, DC=local"
                  manager-password="sDuZv5TfCMOgQ5" />
 
-<!--
-    <authentication-manager alias="authenticationManager">
-        <authentication-provider>
-            <user-service>
-                <user name="admin" password="admin" authorities="ROLE_Usuario" />
-            </user-service>
-        </authentication-provider>
-    </authentication-manager>
--->
+    <bean:bean id="ldapAuthProviderSoporte" class="org.springframework.security.ldap.authentication.LdapAuthenticationProvider">
+        <bean:constructor-arg name="authenticator">
+            <bean:bean class="org.springframework.security.ldap.authentication.BindAuthenticator">
+                <bean:constructor-arg ref="ldapLocal" />
+                <bean:property name="userSearch">
+                    <bean:bean class="org.springframework.security.ldap.search.FilterBasedLdapUserSearch">
+                        <bean:constructor-arg name="searchBase" value="CN=Users"/>
+                        <bean:constructor-arg name="searchFilter" value="(&amp;(sAMAccountName={0})(memberof=CN=soporteinterno, CN=users, DC=tcs, DC=local))"/>
+                        <bean:constructor-arg name="contextSource" ref="ldapLocal"/>
+                    </bean:bean>
+                </bean:property>
+            </bean:bean>
+        </bean:constructor-arg>
+    </bean:bean>
+
+    <bean:bean id="ldapAuthProviderLideres" class="org.springframework.security.ldap.authentication.LdapAuthenticationProvider">
+        <bean:constructor-arg name="authenticator">
+            <bean:bean class="org.springframework.security.ldap.authentication.BindAuthenticator">
+                <bean:constructor-arg ref="ldapLocal" />
+                <bean:property name="userSearch">
+                    <bean:bean class="org.springframework.security.ldap.search.FilterBasedLdapUserSearch">
+                        <bean:constructor-arg name="searchBase" value="CN=Users"/>
+                        <bean:constructor-arg name="searchFilter" value="(&amp;(sAMAccountName={0})(memberof=CN=lideres, CN=users, DC=tcs, DC=local))"/>
+                        <bean:constructor-arg name="contextSource" ref="ldapLocal"/>
+                    </bean:bean>
+                </bean:property>
+            </bean:bean>
+        </bean:constructor-arg>
+    </bean:bean>
+
+    <user-service id="userAdmin">
+        <user name="admin" password="admin" authorities="authenticated"/>
+    </user-service>
+
+
+
+    <!--
+        <authentication-manager alias="authenticationManager">
+            <authentication-provider>
+                <user-service>
+                    <user name="admin" password="admin" authorities="ROLE_Usuario" />
+                </user-service>
+            </authentication-provider>
+        </authentication-manager>
+    -->
 
 </bean:beans>

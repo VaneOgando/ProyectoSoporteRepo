@@ -7,6 +7,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
+import javax.naming.*;
+import javax.naming.directory.*;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -20,6 +22,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.web.WebAttributes;
 
 import java.io.IOException;
+import java.util.Hashtable;
 
 @ManagedBean
 @ViewScoped
@@ -74,7 +77,7 @@ public class InicioSesionBean implements PhaseListener{
 		return PhaseId.RENDER_RESPONSE;
 	}
 
-	//	public String authenticateUser() throws NamingException {
+//		public String authenticateUser() throws NamingException {
 //
 //		Hashtable<String, String> env = new Hashtable<String, String>();
 //
@@ -103,7 +106,7 @@ public class InicioSesionBean implements PhaseListener{
 //			controls.setCountLimit(1);   //Sets the maximum number of entries to be returned as a result of the search
 //			controls.setTimeLimit(5000); // Sets the time limit of these SearchControls in milliseconds
 //
-//			String searchString = "(&(objectCategory=user)(sAMAccountName=" + user + "))";
+//			String searchString = "(&(objectCategory=user)(sAMAccountName=" + usuario + "))";
 //
 //			results = ctx.search("", searchString, controls);
 //
@@ -117,7 +120,7 @@ public class InicioSesionBean implements PhaseListener{
 //				// User Exists, Validate the Password
 //
 //				env.put(Context.SECURITY_PRINCIPAL, dn);
-//				env.put(Context.SECURITY_CREDENTIALS, pass);
+//				env.put(Context.SECURITY_CREDENTIALS, contrasenia);
 //
 //				new InitialDirContext(env); // Exception will be thrown on Invalid case
 //				return "consultarInventario.xhtml";
@@ -135,11 +138,11 @@ public class InicioSesionBean implements PhaseListener{
 //		} finally {
 //
 //			if (results != null) {
-//				try { results.close(); } catch (Exception e) { /* Do Nothing */ }
+//				try { results.close(); } catch (Exception e) {    }
 //			}
 //
 //			if (ctx != null) {
-//				try { ctx.close(); } catch (Exception e) { /* Do Nothing */ }
+//				try { ctx.close(); } catch (Exception e) {   }
 //			}
 //		}
 //	}

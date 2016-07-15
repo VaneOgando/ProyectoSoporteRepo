@@ -141,6 +141,18 @@
 							</p:row>
 
 							<p:row>
+								<p:column styleClass="colIzqCreacion">
+									<p:outputLabel value="Número de parte:"/>
+								</p:column>
+								<p:column styleClass="colDerCreacion">
+									<p:inputText styleClass="anchoCompCreacion" value="#{modificarEquipoBean.equipo.numParte}"
+												 validatorMessage="El número de parte no puede sobrepasar los 22 caracteres">
+										<f:validateLength maximum="22"/>
+									</p:inputText>
+								</p:column>
+							</p:row>
+
+							<p:row>
 								<p:column styleClass="colIzqModificacion">
 									<p:outputLabel value="Caracteristicas:"/>
 								</p:column>

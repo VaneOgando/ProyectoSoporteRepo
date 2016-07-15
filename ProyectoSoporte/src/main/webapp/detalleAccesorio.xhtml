@@ -84,6 +84,17 @@
 
 					<p:row>
 						<p:column styleClass="panelColumnaIzq">
+							<h:outputLabel value="Número de parte:"/>
+						</p:column>
+						<p:column styleClass="panelColumnaDer">
+							<h:outputLabel value="#{detalleAccesorioBean.accesorio.numParte}" rendered="#{detalleAccesorioBean.accesorio.numParte != null}"/>
+							<h:outputText value="N/A" rendered="#{detalleAccesorioBean.accesorio.numParte == null}" />
+						</p:column>
+					</p:row>
+
+
+					<p:row>
+						<p:column styleClass="panelColumnaIzq">
 							<h:outputLabel value="Marca:"/>
 						</p:column>
 						<p:column styleClass="panelColumnaDer">
