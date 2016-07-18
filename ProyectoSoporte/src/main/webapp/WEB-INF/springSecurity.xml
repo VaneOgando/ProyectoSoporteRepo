@@ -12,10 +12,7 @@
     <http pattern="/error.xhtml" security="none"/>
 
     <http auto-config="true" use-expressions="true" authentication-manager-ref="authenticationManager">
-<!--
-        <intercept-url pattern="/resources/**" access="permitAll"/>
-        <intercept-url pattern="/index.xhtml" access="permitAll"/>
-        <intercept-url pattern="/error.xhtml" access="permitAll"/> -->
+
         <intercept-url pattern="/**" access="authenticated"/>
 <!--
         <intercept-url pattern="/**" access="hasRole('ROLE_Usuario')"/>
@@ -38,16 +35,10 @@ Se añaden los grupos (como roles de usuario) al que pertenezca.
 -->
 
     <authentication-manager alias="authenticationManager">
-<!--
-                <ldap-authentication-provider server-ref="ldapLocal"
-                                              user-search-filter="(&amp;(sAMAccountName={0})(memberof=CN=soporteinterno, CN=users, DC=tcs, DC=local))"
-                                              user-search-base="CN=Users"
-                                              group-search-base="CN=Users">
-                </ldap-authentication-provider>
--->
+
+        <authentication-provider user-service-ref="userAdmin"/>
         <authentication-provider ref="ldapAuthProviderSoporte"/>
         <authentication-provider ref="ldapAuthProviderLideres"/>
-        <authentication-provider user-service-ref="userAdmin"/>
 
     </authentication-manager>
 
@@ -88,19 +79,7 @@ Se añaden los grupos (como roles de usuario) al que pertenezca.
     </bean:bean>
 
     <user-service id="userAdmin">
-        <user name="admin" password="admin" authorities="authenticated"/>
+        <user name="administrador" password="TCS4dm1n" authorities="authenticated"/>
     </user-service>
-
-
-
-    <!--
-        <authentication-manager alias="authenticationManager">
-            <authentication-provider>
-                <user-service>
-                    <user name="admin" password="admin" authorities="ROLE_Usuario" />
-                </user-service>
-            </authentication-provider>
-        </authentication-manager>
-    -->
 
 </bean:beans>

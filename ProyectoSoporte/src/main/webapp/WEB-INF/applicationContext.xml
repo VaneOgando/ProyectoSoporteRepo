@@ -21,7 +21,7 @@
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
 		<property name="url" value="jdbc:oracle:thin:@//localhost:1521/XE" />
 		<property name="username" value="inventariosoporte" />
-		<property name="password" value="root" />
+		<property name="password" value="inventariosoporte" />
 	</bean>
 
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
