@@ -154,21 +154,21 @@
 				<p:panelGrid id="botones" styleClass="panelInventario botonesPanel" style="margin: 0 auto; font-size: small">
 					<p:row>
 						<p:column>
-							<p:commandButton id="modificar" value="Modificar" immediate="true" action="#{detalleEquipoBean.bt_modificarEquipo}" update="mensajesError" >
+							<p:commandButton id="modificar" value="Modificar" immediate="true" action="#{detalleEquipoBean.bt_modificarEquipo}" update="mensajesError" onclick="bloquear(this)" >
 								<f:param name="numSerie" value="#{detalleEquipoBean.equipo.numSerie}" />
 							</p:commandButton>
 						</p:column>
 						<p:column>
 							<p:commandButton id="cambiarEstado" value="Cambiar estado" immediate="true" action="#{detalleEquipoBean.validarEstado}"
-											 onclick="if (!confirm('esta seguro? esta accion puede ser ireversible')) return false" update="mensajesError dialogoCambioEstado" />
+											 onclick="bloquear(this); if (!confirm('esta seguro? esta accion puede ser ireversible')) return false" update="mensajesError dialogoCambioEstado" />
 						</p:column>
 						<p:column rendered="#{detalleEquipoBean.asignado || detalleEquipoBean.disponible}">
-							<p:commandButton id="asignar" value="Asignar" rendered="#{detalleEquipoBean.disponible}" immediate="true" action="gestionarRecurso.xhtml" >
+							<p:commandButton id="asignar" value="Asignar" rendered="#{detalleEquipoBean.disponible}" immediate="true" action="gestionarRecurso.xhtml" onclick="bloquear(this)">
 								<f:param name="opcionGestion" value='A' />
 								<f:param name="opcionRecurso" value='E' />
 								<f:param name="numSerie" value='#{detalleEquipoBean.equipo.numSerie}' />
 							</p:commandButton>
-							<p:commandButton id="devolver" value="Devolver" rendered="#{detalleEquipoBean.asignado}" immediate="true" action="gestionarRecurso.xhtml" >
+							<p:commandButton id="devolver" value="Devolver" rendered="#{detalleEquipoBean.asignado}" immediate="true" action="gestionarRecurso.xhtml" onclick="bloquear(this)" >
 								<f:param name="opcionGestion" value='D' />
 								<f:param name="opcionRecurso" value='E' />
 								<f:param name="numSerie" value='#{detalleEquipoBean.equipo.numSerie}' />
@@ -218,7 +218,7 @@
 
 					<p:row>
 						<p:column style="text-align: right; font-size: small">
-							<p:commandButton value="Aceptar" action="#{detalleEquipoBean.bt_cambiarEstado}" />
+							<p:commandButton value="Aceptar" action="#{detalleEquipoBean.bt_cambiarEstado}" onclick="bloquear(this)" />
 						</p:column>
 
 						<p:column style="text-align: left; font-size: small">

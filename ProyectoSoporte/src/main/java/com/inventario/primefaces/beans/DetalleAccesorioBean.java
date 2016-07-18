@@ -24,6 +24,7 @@ import java.util.List;
 @ViewScoped
 public class DetalleAccesorioBean {
 
+
 	/*ATRIBUTOS*/
 	@ManagedProperty("#{detalleAccesorioServicio}")
 	private DetalleAccesorioServicio detalleAccesorioServicio;

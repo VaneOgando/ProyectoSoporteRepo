@@ -40,7 +40,7 @@
 
 				<div style="text-align: center">
 					<p:commandButton id="descarga" value="Descargar reporte" action="#{gestionarRecursoBean.descargarReporte}"
-							rendered="#{gestionarRecursoBean.descarga}" ajax="false"/>
+							rendered="#{gestionarRecursoBean.descarga}" ajax="false" onclick="bloquear(this)"/>
 				</div>
 
 				<div id="Detalle" class="detalleGestion">
@@ -60,7 +60,7 @@
 											 required="#{!empty param['aceptar']}" requiredMessage="Por favor indique un usuario"  />
 
 								<p:commandButton icon="ui-icon-search" style="font-size: small"
-										action="#{gestionarRecursoBean.buscarUsuarios}" />
+										action="#{gestionarRecursoBean.buscarUsuarios}" onclick="bloquear(this)" />
 								<p:outputLabel value="*" styleClass="requerido"/>
 							</p:column>
 						</p:row>
@@ -73,7 +73,7 @@
 								<p:inputText id="equipo" styleClass="anchoCompGestion" readonly="true"
 											 value="#{gestionarRecursoBean.equipo.numSerie}" />
 								<p:commandButton icon="ui-icon-search" style="font-size: small"
-												 action="#{gestionarRecursoBean.buscarEquipos}" />
+												 action="#{gestionarRecursoBean.buscarEquipos}" onclick="bloquear(this)" />
 							</p:column>
 						</p:row>
 
@@ -86,9 +86,9 @@
 									<f:selectItems value="#{gestionarRecursoBean.accesoriosGestion}" var="accesorio" itemLabel="#{accesorio.nombre}" itemValue="#{accesorio.id}" />
 								</p:selectManyMenu>
 								<p:commandButton icon="ui-icon-plus" styleClass="botonGestionMas" style="font-size: small"
-												 action="#{gestionarRecursoBean.agregarAccesorios}" />
+												 action="#{gestionarRecursoBean.agregarAccesorios}" onclick="bloquear(this)" />
 								<p:commandButton icon="ui-icon-minus" styleClass="botonGestionMenos" style="font-size: small"  process="@this accesorios"
-										action="#{gestionarRecursoBean.eliminarAccesorios}" update="gestionarRecurso:accesorios">
+										action="#{gestionarRecursoBean.eliminarAccesorios}" update="gestionarRecurso:accesorios" onclick="bloquear(this)">
 								</p:commandButton>
 							</p:column>
 						</p:row>
@@ -120,15 +120,15 @@
 						<p:row>
 							<p:column>
 								<p:commandButton id="aceptar" value="Aceptar" process="gestionarRecurso" ajax="false"
-												 onclick="if (! confirm('Seguro desea gestionar?')) return false"
+												 onclick="bloquear(this); if (! confirm('Seguro desea gestionar?')) return false"
 												 actionListener="#{gestionarRecursoBean.bt_gestionarRecurso}"/>
 							</p:column>
 							<p:column>
-								<p:commandButton id="limpiar" value="Limpiar" action="#{gestionarRecursoBean.bt_limpiarGestion}" ajax="false" />
+								<p:commandButton id="limpiar" value="Limpiar" action="#{gestionarRecursoBean.bt_limpiarGestion}" ajax="false" onclick="bloquear(this)" />
 							</p:column>
 							<p:column>
 								<p:commandButton id="cancelar" value="Cancelar" immediate="true" ajax="false"
-												 onclick="if (! confirm('Seguro desea cancelar? Se perderan los cambios')) return false" action="#{gestionarRecursoBean.bt_cancelar}" />
+												 onclick="bloquear(this); if (! confirm('Seguro desea cancelar? Se perderan los cambios')) return false" action="#{gestionarRecursoBean.bt_cancelar}" />
 							</p:column>
 						</p:row>
 					</p:panelGrid>
@@ -247,7 +247,7 @@
 
 						<p:row>
 							<p:column styleClass="btDialgAceptar">
-								<p:commandButton value="Aceptar" action="#{gestionarRecursoBean.bt_seleccionarRecurso}" />
+								<p:commandButton value="Aceptar" action="#{gestionarRecursoBean.bt_seleccionarRecurso}" onclick="bloquear(this)"/>
 							</p:column>
 
 							<p:column styleClass="btDialgCancelar">

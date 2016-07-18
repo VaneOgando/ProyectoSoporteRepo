@@ -356,11 +356,11 @@
 					<p:row>
 						<p:column>
 							<p:commandButton id="crear" value="Crear" process="crearRecurso" ajax="false"
-											 onclick="if (! confirm('Seguro desea crear?')) return false" action="#{crearRecursoBean.bt_crearRecurso}" />
+											 onclick="bloquear(this); if (! confirm('Seguro desea crear?')) return false" action="#{crearRecursoBean.bt_crearRecurso}" />
 						</p:column>
 						<p:column>
 							<p:commandButton id="cancelar" value="Cancelar" immediate="true" ajax="false"
-											 onclick="if (! confirm('Seguro desea cancelar?')) return false"  action="#{crearRecursoBean.bt_cancelar}" />
+											 onclick="bloquear(this); if (! confirm('Seguro desea cancelar?')) return false"  action="#{crearRecursoBean.bt_cancelar}" />
 						</p:column>
 					</p:row>
 				</p:panelGrid>

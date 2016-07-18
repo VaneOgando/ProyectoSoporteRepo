@@ -156,11 +156,11 @@
 					<p:row>
 						<p:column>
 							<p:commandButton id="modificar" value="Modificar" process="modificarRecurso" ajax="false"
-											 onclick="if (! confirm('Seguro desea modificar?')) return false" action="#{modificarAccesorioBean.bt_modificar}" />
+											 onclick="bloquear(this); if (! confirm('Seguro desea modificar?')) return false" action="#{modificarAccesorioBean.bt_modificar}" />
 						</p:column>
 						<p:column>
 							<p:commandButton id="cancelar" value="Cancelar" immediate="true" ajax="false"
-											 onclick="if (! confirm('Seguro desea cancelar?')) return false" action="#{modificarAccesorioBean.bt_cancelar}"/>
+											 onclick="bloquear(this); if (! confirm('Seguro desea cancelar?')) return false" action="#{modificarAccesorioBean.bt_cancelar}"/>
 						</p:column>
 					</p:row>
 				</p:panelGrid>
